@@ -9,9 +9,11 @@
 
 	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService) {
 		var vm = this;
-		vm.newgame = {}; //General description of the game
+		vm.newgame = {}; // General description of the game
+		vm.newWaypoint = {}; // Waypoint Object
 		vm.abort = abort;
 		vm.invalidForm = true;
+		vm.invalidWaypointForm = true;
 		vm.act_type = 0;
 		vm.previousSlide = previousSlide;
 		vm.nextSlide = nextSlide;
@@ -29,6 +31,9 @@
 		vm.slideTitle = 'General Information';
 		vm.mainMap = MapService;
 		vm.waypoints = [];
+		vm.addQAtask = addQAtask;
+		vm.addGRtask = addGRtask;
+		vm.saveWayPoint = saveWayPoint;
 
 		activate();
 
@@ -42,8 +47,12 @@
 			$ionicSlideBoxDelegate.enableSlide(false);
 		}
 
-		function submit (invalid) {
-			vm.invalidForm = invalid;
+		function submit (form, invalid) {
+			if (form === null || form === false || form.$name === 'slide1') {
+				vm.invalidForm = invalid;
+			} else if (form.$name === 'newWaypoint') {
+				vm.invalidWaypointForm = invalid;
+			}
 		}
 
 		function previousSlide () {
@@ -64,9 +73,9 @@
 			if (slideIndex === 1) {
 				vm.slideTitle = 'Choose Activity Type';
 				if (vm.act_type === 0) {
-					submit(true);
+					submit(null, true);
 				} else {
-					submit(false);
+					submit(null, false);
 				}
 			}
 			if (slideIndex === 2) {
@@ -123,10 +132,10 @@
 		function chooseActType (type) {
 		    if (type === vm.act_type) {
 		        vm.act_type = 0;
-		    	submit(true);
+		    	submit(null, true);
 		    } else {
 		        vm.act_type = type;
-		        submit(false);
+		        submit(null, false);
 		    }
 		}
 
@@ -154,15 +163,39 @@
 	        //     });
 	    }
 
+	    //Addition of a TASK to an ACTIVITY POINT
+	    function addQAtask () {
+	        $scope.qaTask = {};
+	        $scope.qaTask.answers = [{}, {}, {}, {}]; // Four answers - either text or images
+	        $scope.qaTask.question = {};
+
+	        $scope.picFile = [];
+	        $scope.picFilename = [];
+	        $scope.imgAnsPrvw = [];
+	        $scope.imgQuestionPrvw = null;
+
+	        $scope.modal.remove();
+	        $scope.qamodal = createModal('templates/tasks/quest_type.html');
+	    };
+	    function addGRtask () {
+	        $scope.geoTask = {};
+
+	        $scope.closeModal();
+	        createModal('templates/tasks/georef_type.html');
+
+	        $scope.georP = null;
+	        $scope.gameMap.markers = [];
+	    };
+
 	    ////////////////////////////
 
 	    //Add Waypoint with modal
 	    $scope.$on('leafletDirectiveMap.click', function (event, locationEvent) {
 	    	console.log('leaflet click');
-	        $scope.newWaypoint = new Waypoint();
-	        $scope.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
-	        $scope.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
-	        $scope.newWaypoint.tasks = [];
+	        vm.newWaypoint = new Waypoint();
+	        vm.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
+	        vm.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
+	        vm.newWaypoint.tasks = [];
 
 	        createModal('templates/map/waypoint.html', 'm1');
 	    });
@@ -172,6 +205,7 @@
 	        this.lat = "";
 	        this.lng = "";
 	        this.name = "";
+	        this.description = "";
 	        this.tasks = [];
 	    }
 
@@ -198,28 +232,28 @@
 
 	    var newMarker = {};
 	    $scope.numberTask = 0;
-	    $scope.saveWayPoint = function () {
-	        if (($scope.newWaypoint.name == "" || $scope.newWaypoint.name == undefined) || ($scope.newWaypoint.description == undefined || $scope.newWaypoint.description == "")) {
+	    function saveWayPoint () {
+	        if ((vm.newWaypoint.name == "" || vm.newWaypoint.name == undefined) || (vm.newWaypoint.description == undefined || vm.newWaypoint.description == "")) {
 
-	            if ($scope.newWaypoint.name == "" || $scope.newWaypoint.name == undefined) {
-	                $scope.name_border = "red";
+	            if (vm.newWaypoint.name == "" || vm.newWaypoint.name == undefined) {
+	                vm.name_border = "red";
 	            } else {
-	                $scope.name_border = "";
+	                vm.name_border = "";
 	            }
 
-	            if ($scope.newWaypoint.description == undefined || $scope.newWaypoint.description == "") {
-	                $scope.description_border = "red";
+	            if (vm.newWaypoint.description == undefined || vm.newWaypoint.description == "") {
+	                vm.description_border = "red";
 	            } else {
-	                $scope.description_border = "";
+	                vm.description_border = "";
 	            }
 	        } else {
-	            $scope.name_border = "";
-	            $scope.description_border = "";
+	            // $scope.name_border = "";
+	            // $scope.description_border = "";
 
-	            newMarker = $scope.newWaypoint;
+	            newMarker = vm.newWaypoint;
 	            newMarker.icon = angular.copy(waypointIcon);
 	            newMarker.icon.number = vm.waypoints.length + 1;
-	            vm.waypoints.push($scope.newWaypoint);
+	            vm.waypoints.push(vm.newWaypoint);
 
 	            $scope.closeModal();
 	            createModal('templates/tasks/task_choose.html', 'm2');

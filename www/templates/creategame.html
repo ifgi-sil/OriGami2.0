@@ -27,15 +27,15 @@
                 <form name="slide1" novalidate>
                   <div class="row">
                     <span class="input-label">{{'game_title' | translate}}</span>
-                    <input name="gameTitle" ng-class = "{empty_field: emptyFields[0]}"  type="text" ng-model="game.newgame.name" ng-change="game.submit(slide1.$invalid)" required>
+                    <input name="gameTitle" ng-class = "{empty_field: emptyFields[0]}"  type="text" ng-model="game.newgame.name" ng-change="game.submit(slide1, slide1.$invalid)" required>
                   </div>
                   <div class="row">
                     <span class="input-label">{{'game_description' | translate}}</span>
-                    <textarea style="resize: vertical;" name="gameDescription" rows="4" ng-class = "{empty_field: emptyFields[1]}" ng-model="game.newgame.description" ng-change="game.submit(slide1.$invalid)" required> </textarea>
+                    <textarea style="resize: vertical;" name="gameDescription" rows="4" ng-class = "{empty_field: emptyFields[1]}" ng-model="game.newgame.description" ng-change="game.submit(slide1, slide1.$invalid)" required> </textarea>
                   </div>
                   <div class="row">
                     <span>{{'time_compl' | translate}}</span>
-                    <input name="gameTime" type="number" min="1" step="1" ng-class = "{empty_field: emptyFields[2]}" class="input_time" ng-model="game.newgame.timecompl" ng-change="game.submit(slide1.$invalid)" required>
+                    <input name="gameTime" type="number" min="1" step="1" ng-class = "{empty_field: emptyFields[2]}" class="input_time" ng-model="game.newgame.timecompl" ng-change="game.submit(slide1, slide1.$invalid)" required>
                   </div>
                   <div class="row_diff row">
                     <div class="diff_rate">
