@@ -5,9 +5,9 @@
 		.module('starter')
 		.controller('GameCreationController', GameCreationController);
 
-	GameCreationController.$inject = ['$scope', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService'];
+	GameCreationController.$inject = ['$scope', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService', 'API'];
 
-	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService) {
+	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService, API) {
 		var vm = this;
 		vm.newgame = {}; // General description of the game
 		vm.newWaypoint = {}; // Waypoint Object
@@ -34,6 +34,10 @@
 		vm.addQAtask = addQAtask;
 		vm.addGRtask = addGRtask;
 		vm.saveWayPoint = saveWayPoint;
+		vm.noTask = noTask;
+		vm.submitQA = submitQA;
+		vm.imgUpload = imgUpload;
+		vm.placeholderUpload = '../../img/icons/upload.png';
 
 		activate();
 
@@ -165,18 +169,31 @@
 
 	    //Addition of a TASK to an ACTIVITY POINT
 	    function addQAtask () {
-	        $scope.qaTask = {};
-	        $scope.qaTask.answers = [{}, {}, {}, {}]; // Four answers - either text or images
-	        $scope.qaTask.question = {};
+	        vm.qaTask = {};
+	        vm.qaTask.answers = [
+	        	{
+	        		img: '../../img/icons/upload.png'
+	        	}, {
+        			img: '../../img/icons/upload.png'
+	        	}, {
+	        		img: '../../img/icons/upload.png'
+	        	}, {
+	        		img: '../../img/icons/upload.png'
+	        	}
+        	]; // Four answers - either text or images
+	        vm.qaTask.question = {
+	        	img: '../../img/icons/upload.png'
+	        };
 
-	        $scope.picFile = [];
-	        $scope.picFilename = [];
-	        $scope.imgAnsPrvw = [];
-	        $scope.imgQuestionPrvw = null;
+	        vm.picFile = [];
+	        vm.picFilename = [];
+	        vm.imgAnsPrvw = [];
+	        vm.imgQuestionPrvw = null;
 
 	        $scope.modal.remove();
-	        $scope.qamodal = createModal('templates/tasks/quest_type.html');
-	    };
+	        vm.qamodal = createModal('templates/tasks/quest_type.html');
+	    }
+
 	    function addGRtask () {
 	        $scope.geoTask = {};
 
@@ -185,7 +202,7 @@
 
 	        $scope.georP = null;
 	        $scope.gameMap.markers = [];
-	    };
+	    }
 
 	    ////////////////////////////
 
@@ -231,7 +248,7 @@
 		}
 
 	    var newMarker = {};
-	    $scope.numberTask = 0;
+	    var numberTask = 0;
 	    function saveWayPoint () {
 	        if ((vm.newWaypoint.name == "" || vm.newWaypoint.name == undefined) || (vm.newWaypoint.description == undefined || vm.newWaypoint.description == "")) {
 
@@ -247,9 +264,6 @@
 	                vm.description_border = "";
 	            }
 	        } else {
-	            // $scope.name_border = "";
-	            // $scope.description_border = "";
-
 	            newMarker = vm.newWaypoint;
 	            newMarker.icon = angular.copy(waypointIcon);
 	            newMarker.icon.number = vm.waypoints.length + 1;
@@ -260,8 +274,89 @@
 	        }
 	    }
 
+	    function submitQA (imgAnswers) {
+	        vm.qaTask.type = "QA";
+	        //$scope.qaTask.imgans = imgAnswers;
+
+	        numberTask++;
+	        vm.waypoints[vm.waypoints.length - 1].tasks.push(vm.qaTask);
+	        //newMarker.tasks.push($scope.qaTask);
+
+	        $scope.closeModal();
+	        createModal('templates/tasks/task_choose.html');
+	    };
+
 		$scope.closeModal = function () {
 			$scope.modal.remove();
 		}
+
+		function noTask () {
+			$scope.modal.remove();
+        	vm.numberTask = 0;
+    	}
+
+    	function imgUpload (file, $event) {
+    	    if (file) {
+    	        var upload = API.uploadImage(file);
+    	        var reader = new FileReader();
+    	        var isQuestion = false;
+    	        var isGeoref = false;
+    	        var picIndex = 0;
+
+    	        switch($event.target.id) {
+    	            case 'photoAns1': 
+    	                picIndex = 0;
+    	                break;
+    	            case 'photoAns2': 
+    	                picIndex = 1;
+    	                break;
+    	            case 'photoAns3': 
+    	                picIndex = 2;
+    	                break;
+    	            case 'photoAns4': 
+    	                picIndex = 3;
+    	                break;
+    	            case 'photoQuestion': 
+    	                isQuestion = true;
+    	                break;
+    	            case 'georefPic':
+    	                isGeoref = true;
+    	                break;
+    	        }
+
+    	        // Previewing the image
+    	        reader.onload = function(event) {
+    	            if (isGeoref) {
+    	                vm.georefPicPrvw = event.target.result;
+    	            } else if (!isQuestion) {
+    	                vm.imgAnsPrvw[picIndex] = event.target.result;
+    	            } else {
+    	                vm.imgQuestionPrvw = event.target.result;
+    	            }
+    	            $scope.$apply();
+    	        }
+    	        
+    	        reader.readAsDataURL(file);
+
+    	        upload.then(function(res) {
+    	            //console.log(res);
+    	            if (res.status == 200) {
+    	                //$scope.picFilename[picIndex] = res.data.img_file;
+    	                if (isGeoref) {
+    	                    vm.geoTask.img = 'https://api.ori-gami.org/data/img/'+res.data.img_file;
+    	                } else if (isQuestion) {
+    	                    vm.qaTask.question.img = 'https://api.ori-gami.org/data/img/'+res.data.img_file;
+    	                } else {
+    	                    vm.qaTask.answers[picIndex].img = 'https://api.ori-gami.org/data/img/'+res.data.img_file;
+    	                }
+    	            } else {
+    	                console.log('Error! Pic POSTed, but no filename returned')
+    	            }
+    	            //console.log($scope.picFilename);
+    	        }), function(res) {
+    	            console.log("Error uploading image.", res);
+    	        }
+    	    }
+    	};
 	}
 })();

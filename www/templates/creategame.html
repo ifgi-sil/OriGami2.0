@@ -12,7 +12,7 @@
     <h2 class="title">{{ game.slideTitle }}</h2>
     <div class="buttons">
       <button ng-disabled="game.invalidForm" class="button button-icon icon ion-arrow-right-c" ng-click="game.nextSlide()" ng-show="game.showSlideButtons().showNext"></button>
-      <button class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.finishGame()"></button>
+      <button ng-disabled="game.waypoints.length === 0" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.finishGame()"></button>
     </div>
   </div>
   <ion-content class="has-subheader">
