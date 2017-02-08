@@ -111,7 +111,7 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
             views: {
                 'tab-home': {
                     templateUrl: 'templates/teach-menu.html',
-                    controller: 'TeacherCtrl as menu'
+                    controller: 'TeacherCtrl'
                 }
             }
         })

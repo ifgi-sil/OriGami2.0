@@ -382,7 +382,7 @@ p {
     font-size: 3.5vh;
 }
 .task_t{
-    height: 50%;
+    height: 35%;
     width: 90%;
     margin: auto;
     border-radius: 35px;
@@ -413,6 +413,7 @@ p {
 .gref_t{
     background-color:#FCC929;
     display: table;
+    margin-bottom: 25px;
 }
 .gref_t .picture{
     width: 20%;

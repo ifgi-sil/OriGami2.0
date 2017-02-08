@@ -11,7 +11,7 @@
     </ion-header-bar>
 
     <ion-content class="has-header">
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="menu.doRefresh()"></ion-refresher>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <!-- Display error message if http request fails to fetch games -->
         <!-- <div class="padding ui-feedback" ng-show="error_msg != null">
             <div class="ui-feedback-icon">
@@ -20,7 +20,7 @@
             <div class="ui-feedback-message">{{error_msg}}</div>
         </div> -->
 
-        <div class="list card" ng-repeat="item in menu.list | orderBy:'name' ">
+        <div class="list card" ng-repeat="item in list | orderBy:'name' ">
             <a>
                 <div class="item game-desc">
                     <h2>{{item.name}}</h2>
