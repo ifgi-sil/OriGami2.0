@@ -200,36 +200,38 @@
     <!-- Georefencing Game Modal -->
     <script id="georef-modal.html" type="text/ng-template">
         <ion-modal-view>
-            <!--  <ion-header-bar class="bar-positive">
-                <h1 class="title">{{'geo_refer' | translate}}</h1>
-            </ion-header-bar>  -->
-            <ion-content style="height: 100%;background-color:#64B5F6;">
-                <div class="georef_game">
-                    <img style="max-width:50%; width:50%; max-height:100%;" ng-src="{{geoRefPhoto}}">
-                    <div class="georef_instr">
-                        <div class="content">
-                            <h1>{{'geo_refer' | translate}}</h1>
-
-                            <p>{{'picture_taken' | translate}}</p>
-                            <div class="georef_icon">
-                                <i class="ion-ios-arrow-left"></i>
+            <ion-content style="background-color:#64B5F6;" data-tap-disabled="true">
+                <div class="row responsive-sm">
+                    <div class="col">
+                        <div class="list card">
+                            <div class="item item-avatar" ng-class="{right_ans: answer == true,wrong_ans: answer == false}">
+                                <img src="../img/icons/Map.png">
+                                <h3>{{'geo_refer' | translate}} - {{'picture_taken' | translate}}</h3>
                             </div>
+
+                            <div class="item item-image" ng-hide="task.question.img == ''" ng-style="{'background-image':'url({{geoRefPhoto}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-show="locationPicked" style="text-align: center;" ng-click="leaveGeoRef();modal.remove();">
+                                {{'play_on' | translate}}
+                            </a>
                         </div>
                     </div>
                 </div>
+
+                <div class="map_con">
+                    <leaflet id="geoRefMap" defaults="geoMap.defaults" layers="geoMap.layers" center="geoMap.center" paths="geoMap.paths" geojson="geoMap.geojson" markers="geoMap.markers"  event-broadcast="geoMap.events"></leaflet>
+                </div>
             </ion-content>
-            <ion-footer-bar class="bar-positive" ng-click="modal.remove()">
-                <p class="title">OK</p>
-            </ion-footer-bar>
         </ion-modal-view>
     </script>
 
     <!-- Georefencing result Modal -->
     <script id="georef-result-modal.html" type="text/ng-template">
         <ion-modal-view>
-            <!-- <ion-header-bar class="bar-positive">
+            <ion-header-bar class="bar-positive">
                 <h1 class="title">{{'geo_refer' | translate}}</h1>
-            </ion-header-bar> -->
+            </ion-header-bar>
 
             <ion-content style="height: 100%; background-color:#64B5F6">
                 <div class="plan-route" style="background-color:#64B5F6">
@@ -380,11 +382,12 @@
     <div class="bar bar-subheader bar-assertive" ng-show="showInfo" class="ng-show">
         <h2 class="title">{{subHeaderInfo}}</h2>
     </div>
-
+    
+    <!-- Main Game Map during game play -->
     <ion-content scroll=false data-tap-disabled="true">
         <div class="map-container" ng-controller="StudentMapCtrl">
             <div id="map">
-                <leaflet defaults="map.defaults" layers="map.layers" center="map.center" paths="map.paths" markers="map.markers" event-broadcast="map.events" ng-if="map"></leaflet>
+                <leaflet id="playMap" defaults="map.defaults" layers="map.layers" center="map.center" paths="map.paths" markers="map.markers" event-broadcast="map.events" ng-if="map"></leaflet>
             </div>
             <div id="smiley" class="smiley">
                 <canvas class="smiley" smiley></canvas>
