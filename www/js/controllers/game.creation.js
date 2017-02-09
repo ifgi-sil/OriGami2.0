@@ -304,11 +304,19 @@
 
 	    function submitQA (imgAnswers) {
 	        vm.qaTask.type = "QA";
-	        //$scope.qaTask.imgans = imgAnswers;
 
 	        vm.numberTask++;
+
+	        // Reset placeholder image
+	        for (var i = 0; i < vm.qaTask.answers.length; i++) {
+	        	if (vm.qaTask.answers[i].img.startsWith('../')) {
+	        		vm.qaTask.answers[i].img = '';
+	        	}
+	        }
+	        if (vm.qaTask.question.img.startsWith('../')) {
+	        	vm.qaTask.question.img = '';
+	        }
 	        vm.waypoints[vm.waypoints.length - 1].tasks.push(vm.qaTask);
-	        //newMarker.tasks.push($scope.qaTask);
 
 	        $scope.closeModal();
 	        createModal('templates/tasks/task_choose.html');

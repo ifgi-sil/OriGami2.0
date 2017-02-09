@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.games = [];
         for (var i = 0; i < metadata.length; i++) {
             $scope.games.push(metadata[i]);
-            $scope.games[i].diff = Array.apply(null, Array(metadata[i].diff)).map(function () {
+            $scope.games[i].diff = Array.apply(null, Array(metadata[i].difficulty)).map(function () {
                 return "ion-ios-star"
             });
         }
@@ -1160,7 +1160,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.imgAnsURL_3 = API.getImageURL($scope.task.answers[3].img);
         $scope.imgRightAnswerURL = API.getImageURL($scope.rightAnswer.img);
         // console.log($scope.imgAnsURL_0, $scope.imgAnsURL_1, $scope.imgAnsURL_2, $scope.imgAnsURL_3);
-    
+        $scope.answers = ['','','',''];
         $scope.chooseAnswer = function (answer, index) {
             if (!$scope.ansChoosen) {
                 $scope.chosenAnswer = answer;
@@ -1170,6 +1170,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 $scope.clicked[index] = true;
 
                 clearInterval(intervalId);
+
+                for (var i = 0; i < $scope.task.answers.length; i++) {
+                    if ($scope.rightAnswer === $scope.task.answers[i]) {
+                        $scope.answers[i] = 'balanced';
+                    } else {
+                        $scope.answers[i] = 'assertive';
+                    }
+                }
 
                 if ($scope.chosenAnswer == $scope.rightAnswer) {
                     $scope.answerResult = $translate.instant('right_answer');
