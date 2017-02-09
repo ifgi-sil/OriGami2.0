@@ -19,6 +19,8 @@
 		vm.nextSlide = nextSlide;
 		vm.slideChanged = slideChanged;
 		vm.showSlideButtons = showSlideButtons;
+		vm.maxScore = 0; // Calculated maximal score for a game
+		vm.numberTask = 0; // Amount of tasks
 		vm.diff = Array.apply(null, Array(5)).map(function () {
         	return "ion-ios-star-outline"
     	});
@@ -30,12 +32,14 @@
 		vm.finishGame = finishGame;
 		vm.slideTitle = 'General Information';
 		vm.mainMap = MapService;
+		vm.gameMap = MapService;
 		vm.waypoints = [];
 		vm.addQAtask = addQAtask;
 		vm.addGRtask = addGRtask;
 		vm.saveWayPoint = saveWayPoint;
 		vm.noTask = noTask;
 		vm.submitQA = submitQA;
+		vm.submitGRTask = submitGRTask;
 		vm.imgUpload = imgUpload;
 		vm.placeholderUpload = '../../img/icons/upload.png';
 
@@ -150,21 +154,30 @@
 	    }
 
 	    function finishGame () {
-	    	nextSlide();
-	        // API.saveItem(vm.newgame)
-	        //     .success(function (data, status, headers, config) {
-	        //         // $rootScope.hide();
-	        //         // $rootScope.doRefresh(1);
-	        //         // $ionicHistory.goBack();
-	        //         // $scope.newgame = {};
-	        //     })
-	        //     .error(function (data, status, headers, config) {
-	        //         // $rootScope.hide();
-	        //         // $rootScope.notify("Oops something went wrong!! Please try again later");
-	        //         // $ionicHistory.goBack();
-	        //         // $scope.newgame = {};
-	        //         // $scope.numberTask = 0;
-	        //     });
+	    	for (var i = 0; i < vm.waypoints.length; i++) {
+	    		vm.currentAct.points.push(vm.waypoints[i]);
+	    	}
+	    	vm.newgame.activities.push(vm.currentAct);
+	        vm.newgame.players = [];
+
+	        vm.maxScore = vm.numberTask * 50 + vm.waypoints.length * 20;
+
+			API.saveItem(vm.newgame)
+				.success(function (data, status, headers, config) {
+					// $rootScope.hide();
+					// $rootScope.doRefresh(1);
+					// $ionicHistory.goBack();
+					// vm.newgame = {};
+					nextSlide();
+				})
+				.error(function (data, status, headers, config) {
+					console.log('error');
+					// $rootScope.hide();
+					// $rootScope.notify("Oops something went wrong!! Please try again later");
+					// $ionicHistory.goBack();
+					// $scope.newgame = {};
+					// $scope.vm.numberTask = 0;
+				});
 	    }
 
 	    //Addition of a TASK to an ACTIVITY POINT
@@ -195,26 +208,42 @@
 	    }
 
 	    function addGRtask () {
-	        $scope.geoTask = {};
+	        vm.geoTask = {
+	        	img: '../../img/icons/upload.png'
+	        };
 
 	        $scope.closeModal();
 	        createModal('templates/tasks/georef_type.html');
 
-	        $scope.georP = null;
-	        $scope.gameMap.markers = [];
+	        vm.georP = null;
+	        vm.gameMap.markers = [];
 	    }
 
 	    ////////////////////////////
 
-	    //Add Waypoint with modal
-	    $scope.$on('leafletDirectiveMap.click', function (event, locationEvent) {
-	    	console.log('leaflet click');
+	    // Click handler for mainMap during creation
+	    $scope.$on('leafletDirectiveMap.mainMap.click', function (event, locationEvent) {
 	        vm.newWaypoint = new Waypoint();
 	        vm.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
 	        vm.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
 	        vm.newWaypoint.tasks = [];
 
 	        createModal('templates/map/waypoint.html', 'm1');
+	    });
+
+	    // Click handler for gameMap during georeferencing task
+	    $scope.$on('leafletDirectiveMap.gameMap.click', function (event, locationEvent) {
+	    	vm.newWaypoint = new Waypoint();
+	    	vm.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
+	    	vm.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
+	    	vm.newWaypoint.draggable = true;
+
+	    	if (vm.gameMap.markers.length == 0) {
+	    	    vm.gameMap.markers.push(vm.newWaypoint);
+	    	} else {
+	    		vm.gameMap.markers.pop();
+	    		vm.gameMap.markers.push(vm.newWaypoint);
+	    	}
 	    });
 
 	    var Waypoint = function () {
@@ -248,7 +277,6 @@
 		}
 
 	    var newMarker = {};
-	    var numberTask = 0;
 	    function saveWayPoint () {
 	        if ((vm.newWaypoint.name == "" || vm.newWaypoint.name == undefined) || (vm.newWaypoint.description == undefined || vm.newWaypoint.description == "")) {
 
@@ -278,12 +306,28 @@
 	        vm.qaTask.type = "QA";
 	        //$scope.qaTask.imgans = imgAnswers;
 
-	        numberTask++;
+	        vm.numberTask++;
 	        vm.waypoints[vm.waypoints.length - 1].tasks.push(vm.qaTask);
 	        //newMarker.tasks.push($scope.qaTask);
 
 	        $scope.closeModal();
 	        createModal('templates/tasks/task_choose.html');
+	    }
+
+	    function submitGRTask (uploadedPhoto) {
+	        /*Creation of game content */
+            vm.geoTask.type = "GeoReference";
+            //$scope.geoTask.img = "data:image/jpeg;base64," + $scope.georP.base64;
+            vm.geoTask.lat = vm.gameMap.markers[0].lat;
+            vm.geoTask.lng = vm.gameMap.markers[0].lng;
+
+            vm.waypoints[vm.waypoints.length - 1].tasks.push(vm.geoTask);
+            //newMarker.tasks.push($scope.geoTask);
+
+            vm.numberTask++;
+            $scope.closeModal();
+            createModal('templates/tasks/task_choose.html');
+            // $scope.georP = null;
 	    };
 
 		$scope.closeModal = function () {
@@ -292,7 +336,7 @@
 
 		function noTask () {
 			$scope.modal.remove();
-        	vm.numberTask = 0;
+        	createModal('templates/tasks/task_choose.html');
     	}
 
     	function imgUpload (file, $event) {
