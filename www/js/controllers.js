@@ -1561,6 +1561,19 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             $scope.map.markers.PlayerPos.lat = position.lat;
             $scope.map.markers.PlayerPos.lng = position.lng;
         }
+
+        if (!ionic.Platform.isAndroid() && !ionic.Platform.isIOS() && !ionic.Platform.isWindowsPhone()) {
+            $scope.showMarker = true;
+            $scope.playerMarkerButtonColor = "button-balanced";
+
+            if (typeof $scope.map.markers.PlayerPos != "undefined") {
+                $scope.map.markers.PlayerPos.icon = {
+                    iconUrl: './img/icons/Youarehere.png',
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 48]
+                };
+            }
+        }
     };
 
     /* Center map on user's current position */
