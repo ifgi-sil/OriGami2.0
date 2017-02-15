@@ -624,10 +624,10 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 // Controller which controls new GAME creation
 .controller('NewGameCtrl', ['$rootScope', '$scope', '$state', '$http', '$location', '$cordovaGeolocation', '$ionicModal', 
                             '$window', '$ionicPopup', '$ionicHistory', '$stateParams', '$cordovaCamera', 
-                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 
+                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 'MapService',
                             function ($rootScope, $scope, $state, $http, $location, $cordovaGeolocation, $ionicModal,
                                         $window, $ionicPopup, $ionicHistory, $stateParams, $cordovaCamera, 
-                                        $translate, leafletData, API, Edit, Data, Task) {
+                                        $translate, leafletData, API, Edit, Data, Task, MapService) {
 
     /* Game Parameters ----- */
     $scope.currentAction = "New Game";
@@ -636,6 +636,41 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.diff = Array.apply(null, Array(5)).map(function () {
         return "ion-ios-star-outline"
     });
+
+    $scope.editMap = MapService;
+    $scope.data = {
+        showDelete: false
+      };
+      
+      $scope.edit = function(item) {
+        alert('Edit Item: ' + item.id);
+      };
+      $scope.share = function(item) {
+        alert('Share Item: ' + item.id);
+      };
+      
+      $scope.moveItem = function(item, fromIndex, toIndex) {
+        $scope.items.splice(fromIndex, 1);
+        $scope.items.splice(toIndex, 0, item);
+      };
+      
+      $scope.onItemDelete = function(item) {
+        $scope.items.splice($scope.items.indexOf(item), 1);
+      };
+      
+      $scope.items = [
+        { id: 0 },
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 }
+      ];
+
+    //Get back in the history
+    $scope.goBack = function () {
+        $ionicHistory.goBack();
+    };
 
     $scope.newgame.difficulty = 0;
 
@@ -650,6 +685,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.newgame.difficulty = difficulty + 1;
     };
 
+    $scope.waypoints = [];
+
     // Check, whether we are CREATING or EDITING new game
     if (Edit.getGame() != null) {
         $scope.currentAction = "Edit Game";
@@ -661,9 +698,20 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         };
 
         $scope.navactivities = Edit.getGame().activities;
+        for (var i = 0; i < $scope.navactivities[0].points.length; i++) {
+            $scope.navactivities[0].points[i].draggable = true;
+        }
+        $scope.waypoints = $scope.navactivities[0].points;
         Edit.resetActivities();
 
         $scope.rateGame(Edit.getGame().difficulty - 1);
+        
+        // Center map on first waypoint
+        $scope.center = {
+            lat: $scope.navactivities[0].points[0].lat,
+            lng: $scope.navactivities[0].points[0].lng,
+            zoom: 15
+        };
 
         for (var i = 0; i < Data.getAct().length; i++) {
             $scope.navactivities.push(Data.getAct()[i]);
@@ -673,10 +721,81 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.navactivities = Data.getAct();
     }
 
+    $scope.selectedWaypoint;
+    $scope.$on('leafletDirectiveMarker.editMap.click', function (e, args) {
+        console.log(e, args);
+        $scope.selectedWaypoint = args.model;
+    });
+
     $scope.isAndroid = false; // Platform : Android or Web
 
     $scope.example = "";
     $scope.myfile = {};
+
+    var createModal = function (templateUrl, id) {
+        $ionicModal.fromTemplateUrl(templateUrl, {
+            id: id,
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false
+        }).then(function (modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+    };
+    $scope.closeModal = function () {
+        $scope.modal.remove();
+    };
+
+    $scope.game = {
+        gameMap: MapService,
+        noTask: function () {
+            $scope.closeModal();
+        },
+        showSlideButtons: function () {
+            return {
+                showPrevious: false, 
+                showNext: false, 
+                saveButton: true 
+            }
+        },
+        submitQA: function (img) {
+            angular.merge($scope.selectedTask, $scope.game.qaTask);
+            $scope.closeModal();
+        },
+        imgUpload: function () {
+
+        },
+        submitGRTask: function () {
+            angular.merge($scope.selectedTask, $scope.game.geoTask);
+            $scope.closeModal();
+        }
+    };
+    $scope.editTask = function (task) {
+        $scope.selectedTask = $scope.selectedWaypoint.tasks[$scope.selectedWaypoint.tasks.indexOf(task)];
+        var taskTmp = angular.copy(task);
+        if (task.type === "QA") {
+            $scope.game.qaTask = taskTmp;
+            createModal('templates/tasks/quest_type.html');
+        } else if (task.type === "GeoReference") {
+            $scope.game.geoTask = taskTmp;
+            $scope.game.geoTask.draggable = true;
+            $scope.game.gameMap.markers = [];
+            $scope.game.gameMap.markers.push($scope.game.geoTask);
+            createModal('templates/tasks/georef_type.html');
+        }
+    }
+
+    // Click handler for gameMap during georeferencing task
+    $scope.$on('leafletDirectiveMap.gameMap.click', function (event, locationEvent) {
+        $scope.game.geoTask.lat = locationEvent.leafletEvent.latlng.lat;
+        $scope.game.geoTask.lng = locationEvent.leafletEvent.latlng.lng;
+    });
+
+    $scope.$on('leafletDirectiveMarker.gameMap.dragend', function (event, locationEvent) {
+        $scope.game.geoTask.lat = locationEvent.model.lat;
+        $scope.game.geoTask.lng = locationEvent.model.lng;
+    });
 
     // Current location of GeoReference Task Creation
     $scope.map = {
@@ -1537,9 +1656,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         if ($scope.geolocationAlwaysOn) {
             $scope.toggleGeoLocation(true);
         }
-        
 
-        $scope.$emit('mapLoadedEvent');
+        // $scope.$emit('mapLoadedEvent');
     };
 
     $scope.updatePlayerPosMarker = function (position) {

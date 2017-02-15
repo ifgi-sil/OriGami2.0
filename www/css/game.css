@@ -1,5 +1,11 @@
 /* Question-Answer Game type */
 
+.custom-bar-header {
+    border-top-width: 0;
+    border-bottom-width: 1px;
+    top: initial;
+}
+
 .title_foot p {
     font-size: 4.5vh;
     font-family: sans-serif;
