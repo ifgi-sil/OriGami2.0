@@ -642,20 +642,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         showDelete: false
       };
       
-      $scope.edit = function(item) {
-        alert('Edit Item: ' + item.id);
-      };
-      $scope.share = function(item) {
-        alert('Share Item: ' + item.id);
-      };
-      
-      $scope.moveItem = function(item, fromIndex, toIndex) {
-        $scope.items.splice(fromIndex, 1);
-        $scope.items.splice(toIndex, 0, item);
-      };
-      
       $scope.onItemDelete = function(item) {
-        $scope.items.splice($scope.items.indexOf(item), 1);
+        $scope.selectedWaypoint.tasks.splice($scope.selectedWaypoint.tasks.indexOf(item), 1);
       };
       
       $scope.items = [
@@ -723,8 +711,12 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     $scope.selectedWaypoint;
     $scope.$on('leafletDirectiveMarker.editMap.click', function (e, args) {
-        console.log(e, args);
-        $scope.selectedWaypoint = args.model;
+        for (var i = 0; i < $scope.waypoints.length; i++) {
+            if(angular.equals($scope.waypoints[i], args.model)) {
+                $scope.selectedWaypoint = $scope.waypoints[i];
+                break;
+            }
+        }
     });
 
     $scope.isAndroid = false; // Platform : Android or Web
@@ -770,7 +762,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             angular.merge($scope.selectedTask, $scope.game.geoTask);
             $scope.closeModal();
         }
-    };
+    }
+
     $scope.editTask = function (task) {
         $scope.selectedTask = $scope.selectedWaypoint.tasks[$scope.selectedWaypoint.tasks.indexOf(task)];
         var taskTmp = angular.copy(task);
