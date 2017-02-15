@@ -719,6 +719,21 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         }
     });
 
+    $scope.$on('leafletDirectiveMarker.editMap.dragstart', function (e, args) {
+        console.log('editMap dragend');
+        for (var i = 0; i < $scope.waypoints.length; i++) {
+            if(angular.equals($scope.waypoints[i], args.model)) {
+                $scope.selectedWaypoint = $scope.waypoints[i];
+                break;
+            }
+        }
+    });
+
+    $scope.$on('leafletDirectiveMarker.editMap.dragend', function (e, args) {
+        $scope.selectedWaypoint.lat = args.model.lat;
+        $scope.selectedWaypoint.lng = args.model.lng;
+    });
+
     $scope.isAndroid = false; // Platform : Android or Web
 
     $scope.example = "";
