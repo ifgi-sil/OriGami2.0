@@ -556,16 +556,22 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     /* ----------------------------------------------------------------------- */
 
     // Delete the entire game by clicking on the trash icon
-    $scope.deleteItem = function (item, name) {
-        API.deleteItem(name, $rootScope.getToken())
+    var itemToDelete;
+    $scope.deleteItem = function () {
+        API.deleteItem(itemToDelete.name, $rootScope.getToken())
             .success(function (data, status, headers, config) {
                 $rootScope.hide();
             }).error(function (data, status, headers, config) {
-                $rootScope.notify(
-                    $translate.instant('oops_wrong'));
+                $rootScope.notify($translate.instant('oops_wrong'));
             });
-        $scope.list.splice($scope.list.indexOf(item), 1);
+        $scope.list.splice($scope.list.indexOf(itemToDelete), 1);
+        $scope.closeModal();
     };
+
+    $scope.showDeleteGameModal = function (item) {
+        itemToDelete = item;
+        createModal('templates/deletegame.html', 'deleteGame');
+    }
 
     $scope.editItem = function (item) {
         $scope.navactivities = [];
