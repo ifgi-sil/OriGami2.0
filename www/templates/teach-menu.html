@@ -9,8 +9,11 @@
         <button class="button button-icon icon ion-plus-round" ng-click="startGameCreation()" ui-sref="tab.creategame"></button>
       </div>
     </ion-header-bar>
+    <div class="bar bar-subheader">
+      <input class="searchbar" type="text" placeholder="{{'search' | translate}}" ng-model="searchTerm.name">
+    </div>
 
-    <ion-content class="has-header">
+    <ion-content class="has-header has-subheader">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <!-- Display error message if http request fails to fetch games -->
         <!-- <div class="padding ui-feedback" ng-show="error_msg != null">
@@ -20,7 +23,7 @@
             <div class="ui-feedback-message">{{error_msg}}</div>
         </div> -->
 
-        <div class="list card" ng-repeat="item in list | orderBy:'name' ">
+        <div class="list card" ng-repeat="item in list | orderBy:'name' | filter:searchTerm:strict ">
             <a>
                 <div class="item game-desc">
                     <h2>{{item.name}}</h2>

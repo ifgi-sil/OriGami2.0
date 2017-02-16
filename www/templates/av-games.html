@@ -5,7 +5,10 @@
         </div>
         <h1 class="title">{{ "choose_game" | translate}}</h1>
     </ion-header-bar>
-    <ion-content class="has header">
+    <div class="bar bar-subheader">
+      <input class="searchbar" type="text" placeholder="{{'search' | translate}}" ng-model="searchTerm.name">
+    </div>
+    <ion-content class="has-header has-subheader">
         <!-- Display error message if http request fails to fetch games -->
        <!-- <div class="padding ui-feedback" ng-show="error_msg != null">
             <div class="ui-feedback-icon">
@@ -14,7 +17,7 @@
             <div class="ui-feedback-message">{{error_msg}}</div>
         </div> -->
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name'">
+        <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name' | filter:searchTerm:strict">
             <a ng-click="gameSelect(game.name)">
 
                 <div class="item game-desc">
