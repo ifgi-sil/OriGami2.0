@@ -1975,7 +1975,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             $scope.trackPosition();
         } else {
             $scope.getRealTimePos = false;
-            leafletData.getMap()
+            leafletData.getMap('playMap')
                 .then(function (map) {
                     map.dragging.enable();
                 });
