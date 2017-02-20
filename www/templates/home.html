@@ -1,52 +1,29 @@
 <ion-view view-title="Start Menu">
-
-  <ion-content>
-    <div class="row responsive-sm">
-      <div class="col">
-        BANNER
-      </div>
-    </div>
-    <div class="row responsive-sm">
-      <div class="col col-50">
-        <div class="card">
-
-          <div class="item item-avatar">
+  <ion-content scroll="false">
+    <div class="person-type" style="background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">            
+      <a ui-sref="tab.avgames" href="#/tab/avgames" class="">
+        <div class="player">
+          <div class="type-picture">
             <img src="./img/icons/Student.png">
-            <h2>OriGami für Schüler</h2>
-            <p>{{'start_info_stud' | translate}}</p>
+            <div class="info" ui-sref="tab.avgames" href="#/tab/avgames">
+              <h2 class="ng-binding">Play OriGami</h2>
+              <p class="ng-binding">Start learning geography by searching places on the map,receiving not only great marks, but also a huge amount of positive memories.</p>
+            </div>
           </div>
-
-          <div class="item item-body">
-            <p>
-              {{'start_info_stud' | translate}}
-            </p>
-            <p>
-              <a ui-sref="tab.avgames">Spiele</a>
-            </p>
-          </div>
-
         </div>
-      </div>
-      <div class="col col-50">
-        <div class="card">
+      </a>
 
-          <div class="item item-avatar">
+      <a ui-sref="tab.teachmenu" href="#/tab/teachmenu" class="">
+        <div class="teacher">
+          <div class="type-picture">
             <img src="./img/icons/Professor.png">
-            <h2>OriGami für Lehrer</h2>
-            <p>{{'start_info_teach' | translate}}</p>
+            <div class="info" ui-sref="tab.teachmenu" href="#/tab/teachmenu">
+              <h2 class="ng-binding">Create OriGami</h2>
+              <p class="ng-binding">Start creating fun tasks for your belowed students!</p>
+            </div>
           </div>
-
-          <div class="item item-body">
-            <p>
-              {{'start_info_teach' | translate}}
-            </p>
-            <p>
-              <a ui-sref="tab.teachmenu">Lehrer</a>
-            </p>
-          </div>
-
         </div>
-      </div>
+      </a>
     </div>
   </ion-content>
- </ion-view>
+</ion-view>
