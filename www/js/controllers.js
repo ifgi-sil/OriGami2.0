@@ -35,7 +35,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.games = [];
         for (var i = 0; i < metadata.length; i++) {
             $scope.games.push(metadata[i]);
-            $scope.games[i].diff = Array.apply(null, Array(metadata[i].diff)).map(function () {
+            $scope.games[i].diff = Array.apply(null, Array(metadata[i].difficulty)).map(function () {
                 return "ion-ios-star"
             });
         }
@@ -128,6 +128,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.cancelGame = function () {
         $ionicHistory.goBack();
     };
+    $scope.goBack = function () {
+      $ionicHistory.goBack();
+    }
 
     /* Game Creation Wizard (Test Version) ------------------------------------------------ */
     $scope.newgame = {}; //General description of the game
@@ -169,93 +172,6 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         currentAct.type = $scope.act_type == 1 ? "Find destination" : "Follow route";
         currentAct.points = [];
     }
-
-    /* Map Routine ------------------- */
-    $scope.mainMap = {
-        center: {
-            autoDiscover: true,
-            zoom: 16
-        },
-
-        defaults: {
-            tileLayer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-            maxZoom: 18,
-            zoomControlPosition: 'topleft',
-            lat: 57,
-            lng: 8
-
-        },
-
-        geojson: {},
-
-        paths: {
-            userPos: {
-                type: 'circleMarker',
-                color: '#2E64FE',
-                weight: 2,
-                radius: 1,
-                opacity: 0.0,
-                clickable: false,
-                latlngs: {
-                    lat: 52,
-                    lng: 7
-                }
-            },
-            userPosCenter: {
-                type: 'circleMarker',
-                color: '#2E64FE',
-                fill: true,
-                radius: 3,
-                opacity: 0.0,
-                fillOpacity: 1.0,
-                clickable: false,
-                updateTrigger: true,
-                latlngs: {
-                    lat: 52,
-                    lng: 7
-                }
-            }
-        },
-
-        markers: [],
-        events: {
-            /* map: {
-                 enable: ['context'],
-                 logic: 'emit'
-             }*/
-        },
-
-        layers: {
-            baselayers: {
-                osm: {
-                    name: 'Satelite View',
-                    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                    type: 'xyz',
-                    top: true,
-                    layerOptions: {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                        continuousWorld: false
-                    }
-                },
-                streets: {
-                    name: 'Streets View',
-                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    type: 'xyz',
-                    top: false,
-                },
-                topographic: {
-                    name: 'Topographic View',
-                    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
-                    type: 'xyz',
-                    top: false,
-                    layerOptions: {
-                        attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
-                        continuousWorld: false
-                    }
-                }
-            }
-        }
-    };
 
     // Map for geoReference Game creation
     $scope.gameMap = {
@@ -380,27 +296,27 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     });
 
     //Add Waypoint with modal
-    $scope.$on('leafletDirectiveMap.contextmenu', function (event, locationEvent) {
-        $scope.newWaypoint = new Waypoint();
-        $scope.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
-        $scope.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
-        $scope.newWaypoint.tasks = [];
+    // $scope.$on('leafletDirectiveMap.mainMap.contextmenu', function (event, locationEvent) {
+    //     $scope.newWaypoint = new Waypoint();
+    //     $scope.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
+    //     $scope.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
+    //     $scope.newWaypoint.tasks = [];
 
-        createModal('templates/map/waypoint.html', 'm1');
-        //createModal('templates/tasks/quest_type.html');
-    });
+    //     createModal('templates/map/waypoint.html', 'm1');
+    //     //createModal('templates/tasks/quest_type.html');
+    // });
 
-    $scope.$on('leafletDirectiveMap.click', function (event, locationEvent) {
-        $scope.newWaypoint = new Waypoint();
-        $scope.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
-        $scope.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
-        $scope.newWaypoint.draggable = true;
-        $scope.newWaypoint.message = "You can change this location";
+    // $scope.$on('leafletDirectiveMap.mainMap.click', function (event, locationEvent) {
+    //     $scope.newWaypoint = new Waypoint();
+    //     $scope.newWaypoint.lat = locationEvent.leafletEvent.latlng.lat;
+    //     $scope.newWaypoint.lng = locationEvent.leafletEvent.latlng.lng;
+    //     $scope.newWaypoint.draggable = true;
+    //     $scope.newWaypoint.message = "You can change this location";
 
-        if ($scope.gameMap.markers.length == 0) {
-            $scope.gameMap.markers.push($scope.newWaypoint);
-        }
-    });
+    //     if ($scope.gameMap.markers.length == 0) {
+    //         $scope.gameMap.markers.push($scope.newWaypoint);
+    //     }
+    // });
 
     var newMarker = {};
     $scope.numberTask = 0;
@@ -640,16 +556,22 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     /* ----------------------------------------------------------------------- */
 
     // Delete the entire game by clicking on the trash icon
-    $scope.deleteItem = function (item, name) {
-        API.deleteItem(name, $rootScope.getToken())
+    var itemToDelete;
+    $scope.deleteItem = function () {
+        API.deleteItem(itemToDelete.name, $rootScope.getToken())
             .success(function (data, status, headers, config) {
                 $rootScope.hide();
             }).error(function (data, status, headers, config) {
-                $rootScope.notify(
-                    $translate.instant('oops_wrong'));
+                $rootScope.notify($translate.instant('oops_wrong'));
             });
-        $scope.list.splice($scope.list.indexOf(item), 1);
+        $scope.list.splice($scope.list.indexOf(itemToDelete), 1);
+        $scope.closeModal();
     };
+
+    $scope.showDeleteGameModal = function (item) {
+        itemToDelete = item;
+        createModal('templates/deletegame.html', 'deleteGame');
+    }
 
     $scope.editItem = function (item) {
         $scope.navactivities = [];
@@ -708,10 +630,10 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 // Controller which controls new GAME creation
 .controller('NewGameCtrl', ['$rootScope', '$scope', '$state', '$http', '$location', '$cordovaGeolocation', '$ionicModal', 
                             '$window', '$ionicPopup', '$ionicHistory', '$stateParams', '$cordovaCamera', 
-                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 
+                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 'MapService',
                             function ($rootScope, $scope, $state, $http, $location, $cordovaGeolocation, $ionicModal,
                                         $window, $ionicPopup, $ionicHistory, $stateParams, $cordovaCamera, 
-                                        $translate, leafletData, API, Edit, Data, Task) {
+                                        $translate, leafletData, API, Edit, Data, Task, MapService) {
 
     /* Game Parameters ----- */
     $scope.currentAction = "New Game";
@@ -720,6 +642,29 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.diff = Array.apply(null, Array(5)).map(function () {
         return "ion-ios-star-outline"
     });
+
+    $scope.editMap = MapService;
+    $scope.data = {
+        showDelete: false
+      };
+      
+      $scope.onItemDelete = function(item) {
+        $scope.selectedWaypoint.tasks.splice($scope.selectedWaypoint.tasks.indexOf(item), 1);
+      };
+      
+      $scope.items = [
+        { id: 0 },
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+        { id: 4 },
+        { id: 5 }
+      ];
+
+    //Get back in the history
+    $scope.goBack = function () {
+        $ionicHistory.goBack();
+    };
 
     $scope.newgame.difficulty = 0;
 
@@ -734,6 +679,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.newgame.difficulty = difficulty + 1;
     };
 
+    $scope.waypoints = [];
+
     // Check, whether we are CREATING or EDITING new game
     if (Edit.getGame() != null) {
         $scope.currentAction = "Edit Game";
@@ -745,9 +692,20 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         };
 
         $scope.navactivities = Edit.getGame().activities;
+        for (var i = 0; i < $scope.navactivities[0].points.length; i++) {
+            $scope.navactivities[0].points[i].draggable = true;
+        }
+        $scope.waypoints = $scope.navactivities[0].points;
         Edit.resetActivities();
 
         $scope.rateGame(Edit.getGame().difficulty - 1);
+        
+        // Center map on first waypoint
+        $scope.center = {
+            lat: $scope.navactivities[0].points[0].lat,
+            lng: $scope.navactivities[0].points[0].lng,
+            zoom: 15
+        };
 
         for (var i = 0; i < Data.getAct().length; i++) {
             $scope.navactivities.push(Data.getAct()[i]);
@@ -757,10 +715,101 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.navactivities = Data.getAct();
     }
 
+    $scope.selectedWaypoint;
+    $scope.$on('leafletDirectiveMarker.editMap.click', function (e, args) {
+        for (var i = 0; i < $scope.waypoints.length; i++) {
+            if(angular.equals($scope.waypoints[i], args.model)) {
+                $scope.selectedWaypoint = $scope.waypoints[i];
+                break;
+            }
+        }
+    });
+
+    $scope.$on('leafletDirectiveMarker.editMap.dragstart', function (e, args) {
+        console.log('editMap dragend');
+        for (var i = 0; i < $scope.waypoints.length; i++) {
+            if(angular.equals($scope.waypoints[i], args.model)) {
+                $scope.selectedWaypoint = $scope.waypoints[i];
+                break;
+            }
+        }
+    });
+
+    $scope.$on('leafletDirectiveMarker.editMap.dragend', function (e, args) {
+        $scope.selectedWaypoint.lat = args.model.lat;
+        $scope.selectedWaypoint.lng = args.model.lng;
+    });
+
     $scope.isAndroid = false; // Platform : Android or Web
 
     $scope.example = "";
     $scope.myfile = {};
+
+    var createModal = function (templateUrl, id) {
+        $ionicModal.fromTemplateUrl(templateUrl, {
+            id: id,
+            scope: $scope,
+            animation: 'slide-in-up',
+            backdropClickToClose: false
+        }).then(function (modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+    };
+    $scope.closeModal = function () {
+        $scope.modal.remove();
+    };
+
+    $scope.game = {
+        gameMap: MapService,
+        noTask: function () {
+            $scope.closeModal();
+        },
+        showSlideButtons: function () {
+            return {
+                showPrevious: false, 
+                showNext: false, 
+                saveButton: true 
+            }
+        },
+        submitQA: function (img) {
+            angular.merge($scope.selectedTask, $scope.game.qaTask);
+            $scope.closeModal();
+        },
+        imgUpload: function () {
+
+        },
+        submitGRTask: function () {
+            angular.merge($scope.selectedTask, $scope.game.geoTask);
+            $scope.closeModal();
+        }
+    }
+
+    $scope.editTask = function (task) {
+        $scope.selectedTask = $scope.selectedWaypoint.tasks[$scope.selectedWaypoint.tasks.indexOf(task)];
+        var taskTmp = angular.copy(task);
+        if (task.type === "QA") {
+            $scope.game.qaTask = taskTmp;
+            createModal('templates/tasks/quest_type.html');
+        } else if (task.type === "GeoReference") {
+            $scope.game.geoTask = taskTmp;
+            $scope.game.geoTask.draggable = true;
+            $scope.game.gameMap.markers = [];
+            $scope.game.gameMap.markers.push($scope.game.geoTask);
+            createModal('templates/tasks/georef_type.html');
+        }
+    }
+
+    // Click handler for gameMap during georeferencing task
+    $scope.$on('leafletDirectiveMap.gameMap.click', function (event, locationEvent) {
+        $scope.game.geoTask.lat = locationEvent.leafletEvent.latlng.lat;
+        $scope.game.geoTask.lng = locationEvent.leafletEvent.latlng.lng;
+    });
+
+    $scope.$on('leafletDirectiveMarker.gameMap.dragend', function (event, locationEvent) {
+        $scope.game.geoTask.lat = locationEvent.model.lat;
+        $scope.game.geoTask.lng = locationEvent.model.lng;
+    });
 
     // Current location of GeoReference Task Creation
     $scope.map = {
@@ -881,14 +930,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         this.lat = "";
         this.lng = "";
     };
-    $scope.$on('leafletDirectiveMap.contextmenu', function (event, locationEvent) {
-        if ($scope.map.markers.length < 1) {
-            $scope.point = new PhotoPositionMarker();
-            $scope.point.lat = locationEvent.leafletEvent.latlng.lat;
-            $scope.point.lng = locationEvent.leafletEvent.latlng.lng;;
-            $scope.map.markers.push($scope.point);
-        }
-    });
+    // $scope.$on('leafletDirectiveMap.gameMap.contextmenu', function (event, locationEvent) {
+    //     if ($scope.map.markers.length < 1) {
+    //         $scope.point = new PhotoPositionMarker();
+    //         $scope.point.lat = locationEvent.leafletEvent.latlng.lat;
+    //         $scope.point.lng = locationEvent.leafletEvent.latlng.lng;;
+    //         $scope.map.markers.push($scope.point);
+    //     }
+    // });
 
     $scope.pathGame = function () {
         Data.addType("Find destination");
@@ -1072,29 +1121,18 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
 // controller for gameplay
 .controller('PlayCtrl', ['$scope', '$stateParams', '$ionicModal', '$ionicPopup', '$ionicLoading', '$location', '$cordovaSocialSharing', 
-                         '$translate', '$timeout', '$cookies', 'GameData', 'GameState', 'API', 'PathData', 'PlayerStats', 
+                         '$translate', '$timeout', '$cookies', 'GameData', 'GameState', 'API', 'PathData', 'PlayerStats', 'MapService', 'leafletData',
                          function ($scope, $stateParams, $ionicModal, $ionicPopup, $ionicLoading, $location,  $cordovaSocialSharing, 
-                                    $translate, $timeout, $cookies, GameData, GameState, API, PathData, PlayerStats) {
+                                    $translate, $timeout, $cookies, GameData, GameState, API, PathData, PlayerStats, MapService, leafletData) {
     $scope.gameName = $stateParams.gameName;
     $scope.gameLoaded = false;
     var congratsMessages = ['Good job!', 'Well done!', 'Great!', 'Cool!', 'Perfect!', 'So Fast! :)'];
 
     $scope.score = 0;
-    $scope.GameData = GameData; // ugly hack to make GameData visible in directives 
+    $scope.GameData = GameData; // ugly hack to make GameData visible in directives
 
-    /* only for debug purposes */
-    var debugState = function () {
-        return {
-            gameName: $scope.gameName,
-            gameloaded: $scope.gameLoaded,
-            currentActivity: GameState.getCurrentActivity(),
-            currentWaypoint: GameState.getCurrentWaypoint(),
-            currentTask: GameState.getCurrentTask(),
-            curActCleared: GameState.currentActivityCleared(),
-            allWaypointsCleared: GameState.allWaypointsCleared(),
-            allTasksCleared: GameState.allTasksCleared()
-        };
-    };
+    $scope.geoMap = MapService;
+    $scope.georef = {};
 
     var createModal = function (templateUrl, id) {
         $ionicModal.fromTemplateUrl(templateUrl, {
@@ -1197,9 +1235,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     };
 
     $scope.performGeoReferencingTask = function () {
-        $scope.showInfo = true;
-        $scope.subHeaderInfo = "Mark location on map";
-        $scope.geoRefPhoto = API.getImageURL($scope.task.img);
+        $scope.geoRefPhoto = $scope.task.img;
+        $scope.georef.lat = $scope.task.lat;
+        $scope.georef.lng = $scope.task.lng;
         createModal('georef-modal.html', 'georef');
     };
 
@@ -1244,7 +1282,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         $scope.imgAnsURL_3 = API.getImageURL($scope.task.answers[3].img);
         $scope.imgRightAnswerURL = API.getImageURL($scope.rightAnswer.img);
         // console.log($scope.imgAnsURL_0, $scope.imgAnsURL_1, $scope.imgAnsURL_2, $scope.imgAnsURL_3);
-    
+        $scope.answers = ['','','',''];
         $scope.chooseAnswer = function (answer, index) {
             if (!$scope.ansChoosen) {
                 $scope.chosenAnswer = answer;
@@ -1254,6 +1292,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 $scope.clicked[index] = true;
 
                 clearInterval(intervalId);
+
+                for (var i = 0; i < $scope.task.answers.length; i++) {
+                    if ($scope.rightAnswer === $scope.task.answers[i]) {
+                        $scope.answers[i] = 'balanced';
+                    } else {
+                        $scope.answers[i] = 'assertive';
+                    }
+                }
 
                 if ($scope.chosenAnswer == $scope.rightAnswer) {
                     $scope.answerResult = $translate.instant('right_answer');
@@ -1356,10 +1402,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     $scope.$on('geoRefMarkedEvent', function (event, distance) {
         $scope.geoResult = false;
-        //showPopup('Result', 'The location you marked was ' + distance + "m away from the original location");
         $scope.georefDistance = distance;
-        $scope.showInfo = false;
-        $scope.subHeaderInfo = "";
 
         if (distance < 25) {
             $scope.georefSmiley = 'ion-happy-outline';
@@ -1439,6 +1482,84 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                     $translate.instant('oops_wrong'));
             });
     };
+
+    var GeoRefPoint = function () {
+        if (!(this instanceof GeoRefPoint)) return new GeoRefPoint();
+        this.lat = "";
+        this.lng = "";
+        this.name = "";
+    };
+    $scope.locationPicked = false;
+    // Click handler for gameMap during georeferencing task
+    $scope.$on('leafletDirectiveMap.geoRefMap.click', function (event, locationEvent) {
+        if ($scope.geoMap.markers.length > 0) {
+            return;
+        }
+        $scope.newGeoRefPoint = new GeoRefPoint();
+        $scope.newGeoRefPoint.lat = locationEvent.leafletEvent.latlng.lat;
+        $scope.newGeoRefPoint.lng = locationEvent.leafletEvent.latlng.lng;
+
+        var marker = {
+            lat: $scope.newGeoRefPoint.lat,
+            lng: $scope.newGeoRefPoint.lng,
+            message: "Marked photograph location",
+            focus: true,
+            icon: {
+                iconUrl: '../img/icons/PhotoMarker2.png',
+                iconSize: [24, 38],
+                iconAnchor: [12, 38]
+            }
+        };
+        var marker2 = {
+            lat: $scope.georef.lat,
+            lng: $scope.georef.lng,
+            message: "Original photograph location",
+            focus: true,
+            icon: {
+                iconUrl: '../img/icons/PhotoMarker1.png',
+                iconSize: [24, 38],
+                iconAnchor: [12, 38]
+            }
+        };
+        $scope.geoMap.markers.push(marker);
+        $scope.geoMap.markers.push(marker2);
+
+        var origLocation = L.latLng($scope.georef.lat, $scope.georef.lng);
+        var markedLocation = L.latLng($scope.newGeoRefPoint.lat, $scope.newGeoRefPoint.lng);
+        $scope.distance = parseInt(origLocation.distanceTo(markedLocation));
+
+        /* Georef task - Path from where the photograph was originally taken to where the player marked */
+        var path = {
+            type: "polyline",
+            color: 'red',
+            weight: 5,
+            latlngs: [origLocation, markedLocation]
+        };
+
+        $scope.geoMap.paths = {
+            'georefTaskPath': path
+        };
+
+        $scope.geoMap.center = {
+            lat: $scope.georef.lat,
+            lng: $scope.georef.lng,
+            zoom: $scope.geoMap.center.zoom
+        };
+
+        $scope.locationPicked = true;
+    });
+
+    $scope.leaveGeoRef = function () {
+        $scope.locationPicked = false;
+        delete $scope.geoMap.paths.georefTaskPath;
+        $scope.geoMap.markers = [];
+        PlayerStats.endTask ({
+            "marked_lat" : $scope.newGeoRefPoint.lat,
+            "marked_lng" : $scope.newGeoRefPoint.lng,
+            "distance_in_m" : $scope.distance
+        });
+        $scope.$emit('geoRefMarkedEvent', $scope.distance);
+    }
     
     GameData.loadGame($scope.gameName).then(initGame, gameLoadFailure);
 }])
@@ -1453,7 +1574,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                                             $timeout, leafletData, $translate, GameData, PathData, PlayerStats) {
 
     $scope.waypointLoaded = false;
-    $scope.allowEdit = false; // flag to toggle map editing when marking in georeferencing game  
+    // $scope.allowEdit = false; // flag to toggle map editing when marking in georeferencing game  
     $scope.showMarker = false;
 
     // Initialize map after game is loaded. Needed because config settings are in game data
@@ -1477,7 +1598,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 touchZoom: GameData.getConfig('map.enableZoom'), 
                 scrollWheelZoom: GameData.getConfig('map.enableZoom'), 
                 zoomControl : GameData.getConfig('map.enableZoom'),
-                zoomControlPosition: GameData.getConfig('map.zoomControlPosition')
+                zoomControlPosition: GameData.getConfig('map.zoomControlPosition'),
+                controls: {
+                    layers: {
+                        collapsed: true,
+                        visible: true,
+                        position: 'bottomleft'
+                    }
+                }
             },
             layers: {
                 baselayers: {
@@ -1487,7 +1615,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                         type: 'xyz',
                         top: isDefaultLayer('satellite'),
                         layerOptions: {
-                            attribution: '&copy; Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community',
+                            // attribution: '&copy; Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community',
                             continuousWorld: false
                         }
                     },
@@ -1497,7 +1625,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                         type: 'xyz',
                         top: isDefaultLayer('streets'),
                         layerOptions: {
-                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                            // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                             continuousWorld: false
                         }
                     },
@@ -1507,7 +1635,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                         type: 'xyz',
                         top: isDefaultLayer('topographic'),
                         layerOptions: {
-                            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+                            // attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
                             continuousWorld: false
                         }
                     }
@@ -1542,9 +1670,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         if ($scope.geolocationAlwaysOn) {
             $scope.toggleGeoLocation(true);
         }
-        
 
-        $scope.$emit('mapLoadedEvent');
+        // $scope.$emit('mapLoadedEvent');
     };
 
     $scope.updatePlayerPosMarker = function (position) {
@@ -1565,6 +1692,19 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         } else {
             $scope.map.markers.PlayerPos.lat = position.lat;
             $scope.map.markers.PlayerPos.lng = position.lng;
+        }
+
+        if (!ionic.Platform.isAndroid() && !ionic.Platform.isIOS() && !ionic.Platform.isWindowsPhone()) {
+            $scope.showMarker = true;
+            $scope.playerMarkerButtonColor = "button-balanced";
+
+            if (typeof $scope.map.markers.PlayerPos != "undefined") {
+                $scope.map.markers.PlayerPos.icon = {
+                    iconUrl: './img/icons/Youarehere.png',
+                    iconSize: [48, 48],
+                    iconAnchor: [24, 48]
+                };
+            }
         }
     };
 
@@ -1590,25 +1730,27 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     /* Add more markers once game is loaded */
     $scope.$on('waypointLoadedEvent', function (event, waypoint) {
         PlayerStats.startWaypoint(waypoint);
-        $ionicModal.fromTemplateUrl('waypointinfo-modal.html', {
-            scope: $scope,
-            animation: 'slide-in-up'
-        }).then(function (modal) {
-            $scope.modal = modal;
-            $scope.waypointName = waypoint.name;
-            $scope.modal.show();
-        });
+        // $ionicModal.fromTemplateUrl('waypointinfo-modal.html', {
+        //     scope: $scope,
+        //     animation: 'slide-in-up'
+        // }).then(function (modal) {
+        //     $scope.modal = modal;
+        //     $scope.waypointName = waypoint.name;
+        //     $scope.modal.show();
+        // });
         var marker = {
             lat: waypoint.lat,
             lng: waypoint.lng,
-            message: waypoint.name,
-            focus: true
+            // message: waypoint.name,
+            focus: true,
+            opacity: 0.0,
         };
         $scope.map.markers.NextWaypoint = marker;
         $scope.destination = {
             lat: marker.lat,
             lng: marker.lng,
-            name: marker.message
+            opacity: 0.0,
+            // name: marker.message
         };
         $scope.waypointLoaded = true; // reset this flag
     });
@@ -1635,14 +1777,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     };
 
     /* (Re)compute distance to destination once map moves */
-    $scope.$on('leafletDirectiveMap.move', function (event, args) {
+    $scope.$on('leafletDirectiveMap.playMap.move', function (event, args) {
         if ($scope.waypointLoaded) {
             var map = args.leafletEvent.target;
             var center = map.getCenter();
 
             PathData.addCoord(center.lat, center.lng);
 
-            leafletData.getMap()
+            leafletData.getMap('playMap')
                 .then(function (map) {
                     var center = map.getCenter();
                     var dest = L.latLng($scope.destination.lat, $scope.destination.lng);
@@ -1678,7 +1820,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         }
     });
 
-    $scope.$on('leafletDirectiveMap.zoomend', function (event, args) {
+    $scope.$on('leafletDirectiveMap.playMap.zoomend', function (event, args) {
         if ($scope.getRealTimePos) {
             $scope.toggleGeoLocation(false);
             $scope.locate();
@@ -1686,102 +1828,102 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         }
     });
 
-    var GeoRefPoint = function () {
-        if (!(this instanceof GeoRefPoint)) return new GeoRefPoint();
-        this.lat = "";
-        this.lng = "";
-        this.name = "";
-    };
+    // var GeoRefPoint = function () {
+    //     if (!(this instanceof GeoRefPoint)) return new GeoRefPoint();
+    //     this.lat = "";
+    //     this.lng = "";
+    //     this.name = "";
+    // };
 
-    $scope.$on('leafletDirectiveMap.contextmenu', function (event, locationEvent) {
-        if ($scope.allowEdit) {
-            leafletData.getMap()
-                .then(function (map) {
-                    $scope.newGeoRefPoint = new GeoRefPoint();
-                    $scope.newGeoRefPoint.lat = locationEvent.leafletEvent.latlng.lat;
-                    $scope.newGeoRefPoint.lng = locationEvent.leafletEvent.latlng.lng;
+    // $scope.$on('leafletDirectiveMap.geoMap.click', function (event, locationEvent) {
+    //     if ($scope.allowEdit) {
+    //         leafletData.getMap('geoRefMap')
+    //             .then(function (map) {
+    //                 $scope.newGeoRefPoint = new GeoRefPoint();
+    //                 $scope.newGeoRefPoint.lat = locationEvent.leafletEvent.latlng.lat;
+    //                 $scope.newGeoRefPoint.lng = locationEvent.leafletEvent.latlng.lng;
 
-                    var marker = {
-                        lat: $scope.newGeoRefPoint.lat,
-                        lng: $scope.newGeoRefPoint.lng,
-                        message: "Marked photograph location",
-                        focus: true,
-                        icon: {
-                            iconUrl: './img/icons/PhotoMarker2.png',
-                            iconSize: [24, 38],
-                            iconAnchor: [12, 38]
-                        }
-                    };
-                    var marker2 = {
-                        lat: $scope.georef.lat,
-                        lng: $scope.georef.lng,
-                        message: "Original photograph location",
-                        focus: true,
-                        icon: {
-                            iconUrl: './img/icons/PhotoMarker1.png',
-                            iconSize: [24, 38],
-                            iconAnchor: [12, 38]
-                        }
-                    };
-                    $scope.map.markers.playerPhotoMark = marker;
-                    $scope.map.markers.origPhotoMark = marker2;
+    //                 var marker = {
+    //                     lat: $scope.newGeoRefPoint.lat,
+    //                     lng: $scope.newGeoRefPoint.lng,
+    //                     message: "Marked photograph location",
+    //                     focus: true,
+    //                     icon: {
+    //                         iconUrl: './img/icons/PhotoMarker2.png',
+    //                         iconSize: [24, 38],
+    //                         iconAnchor: [12, 38]
+    //                     }
+    //                 };
+    //                 var marker2 = {
+    //                     lat: $scope.georef.lat,
+    //                     lng: $scope.georef.lng,
+    //                     message: "Original photograph location",
+    //                     focus: true,
+    //                     icon: {
+    //                         iconUrl: './img/icons/PhotoMarker1.png',
+    //                         iconSize: [24, 38],
+    //                         iconAnchor: [12, 38]
+    //                     }
+    //                 };
+    //                 $scope.map.markers.playerPhotoMark = marker;
+    //                 $scope.map.markers.origPhotoMark = marker2;
 
-                    var origLocation = L.latLng($scope.georef.lat, $scope.georef.lng);
-                    var markedLocation = L.latLng($scope.newGeoRefPoint.lat, $scope.newGeoRefPoint.lng);
-                    var distance = parseInt(origLocation.distanceTo(markedLocation));
+    //                 var origLocation = L.latLng($scope.georef.lat, $scope.georef.lng);
+    //                 var markedLocation = L.latLng($scope.newGeoRefPoint.lat, $scope.newGeoRefPoint.lng);
+    //                 var distance = parseInt(origLocation.distanceTo(markedLocation));
 
-                    /* Georef task - Path from where the photograph was originally taken to where the player marked */
-                    var path = {
-                        type: "polyline",
-                        color: 'red',
-                        weight: 5,
-                        latlngs: [origLocation, markedLocation]
-                    };
+    //                 /* Georef task - Path from where the photograph was originally taken to where the player marked */
+    //                 var path = {
+    //                     type: "polyline",
+    //                     color: 'red',
+    //                     weight: 5,
+    //                     latlngs: [origLocation, markedLocation]
+    //                 };
 
-                    $scope.map.paths = {
-                        'georefTaskPath': path
-                    };
+    //                 $scope.map.paths = {
+    //                     'georefTaskPath': path
+    //                 };
 
-                    $scope.map.center = {
-                        lat: $scope.georef.lat,
-                        lng: $scope.georef.lng,
-                        zoom: $scope.map.center.zoom
-                    };
+    //                 $scope.map.center = {
+    //                     lat: $scope.georef.lat,
+    //                     lng: $scope.georef.lng,
+    //                     zoom: $scope.map.center.zoom
+    //                 };
 
-                    $scope.allowEdit = false;
-                    /* Draw and show path between original and marked locations for 2 seconds. Then show modal*/
-                    $timeout(function () {
-                        delete $scope.map.paths.georefTaskPath;
-                        delete $scope.map.markers.playerPhotoMark;
-                        delete $scope.map.markers.origPhotoMark;
-                        PlayerStats.endTask ({
-                            "marked_lat" : $scope.newGeoRefPoint.lat,
-                            "marked_lng" : $scope.newGeoRefPoint.lng,
-                            "distance_in_m" : distance
-                        });
-                        $scope.$emit('geoRefMarkedEvent', distance);
-                    }, 2000);
-                    //$scope.map.markers.pop();
-                    //$scope.map.markers.pop();
-                });
-        };
-    });
+    //                 $scope.allowEdit = false;
+    //                 /* Draw and show path between original and marked locations for 2 seconds. Then show modal*/
+    //                 $timeout(function () {
+    //                     delete $scope.map.paths.georefTaskPath;
+    //                     delete $scope.map.markers.playerPhotoMark;
+    //                     delete $scope.map.markers.origPhotoMark;
+    //                     PlayerStats.endTask ({
+    //                         "marked_lat" : $scope.newGeoRefPoint.lat,
+    //                         "marked_lng" : $scope.newGeoRefPoint.lng,
+    //                         "distance_in_m" : distance
+    //                     });
+    //                     $scope.$emit('geoRefMarkedEvent', distance);
+    //                 }, 2000);
+    //                 //$scope.map.markers.pop();
+    //                 //$scope.map.markers.pop();
+    //             });
+    //     };
+    // });
 
-    $scope.$on('georefEvent', function (event, args) {
-        $scope.allowEdit = true;
-        $scope.georef = {};
+    // $scope.$on('georefEvent', function (event, args) {
+    //     $scope.allowEdit = true;
+    //     $scope.georef = {};
 
-        /* Dummy values. Remove after georeferecing task editing has been implemented*/
-        if (typeof args.lat === "undefined") {
-            $scope.georef.lat = 51.9649;
-            $scope.georef.lng = 7.601;
-            args.lat = 51.94;
-            args.lng = 7.60;
-        } else {
-            $scope.georef.lat = args.lat;
-            $scope.georef.lng = args.lng;
-        }
-    });
+    //     /* Dummy values. Remove after georeferecing task editing has been implemented*/
+    //     if (typeof args.lat === "undefined") {
+    //         $scope.georef.lat = 51.9649;
+    //         $scope.georef.lng = 7.601;
+    //         args.lat = 51.94;
+    //         args.lng = 7.60;
+    //     } else {
+    //         $scope.georef.lat = args.lat;
+    //         $scope.georef.lng = args.lng;
+    //     }
+    // });
 
     $scope.trackPosition = function () {
         var watchOptions = {
@@ -1824,7 +1966,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                     duration: 2000
                 });
             }
-            leafletData.getMap()
+            leafletData.getMap('playMap')
                 .then(function (map) {
                     map.dragging.disable();
                 });
@@ -1833,7 +1975,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             $scope.trackPosition();
         } else {
             $scope.getRealTimePos = false;
-            leafletData.getMap()
+            leafletData.getMap('playMap')
                 .then(function (map) {
                     map.dragging.enable();
                 });

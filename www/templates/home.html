@@ -1,36 +1,29 @@
 <ion-view view-title="Start Menu">
-  <ion-content  style = "background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">          
-   <!-- New Home menu -->       
-    <div class = "person-type" style = "background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">
-        
-        
-      <a ui-sref="tab.avgames">
+  <ion-content scroll="false">
+    <div class="person-type" style="background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">            
+      <a ui-sref="tab.avgames" href="#/tab/avgames" class="">
         <div class="player">
-            <div class="type-picture">
-                <img src = "./img/icons/Student.png"/>
-                    <div class="info" ui-sref="tab.avgames">
-                     <h2>{{'start_header_stud' | translate}}</h2>
-                     <p>{{'start_info_stud' | translate}}</p>
-                </div>
-                <!-- <button class="button button-fab next button-calm icon ion-map waves-effect waves-button waves-light" 
-                       ui-sref="tab.avgames"></button>  -->
-                </div>
-          </div>
-        </a>
-        
-        
-      <a ui-sref="tab.teachmenu">
-        <div  class="teacher">
-             <div class="type-picture">
-                <img src = "./img/icons/Professor.png"/>
-                <div class="info" ui-sref="tab.teachmenu">
-                     <h2>{{'start_header_teach' | translate}}</h2>
-                     <p>{{'start_info_teach' | translate}}</p>
-                </div>
-                  <!-- <button class="button button-fab next button-calm icon ion-settings waves-effect waves-button waves-light" ui-sref="tab.teachmenu"></button> -->
+          <div class="type-picture">
+            <img src="./img/icons/Student.png">
+            <div class="info" ui-sref="tab.avgames" href="#/tab/avgames">
+              <h2 class="ng-binding">Play OriGami</h2>
+              <p class="ng-binding">Start learning geography by searching places on the map,receiving not only great marks, but also a huge amount of positive memories.</p>
             </div>
-         </div>
-       </a>
+          </div>
+        </div>
+      </a>
+
+      <a ui-sref="tab.teachmenu" href="#/tab/teachmenu" class="">
+        <div class="teacher">
+          <div class="type-picture">
+            <img src="./img/icons/Professor.png">
+            <div class="info" ui-sref="tab.teachmenu" href="#/tab/teachmenu">
+              <h2 class="ng-binding">Create OriGami</h2>
+              <p class="ng-binding">Start creating fun tasks for your belowed students!</p>
+            </div>
+          </div>
+        </div>
+      </a>
     </div>
   </ion-content>
 </ion-view>

@@ -1,19 +1,29 @@
 <ion-view cache-view="false" align-title="center" style="background-color:#53DF83;" view-title="Created Games">
-    <div style="position:fixed; top:2%; width:100%;">
-        <h2 class="techm_h">Created Games</h2>
-        <i class="ion-arrow-left-c back_icon" ng-click="cancelGame()"></i>
-        <i class="ion-plus-round newgame_icon" ng-click="startGameCreation()" ui-sref="tab.creategame"></i>
+
+    <ion-header-bar align-title="center" class="bar-positive">
+      <div class="buttons">
+        <button class="button button-icon icon ion-arrow-left-c" ng-click="goBack()"></button>
+      </div>
+      <h1 class="title">{{'TEACHMENU_HEADER' | translate}}</h1>
+      <div class="buttons">
+        <button class="button button-icon icon ion-plus-round" ng-click="startGameCreation()" ui-sref="tab.creategame"></button>
+      </div>
+    </ion-header-bar>
+    <div class="bar bar-subheader">
+      <input class="searchbar" type="text" placeholder="{{'search' | translate}}" ng-model="searchTerm.name">
     </div>
-    <ion-content style="height:90%;top:10%;">
+
+    <ion-content class="has-header has-subheader">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <!-- Display error message if http request fails to fetch games -->
-       <div class="padding ui-feedback" ng-show="error_msg != null">
+        <!-- <div class="padding ui-feedback" ng-show="error_msg != null">
             <div class="ui-feedback-icon">
                 <i class="ion-wifi"></i>
             </div>
             <div class="ui-feedback-message">{{error_msg}}</div>
-        </div>
+        </div> -->
 
-        <div class="list card download_tiles" ng-repeat="item in list | orderBy:'name' ">
+        <div class="list card" ng-repeat="item in list | orderBy:'name' | filter:searchTerm:strict ">
             <a>
                 <div class="item game-desc">
                     <h2>{{item.name}}</h2>
@@ -25,22 +35,22 @@
                         <i class={{item.diff[3]}} style="font-size:3.5vh;color:#2196F3;"></i>
                         <i class={{item.diff[4]}} style="font-size:4vh;color:#2196F3;"></i>
                     </div>
-
-                    <!-- <div style="position:absolute;right:2%; top:10%;">
-                        <button class="button button-fab button-positive icon ion-ios-cloud-download waves-effect waves-button waves-light" style=" background:#E91E63; font-size:40px;"></button>
-                    </div> -->
                 </div>
                 <div class="item item-body teachm_menu">
-                    <div class="teachm_b" ng-click="deleteItem(item,'{{item.name}}')">DELETE</div>
-                    <div class="teachm_b" ui-sref="tab.newgame" ng-click="editItem(item)">EDIT</div>
+                    <button class="button icon-left ion-trash-b button-calm" ng-click="showDeleteGameModal(item)">
+                      {{'DELETE' | translate}}
+                    </button>
+                    <button class="button icon-left ion-edit button-calm" style="margin-left: 10px;" ui-sref="tab.newgame" ng-click="editItem(item)">
+                      {{'EDIT' | translate}}
+                    </button>
                 </div>
             </a>
         </div>
-        <div class="card">
-            <div class="item item-text-wrap" ng-show="noData">
+        <div class="card" ng-show="noData">
+            <div class="item item-text-wrap">
                 <span>
-            There are no games created at the moment.
-         </span>
+                    There are no games created at the moment.
+                </span>
             </div>
         </div>
     </ion-content>

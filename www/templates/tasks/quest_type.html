@@ -1,98 +1,77 @@
-<ion-modal-view style="height:75%; "> 
+<ion-modal-view style="height:100%; "> 
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-close-round" ng-click="game.noTask()"></button>
+        </div>
+        <h1 class="title">{{'quest_answer' | translate}}</h1>
+        <div class="buttons">
+            <button ng-disabled="game.invalidWaypointForm" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.submitQA(picFilename)"></button>
+        </div>
+    </ion-header-bar>
     <ion-content class="qa_page" style="background-color:#64B5F6;" data-tap-disabled="true">
-        <div class="quest-tab">
-            <div class="information">
-                <i class="icon ion-help"></i>
-                <h2>Question</h2>
-                <div class="question">
-                    <textarea rows="3" ng-model="qaTask.question.txt" placeholder="Add text or choose image"> </textarea>
-                    <div class="photo_c">
-                        <label class="photoAns" for="photoQuestion">
-                            <img class="photo_ic" src="./img/icons/photo.svg">
-                            <br>Add Pic
-                        </label>
-                        <input class="btn inputfile" type="file" id="photoQuestion" ngf-select="imgUpload($file, $event)" accept="image/*">
+        <div class="page_maininfo">
+            <div class="page_content">
+                <div class="content">
+                    <div class="main_info">
+                        <div class="list">
+                            <h3>{{'question' | translate}}</h3>
+                            <div class="item item-thumbnail-left">
+                                <div>
+                                    <label for="photoQuestion">
+                                        <img class="photo_ic" width="64" height="64" ng-src="{{game.qaTask.question.img}}">
+                                        <h5>Add Pic</h5>
+                                    </label>
+                                    <input class="btn inputfile" type="file" id="photoQuestion" ngf-select="game.imgUpload($file, $event)" accept="image/*">
+                                </div>
+                                <textarea rows="3" style="resize: none; line-height: 1.2;" ng-model="game.qaTask.question.txt" placeholder="Add text or choose image"> </textarea>
+                            </div>
+                            <h3>{{'answer' | translate}}</h3>
+                            <div class="item item-thumbnail-left">
+                                <div>
+                                    <label for="photoAns1">
+                                        <img class="photo_ic" width="64" height="64" ng-src="{{game.qaTask.answers[0].img}}">
+                                        <h5>Add Pic</h5>
+                                    </label>
+                                    <input class="btn inputfile" type="file" id="photoAns1" ngf-select="game.imgUpload($file, $event)" accept="image/*">
+                                </div>
+                                <textarea rows="3" style="resize: none; line-height: 1.2;" ng-model="game.qaTask.answers[0].txt" placeholder="{{ 'right_answer' | translate }}"> </textarea>
+                            </div>
+                            <div class="item item-thumbnail-left">
+                                <div>
+                                    <label for="photoAns2">
+                                        <img class="photo_ic" width="64" height="64" ng-src="{{game.qaTask.answers[1].img}}">
+                                        <h5>Add Pic</h5>
+                                    </label>
+                                    <input class="btn inputfile" type="file" id="photoAns2" ngf-select="game.imgUpload($file, $event)" accept="image/*">
+                                </div>
+                                <textarea rows="3" style="resize: none; line-height: 1.2;" ng-model="game.qaTask.answers[1].txt" placeholder="Add text or choose image"> </textarea>
+                            </div>
+                            <div class="item item-thumbnail-left">
+                                <div>
+                                    <label for="photoAns3">
+                                        <img class="photo_ic" width="64" height="64" ng-src="{{game.qaTask.answers[2].img}}">
+                                        <h5>Add Pic</h5>
+                                    </label>
+                                    <input class="btn inputfile" type="file" id="photoAns3" ngf-select="game.imgUpload($file, $event)" accept="image/*">
+                                </div>
+                                <textarea rows="3" style="resize: none; line-height: 1.2;" ng-model="game.qaTask.answers[2].txt" placeholder="Add text or choose image"> </textarea>
+                            </div>
+                            <div class="item item-thumbnail-left">
+                                <div>
+                                    <label for="photoAns4">
+                                        <img class="photo_ic" width="64" height="64" ng-src="{{game.qaTask.answers[3].img}}">
+                                        <h5>Add Pic</h5>
+                                    </label>
+                                    <input class="btn inputfile" type="file" id="photoAns4" ngf-select="game.imgUpload($file, $event)" accept="image/*">
+                                </div>
+                                <textarea rows="3" style="resize: none; line-height: 1.2;" ng-model="game.qaTask.answers[3].txt" placeholder="Add text or choose image"> </textarea>
+                            </div>
+                        </div>
                     </div>
-                    <img class="anspic_dis" ng-src="{{imgQuestionPrvw}}" ng-hide = "imgQuestionPrvw == null">
                 </div>
             </div>
         </div>
-
-        <div class="answers">
-            <div class="answer">
-                <label class="item item-input item-floating-label ans_inp">
-                    <input type="text" ng-model="qaTask.answers[0].txt" class="wrong-input" placeholder="{{ 'right_answer' | translate }}">
-                    <i class="icon ion-checkmark-round wrong"></i>
-                </label>
-                <div class="photo_c">
-                    <label class="photoAns" for="photoAns1">
-                        <img class="photo_ic" src="./img/icons/photo.svg">
-                        <br>Add Pic
-                    </label>
-                </div>
-                <!--<input class="btn inputfile" id="photoAns1" type="file" ng-model="file" multiple accept="image/*" onload="onLoad1" base-sixty-four-input>-->
-                <!--<img class="anspic_dis" ng-src="data:image/jpeg;base64,{{picFile[0].base64}}" ng-hide = "picFile[0] == null">-->
-                <input class="btn inputfile" type="file" id="photoAns1" ng-model="photoAns1" ngf-select="imgUpload($file, $event)" accept="image/*">
-                <img class="anspic_dis" ng-src="{{imgAnsPrvw[0]}}" ng-hide = "imgAnsPrvw[0] == null">
-            </div>
-
-            <div class="answer">
-                <label class="item item-input item-floating-label ans_inp">
-                    <input type="text" ng-model="qaTask.answers[1].txt" class="wrong-input" placeholder="Add text OR  picture">
-                    <i class="icon ion-close-round wrong"></i>
-                </label>
-                <div class="photo_c">
-                    <label class="photoAns" for="photoAns2">
-                        <img class="photo_ic" src="./img/icons/photo.svg">
-                        <br>Add Pic
-                    </label>
-                </div>
-                <!--<input class="btn inputfile" id="photoAns2" type="file" ng-model="file" accept="image/*" onload="onLoad2" base-sixty-four-input>-->
-                <!--<img class="anspic_dis" ng-src="data:image/jpeg;base64,{{picFile[1].base64}}" ng-hide = "picFile[1] == null">-->
-                <input class="btn inputfile" type="file" id="photoAns2" ngf-select="imgUpload($file, $event)" accept="image/*">
-                <img class="anspic_dis" ng-src="{{imgAnsPrvw[1]}}" ng-hide = "imgAnsPrvw[1] == null">
-            </div>
-
-            <div class="answer">
-                <label class="item item-input item-floating-label ans_inp">
-                    <input type="text" ng-model="qaTask.answers[2].txt" class="wrong-input" placeholder="Add text OR  picture">
-                    <i class="icon ion-close-round wrong"></i>
-                </label>
-                <div class="photo_c">
-                    <label class="photoAns" for="photoAns3">
-                        <img class="photo_ic" src="./img/icons/photo.svg">
-                        <br>Add Pic
-                    </label>
-                </div>
-                <!--<input class="btn inputfile" id="photoAns3" type="file" ng-model="file" accept="image/*" onload="onLoad3" base-sixty-four-input>-->
-                 <!--<img class="anspic_dis" ng-src="data:image/jpeg;base64,{{picFile[2].base64}}" ng-hide = "picFile[2] == null">-->
-                <input class="btn inputfile" type="file" id="photoAns3" ngf-select="imgUpload($file, $event)" accept="image/*">
-                <img class="anspic_dis" ng-src="{{imgAnsPrvw[2]}}" ng-hide = "imgAnsPrvw[2] == null">
-            </div>
-
-            <div class="answer">
-                <label class="item item-input item-floating-label ans_inp">
-                    <input type="text" ng-model="qaTask.answers[3].txt" class="wrong-input" placeholder="Add text OR picture">
-                    <i class="icon ion-close-round wrong"></i>
-                </label>
-                <div class="photo_c">
-                    <label class="photoAns" for="photoAns4">
-                        <img class="photo_ic" src="./img/icons/photo.svg">
-                        <br>Add Pic
-                    </label>
-                </div>
-                <!--<input class="btn inputfile" id="photoAns4" type="file" ng-model="file" accept="image/*" onload="onLoad4" base-sixty-four-input>-->
-                 <!--<img class="anspic_dis" ng-src="data:image/jpeg;base64,{{picFile[3].base64}}" ng-hide = "picFile[3] == null">-->
-                <input class="btn inputfile" type="file" id="photoAns4" ngf-select="imgUpload($file, $event)" accept="image/*">
-                <img class="anspic_dis" ng-src="{{imgAnsPrvw[3]}}" ng-hide = "imgAnsPrvw[3] == null">
-            </div>
         </div>
     </div>
-    
-    <div class="navi">
-        <button class="button button-block button-balanced save_but" ng-click="submitQA(picFilename)">{{'save' | translate}}</button>
-    </div>
-
     </ion-content>
-     <a class="skip_b" ng-click = "noTask()"><p style="<colo></colo>r:white;">CANCEL</p></a>
 </ion-modal-view>

@@ -1,5 +1,18 @@
 /* white Space Tab bug fix */
 
+.subbar {
+    top: 44px;
+    display: block;
+    height: auto;
+}
+
+.subbar-description {
+    width: 100%;
+    text-align: center;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
 .tabs-top > .tabs,
 .tabs.tabs-top {
     top: 0 !important;
@@ -10,24 +23,31 @@
 }
 
 .tabs-positive > .tabs {
-    background-color: #2196F3 !important;
+    background-color: #387ef5 !important;
+}
+
+.searchbar {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
 }
 
 @font-face {
     font-family: sans-serif;
 }
 
-/* NEW HOME PAGE ---------------------------------------- */
+/* HOMESCREEN END */
 
 .person-type {
     background-color: #80DEEA;
-    height: 100%;
+    height: calc(100% - 49px);
     position: relative;
 }
 
 .person-type .player {
     background-color: #64B5F6;
-    height: 45%;
+    height: 50%;
     position: relative;
 }
 
@@ -237,8 +257,8 @@
 
 #smiley {
     position: absolute;
-    right: 0%;
-    top: 2%;
+    right: -6%;
+    top: 10%;
     opacity: 0.7;
     z-index: 999;
     outline: 0;

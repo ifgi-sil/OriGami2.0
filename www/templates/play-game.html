@@ -1,7 +1,15 @@
-<ion-view view-title="{{'play_game' | translate}} - {{}}" cache-view="false">
+<ion-view view-title="{{'play_game' | translate}} - {{gameName}}" cache-view="false">
     <ion-nav-bar class="bar-positive">
         <ion-nav-back-button class="button-clear"></ion-nav-back-button>
     </ion-nav-bar>
+    <div class="bar subbar">
+        <div class="subbar-description">
+            {{waypoint.name}}: {{waypoint.description}}
+        </div>
+    </div>
+    <!-- <div class="bar bar-subheader">
+      <h4 class="title">{{waypoint.name}}: {{waypoint.description}}</h4>
+    </div> -->
 
     <!-- Information about how to play the game -->
     <script id="gameinfo-modal.html" type="text/ng-template">
@@ -80,7 +88,7 @@
 
 
     <!-- Information about the next waypoint -->
-    <script id="waypointinfo-modal.html" type="text/ng-template">
+    <!-- <script id="waypointinfo-modal.html" type="text/ng-template">
         <ion-modal-view>
 
             <ion-content style="height: 100%; background-color:#64B5F6;">
@@ -98,7 +106,7 @@
                 <p class="title">{{'continue' | translate}}</p>
             </ion-footer-bar>
         </ion-modal-view>
-    </script>
+    </script> -->
 
 
     <!-- Notify when waypoint is reached -->
@@ -192,36 +200,38 @@
     <!-- Georefencing Game Modal -->
     <script id="georef-modal.html" type="text/ng-template">
         <ion-modal-view>
-            <!--  <ion-header-bar class="bar-positive">
-                <h1 class="title">{{'geo_refer' | translate}}</h1>
-            </ion-header-bar>  -->
-            <ion-content style="height: 100%;background-color:#64B5F6;">
-                <div class="georef_game">
-                    <img style="max-width:50%; width:50%; max-height:100%;" ng-src="{{geoRefPhoto}}">
-                    <div class="georef_instr">
-                        <div class="content">
-                            <h1>{{'geo_refer' | translate}}</h1>
-
-                            <p>{{'picture_taken' | translate}}</p>
-                            <div class="georef_icon">
-                                <i class="ion-ios-arrow-left"></i>
+            <ion-content style="background-color:#64B5F6;" data-tap-disabled="true">
+                <div class="row responsive-sm">
+                    <div class="col">
+                        <div class="list card">
+                            <div class="item item-avatar" ng-class="{right_ans: answer == true,wrong_ans: answer == false}">
+                                <img src="../img/icons/Map.png">
+                                <h3>{{'geo_refer' | translate}} - {{'picture_taken' | translate}}</h3>
                             </div>
+
+                            <div class="item item-image" ng-hide="task.question.img == ''" ng-style="{'background-image':'url({{geoRefPhoto}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-show="locationPicked" style="text-align: center;" ng-click="leaveGeoRef();modal.remove();">
+                                {{'play_on' | translate}}
+                            </a>
                         </div>
                     </div>
                 </div>
+
+                <div class="map_con">
+                    <leaflet id="geoRefMap" defaults="geoMap.defaults" layers="geoMap.layers" center="geoMap.center" paths="geoMap.paths" geojson="geoMap.geojson" markers="geoMap.markers"  event-broadcast="geoMap.events"></leaflet>
+                </div>
             </ion-content>
-            <ion-footer-bar class="bar-positive" ng-click="modal.remove()">
-                <p class="title">OK</p>
-            </ion-footer-bar>
         </ion-modal-view>
     </script>
 
     <!-- Georefencing result Modal -->
     <script id="georef-result-modal.html" type="text/ng-template">
         <ion-modal-view>
-            <!-- <ion-header-bar class="bar-positive">
+            <ion-header-bar class="bar-positive">
                 <h1 class="title">{{'geo_refer' | translate}}</h1>
-            </ion-header-bar> -->
+            </ion-header-bar>
 
             <ion-content style="height: 100%; background-color:#64B5F6">
                 <div class="plan-route" style="background-color:#64B5F6">
@@ -245,26 +255,98 @@
     <script id="qa-modal.html" type="text/ng-template">
         <ion-modal-view style="padding: 0; margin:0; dispay:block; background-color:#64B5F6; ">
             <ion-content style="height: 100%; width:100%;">
-                <div class="qa_question" ng-class="{right_ans: answer == true,wrong_ans: answer == false}">
-                    <div class="skillbar clearfix">
-                        <div class="skillbar-bar"  timer-progressbar="timeLeft"></div>
-                    </div>
-                    <h1 class="description">{{'answer_instruction' | translate}}</h1>
-                    <ori-qa type="question" qadata="task.question"> </ori-qa>
-                    <button id="fab" ng-show="answerPicked" ng-click="showOutput();modal.remove()" class="button button-positive button-fab" style="background-color:#FFFF00"><i class="icon ion-arrow-right-c" style="color:#1565C0"></i></button>
+                <div class="skillbar clearfix">
+                    <div class="skillbar-bar"  timer-progressbar="timeLeft"></div>
                 </div>
-                <div class="qa_answers">
-                    <div class="answer1" ng-click="chooseAnswer(task.answers[0], 0);timeLeft = -1" ng-class="{'clicked_answ': clicked[0]}">
-                        <ori-qa type="answer" qadata="task.answers[0]"></ori-qa>
+                <div class="row responsive-sm">
+                    <div class="col">
+                        <div class="list card">
+                            <div class="item item-avatar" ng-class="{right_ans: answer == true,wrong_ans: answer == false}">
+                                <img src="../img/icons/question.png">
+                                <h3>{{'answer_instruction' | translate}}</h3>
+                                <h2>{{task.question.txt}}</h2>
+                            </div>
+
+                            <div class="item item-image" ng-hide="task.question.img == ''" ng-style="{'background-image':'url({{task.question.img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-show="answerPicked" style="text-align: center;" ng-click="showOutput();modal.remove()">
+                                {{'play_on' | translate}}
+                            </a>
+                        </div>
                     </div>
-                    <div class="answer2" ng-click="chooseAnswer(task.answers[1], 1);timeLeft = -1" ng-class="{'clicked_answ': clicked[1]}">
-                        <ori-qa type="answer" qadata="task.answers[1]"></ori-qa>
+                </div>
+
+                <div class="row responsive-sm">
+                    <div class="col col-50">
+                        <div class="list card">
+
+                            <div class="item item-avatar" style="text-align: center;">
+                                <img src="../img/icons/one.png">
+                                <h2>{{task.answers[0].txt}}</h2>
+                            </div>
+
+                            <div class="item item-image" ng-hide="task.answers[0].img == ''" ng-style="{'background-image':'url({{task.answers[0].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-class="answers[0]" style="text-align: center;" ng-click="chooseAnswer(task.answers[0], 0);timeLeft = -1">
+                                {{'answer_select' | translate}}
+                            </a>
+
+                        </div>
                     </div>
-                    <div class="answer3" ng-click="chooseAnswer(task.answers[2], 2);timeLeft = -1" ng-class="{'clicked_answ': clicked[2]}">
-                        <ori-qa type="answer" qadata="task.answers[2]"></ori-qa>
+                    <div class="col col-50">
+                        <div class="list card">
+
+                            <div class="item item-avatar" style="text-align: center;">
+                                <img src="../img/icons/two.png">
+                                <h2>{{task.answers[1].txt}}</h2>
+                            </div>
+
+                            <div class="item item-image" ng-hide="task.answers[1].img == ''"  ng-style="{'background-image':'url({{task.answers[1].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-class="answers[1]" style="text-align: center;" ng-click="chooseAnswer(task.answers[1], 1);timeLeft = -1">
+                                {{'answer_select' | translate}}
+                            </a>
+
+                        </div>
                     </div>
-                    <div class="answer4" ng-click="chooseAnswer(task.answers[3], 3);timeLeft = -1" ng-class="{'clicked_answ': clicked[3]}">
-                        <ori-qa type="answer" qadata="task.answers[3]"></ori-qa>
+                </div>
+                <div class="row responsive-sm">
+                    <div class="col col-50">
+                        <div class="list card">
+
+                            <div class="item item-avatar" style="text-align: center;">
+                                <img src="../img/icons/three.png">
+                                <h2>{{task.answers[2].txt}}</h2>
+                            </div>
+
+                            <div class="item item-image" ng-hide="task.answers[2].img == ''" ng-style="{'background-image':'url({{task.answers[2].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-class="answers[2]" style="text-align: center;" ng-click="chooseAnswer(task.answers[2], 2);timeLeft = -1">
+                                {{'answer_select' | translate}}
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col col-50">
+                        <div class="list card">
+
+                            <div class="item item-avatar" style="text-align: center;">
+                                <img src="../img/icons/four.png">
+                                <h2>{{task.answers[3].txt}}</h2>
+                            </div>
+
+                            <div class="item item-image" ng-hide="task.answers[3].img == ''" ng-style="{'background-image':'url({{task.answers[3].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
+                            </div>
+
+                            <a class="item item-icon" ng-class="answers[3]" style="text-align: center;" ng-click="chooseAnswer(task.answers[3], 3);timeLeft = -1">
+                                {{'answer_select' | translate}}
+                            </a>
+
+                        </div>
                     </div>
                 </div>
             </ion-content>
@@ -300,11 +382,12 @@
     <div class="bar bar-subheader bar-assertive" ng-show="showInfo" class="ng-show">
         <h2 class="title">{{subHeaderInfo}}</h2>
     </div>
-
+    
+    <!-- Main Game Map during game play -->
     <ion-content scroll=false data-tap-disabled="true">
         <div class="map-container" ng-controller="StudentMapCtrl">
             <div id="map">
-                <leaflet defaults="map.defaults" layers="map.layers" center="map.center" paths="map.paths" markers="map.markers" event-broadcast="map.events" ng-if="map"></leaflet>
+                <leaflet id="playMap" defaults="map.defaults" layers="map.layers" center="map.center" paths="map.paths" markers="map.markers" event-broadcast="map.events" ng-if="map"></leaflet>
             </div>
             <div id="smiley" class="smiley">
                 <canvas class="smiley" smiley></canvas>
@@ -312,7 +395,7 @@
             </div>
             <div id="button-container">
                 <!--Button to display modal with waypoint info (hide during georeferencing task) -->
-                <button class="button button-fab map-button next {{geoLocButtonColor}} icon ion-information waves-effect waves-button waves-light" ng-click="showWaypointInfoModal()" ng-hide="task.type == 'GeoReference'"></button>
+                <!-- <button class="button button-fab map-button next {{geoLocButtonColor}} icon ion-information waves-effect waves-button waves-light" ng-click="showWaypointInfoModal()" ng-hide="task.type == 'GeoReference'"></button> -->
                 <!--Button to display modal georeferencing question -->
                 <button class="button button-fab map-button next {{geoLocButtonColor}} icon ion-help waves-effect waves-button waves-light" ng-click="performGeoReferencingTask()" ng-show="task.type == 'GeoReference'"></button>
                 <!--Button to dislpay player's position on map as icon. Icon is hidden after 5 seconds -->

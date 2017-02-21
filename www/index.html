@@ -5,11 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <!-- <meta http-equiv="Content-Security-Policy" content="img-src * data:; default-src *; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'"> -->
-    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="img-src * data:; default-src *; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     <title></title>
 
-    <link href="assets/ionic-sdk/release/css/ionic.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/ionic-material/dist/ionic.material.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/ionic-sdk/release/css/ionic.min.css" rel="stylesheet">
     
     <link href="css/style.css" rel="stylesheet">
     <link href="css/game.css" rel="stylesheet">
@@ -19,6 +18,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300itlic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
     -->
     <link rel="stylesheet" href="assets/leaflet/dist/leaflet.css" type="text/css" />
+    <link rel="stylesheet" href="assets/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css">
 
     <!-- ionic material js -->
     <script src="assets/jquery/dist/jquery.min.js" type="text/javascript"></script>
@@ -38,6 +38,7 @@
     <!-- ionic leaflet -->
     <script src="assets/leaflet/dist/leaflet.js" type="text/javascript"></script>
     <script src="assets/ui-leaflet/dist/ui-leaflet.min.js" type="text/javascript"></script>
+    <script src="assets/leaflet-extra-markers/dist/js/leaflet.extra-markers.min.js"></script>
     <script src="assets/angular-simple-logger/dist/angular-simple-logger.light.min.js" type="text/javascript"></script>
     <script src="assets/ionic-material/dist/ionic.material.min.js" type="text/javascript"></script>    
     
@@ -58,15 +59,41 @@
     <script src="js/statController.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
+    <script src="js/services/map.js"></script>
     <script src="js/directives.js"></script>
-    <script src="js/map-controllers/geoController.js"></script>
+    <!-- <script src="js/map-controllers/geoController.js"></script>
     <script src="js/map-controllers/aidController.js"></script>
-    <script src="js/map-controllers/pathController.js"></script>
+    <script src="js/map-controllers/pathController.js"></script> -->
+    <!-- <script src="js/controllers/teacher.js"></script> -->
+    <script src="js/controllers/game.creation.js"></script>
 </head>
 
     
 <body ng-app="starter">
-    <ion-nav-view></ion-nav-view>
+    <ion-nav-view>
+        
+    </ion-nav-view>
+    <ion-tabs class="tabs-icon-top tabs-positive">
+        <!-- Home menu tab -->
+        <ion-tab title="" icon="ion-ios-home" ui-sref="tab.home">
+          <ion-nav-view name="tab-home"></ion-nav-view>
+        </ion-tab>
+
+        <!-- About us tab -->
+        <ion-tab title="" icon-off="ion-chatbubbles" icon-on="ion-chatbubbles" href="#/tab/languages">
+          <ion-nav-view name="languages-tab"></ion-nav-view>
+        </ion-tab>
+        <!-- LeaderBoards -->
+
+        <ion-tab title="" icon-off="ion-trophy" icon-on="ion-trophy" href="#/tab/leaders">
+          <ion-nav-view cache-view="false" name="leaders-tab"></ion-nav-view>
+        </ion-tab>
+
+        <!-- Stats -->
+        <!-- <ion-tab title="" icon-off="ion-stats-bars" icon-on="ion-stats-bars" href="#/tab/stats">
+          <ion-nav-view cache-view="false" name="stat-tab"></ion-nav-view>
+        </ion-tab> -->
+    </ion-tabs>
 </body>
 
 </html>

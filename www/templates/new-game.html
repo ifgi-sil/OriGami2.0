@@ -1,16 +1,14 @@
 <ion-view view-title="{{currentAction}}">
-    <ion-content>
-        <div class="game-backg">
-            <h2>{{currentAction}}</h2>
-            <div class="game-type">
-
-                <button class="button icon-left ion-arrow-graph-up-right" style="background-color:#FFEB3B" ui-sref="tab.pathplan" ng-click="pathGame()" style="color:black;width:50px;">{{'find_destination' | translate}}</button>
-                <button class="button icon-right ion-location" style="background-color:#2196F3" ui-sref="tab.aidnavig" ng-click="aidGame()" style="color:black;">{{'follow_route' | translate}}</button>
-
-            </div>
-            <button class="button button-fab button-fab-top-right button-positive icon ion-checkmark-round waves-effect waves-button waves-light" ng-click="submitGame()"></button>
-            <button class="button button-fab button-fab-top-left button-positive icon ion-chevron-left waves-effect waves-button waves-light" ng-click="cancelGame()"></button>
-        </div>
+    <ion-header-bar align-title="center" class="bar-positive">
+      <div class="buttons">
+        <button class="button button-icon icon ion-close-round" ng-click="goBack()"></button>
+      </div>
+      <h1 class="title">{{currentAction}}</h1>
+      <div class="buttons">
+        <button class="button button-icon icon ion-archive" ng-click="submitGame()"></button>
+      </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
         <label class="item item-input input-info" ng-class="border">
             <span class="input-label">{{'game_title' | translate}}</span>
             <input type="text" ng-model="newgame.title" placeholder="{{'game_title' | translate}}" required>
@@ -21,7 +19,7 @@
         </label>
         <label class="item item-input input-info">
             <span class="input-label">{{'time_compl' | translate}}</span>
-            <input type="text" ng-model="newgame.time" placeholder="{{'time_descr' | translate}}" required>
+            <input type="number" min="1" step="1" ng-model="newgame.time" placeholder="{{'time_descr' | translate}}" required>
         </label>
         <div class="item item-input input-info">
             <span class="input-label">{{'difficulty' | translate}}</span>
@@ -41,35 +39,48 @@
               <a ng-click = "rateGame(4)">
                   <i class = {{diff[4]}} style="font-size:2em;color:#FFEB3B;"></i>
                </a>
-          </span>
+            </span>
         </div>
-        <!-- <input type="text" ng-model = "newgame.difficulty" placeholder="How difficult this game is?" required> -->
-
-
-        <ion-list>
-            <div ng-repeat="act in navactivities">
-                <ion-item class="item-positive item-icon-left item-icon-right assertive activity-new" ng-click="toggleActivity(act)" ng-class="{active: isActivityShown(act)}">
-                    <i class="icon" ng-class="isActivityShown(act) ? 'ion-minus' : 'ion-plus'"></i>
-                    <p style="font-size:2em; height: 50%;">{{act.type}}</p>
-                    <p>{{'number_points' | translate}}: {{act.points.length}}</p>
-                </ion-item>
-                <ion-item class="item-accordion" ng-repeat="item in act.points" ng-show="isActivityShown(act)">
-                    <div class="points-cont">
-                        <div class="location-icon">
-                            <i class="location-icon icon ion-location"> {{item.name}}</i>
-                        </div>
-                        <p>{{'tasks' | translate}}: {{item.tasks.length}}</p>
-                        <div class="new-task">
-                            <i class="icon ion-plus-circled" ng-click="addTaskPoint(act,item)" ui-sref="tab.tasktype">  New</i>
-                        </div>
-                        <div class="all-tasks">
-                            <i class="icon ion-ios-list-outline" ui-sref="tab.tasktype"> All</i>
-                        </div>
-                    </div>
-                </ion-item>
+        <div class="content_map" style="height: 300px;" data-tap-disabled="true">
+            <leaflet id="editMap" defaults="editMap.defaults" layers="editMap.layers" lf-center="center" markers="waypoints"></leaflet>
+        </div>
+        <div class="row responsive-sm" ng-hide="selectedWaypoint === undefined">
+            <div class="col col-50">
+                <div class="card">
+                  <div class="item item-divider">
+                    Waypoint {{selectedWaypoint.icon.number}}
+                  </div>
+                  <div class="item item-text-wrap" style="padding-left: 0px; padding-right: 0px;">
+                    <label class="item item-input input-info" ng-class="border">
+                        <span class="input-label">{{'name' | translate}}</span>
+                        <input type="text" ng-model="selectedWaypoint.name" placeholder="{{'game_title' | translate}}" required>
+                    </label>
+                    <label class="item item-input input-info">
+                        <span class="input-label">{{'instructions' | translate}}</span>
+                        <textarea style="resize: none;" name="instructions" rows="4" ng-model="selectedWaypoint.description" required> </textarea>
+                    </label>
+                  </div>
+                </div>
             </div>
-        </ion-list>
-
-
+            <div class="col col-50">
+                <div class="card">
+                  <div class="item item-divider padding">
+                    <button class="button icon ion-ios-minus-outline" ng-click="data.showDelete = !data.showDelete; data.showReorder = false">
+                        Tasks
+                    </button>
+                  </div>
+                  <ion-list show-delete="data.showDelete">
+                    <ion-item ng-repeat="task in selectedWaypoint.tasks">
+                        <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(task)">
+                        </ion-delete-button>
+                        {{task.question.txt}}{{task.txt}} | {{task.type}}
+                        <button class="button button-small button-positive" ng-click="editTask(task)">
+                            <i class="icon ion-edit"></i>
+                        </button>
+                    </ion-item>
+                  </ion-list>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

@@ -1,20 +1,24 @@
 <ion-view view-title="Available games" style="background-color:#64B5F6;" view-title="Available Games">
-    <div style="position:fixed; top:2%; width:100%;">
-        <h2 class="techm_h">Choose the Game</h2>
-        <i class="ion-arrow-left-c back_icon" ng-click="cancelGame()"></i>
-        <!-- <button ng-click = "createFile()">ASDGFASDGASDG</button> -->
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-arrow-left-c" ng-click="cancelGame()"></button>
+        </div>
+        <h1 class="title">{{ "choose_game" | translate}}</h1>
+    </ion-header-bar>
+    <div class="bar bar-subheader">
+      <input class="searchbar" type="text" placeholder="{{'search' | translate}}" ng-model="searchTerm.name">
     </div>
-    <ion-content style="height:90%;top:10%;">
+    <ion-content class="has-header has-subheader">
         <!-- Display error message if http request fails to fetch games -->
-       <div class="padding ui-feedback" ng-show="error_msg != null">
+       <!-- <div class="padding ui-feedback" ng-show="error_msg != null">
             <div class="ui-feedback-icon">
                 <i class="ion-wifi"></i>
             </div>
             <div class="ui-feedback-message">{{error_msg}}</div>
-        </div>
-        <div class="list card calm-bg download_tiles" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name'">
-            <a ng-click="gameSelect(game.name)" style="width:100%;height:100%;">
-
+        </div> -->
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name' | filter:searchTerm:strict">
+            <a ng-click="gameSelect(game.name)">
 
                 <div class="item game-desc">
                     <h2>{{game.name}}</h2>
@@ -26,32 +30,10 @@
                         <i class={{game.diff[3]}} style="font-size:4vh;color:#2196F3;"></i>
                         <i class={{game.diff[4]}} style="font-size:4.5vh;color:#2196F3;"></i>
                     </div>
-                   <!-- <h2 style="margin-top:10px;">Best Score: {{game.maxp}} </h2> -->
-
-
+                </div>
+                <div class="item item-body teachm_menu">
                     <button id="fab" class="button button-balanced icon ion-ios-game-controller-b-outline button-fab button-fab-bottom-right" ng-click="gameSelect(game.name)">
                 </div>
-                <!-- <div class="item item-avatar game-desc">
-                    <img src="./img/navigation.png">
-                    <h2>{{game.name}}</h2>
-                    <div style="display:inline-flex;">
-                        <span class="input-label">{{'difficulty' | translate}}: </span>
-                        <i class={{game.diff[0]}} style="font-size:2em;color:#03A9F4;"></i>
-                        <i class={{game.diff[1]}} style="font-size:2em;color:#03A9F4;"></i>
-                        <i class={{game.diff[2]}} style="font-size:2em;color:#03A9F4;"></i>
-                        <i class={{game.diff[3]}} style="font-size:2em;color:#03A9F4;"></i>
-                        <i class={{game.diff[4]}} style="font-size:2em;color:#03A9F4;"></i>
-                    </div>
-                </div>
-                <div class="item item-body game-desc">
-                    <span>
-                       {{game.description}}
-                    </span>
-                    <p>
-                        <a class="subdued"> <i class="icon ion-clock" style="font-size:20px;"></i> {{game.timecompl}}</a>
-                    </p>
-
-                    <button id="fab" class="button button-balanced icon ion-ios-game-controller-b-outline button-fab button-fab-bottom-right" ng-click="gameSelect(game.name)"> -->
             </a>
         </div>
     </ion-content>

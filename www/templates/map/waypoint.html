@@ -1,22 +1,31 @@
 <ion-modal-view>
+    <ion-header-bar align-title="center" class="bar-positive">
+      <div class="buttons">
+        <button class="button button-icon icon ion-close-round" ng-click="modal.remove()"></button>
+      </div>
+      <h1 class="title">{{'new_game' | translate}}</h1>
+      <div class="buttons">
+        <button ng-disabled="game.invalidWaypointForm" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.saveWayPoint()"></button>
+      </div>
+    </ion-header-bar>
     <ion-content style="height: 100%; background-color: #64B5F6;">
-         <a class="skip_b" ng-click="modal.remove()"><p style="color:white;">CANCEL</p></a>
-        <div class="newpoint_modal">
-             <img src="./img/icons/marker.svg">
-            <h2>New Point</h2>
-            <div class="point_cont">
-                <div class="point_info">
-                    <div class="point_inp">
-                        <span class="input-label">{{'name' | translate}}</span>
-                        <input type="text" ng-model="newWaypoint.name" placeholder="" ng-minlength="1" ng-maxlength="100" required ng-class="name_border">
+        <div class="page_maininfo">
+            <div class="page_content">
+                <div class="content">
+                    <div class="main_info">
+                        <img src="./img/icons/marker.svg">
+                        <h2>New Point</h2>
+                        <form name="newWaypoint" novalidate>
+                            <div class="row">
+                              <span class="input-label">{{'name' | translate}}</span>
+                              <input name="waypointName"  type="text" ng-model="game.newWaypoint.name" ng-change="game.submit(newWaypoint.$invalid)" required>
+                            </div>
+                            <div class="row">
+                              <span class="input-label">{{'instructions' | translate}}</span>
+                              <textarea style="resize: vertical;" name="waypointDescription" rows="4" ng-model="game.newWaypoint.description" ng-change="game.submit(newWaypoint, newWaypoint.$invalid)" ng-maxlength="500" required> </textarea>
+                            </div>
+                        </form>
                     </div>
-                    <div class="point_inp">
-                        <span class="input-label" ng-class="description_border">{{'instructions' | translate}}</span>
-                        <input type="text" ng-model="newWaypoint.description" ng-minlength="1" ng-maxlength="500" required ng-class="name_border">
-                    </div>
-                </div>
-                <div class="point_butt">
-                    <button class="button button-block button-balanced save_but" ng-click="saveWayPoint()">{{'save' | translate}}</button>
                 </div>
             </div>
         </div>

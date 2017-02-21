@@ -122,7 +122,7 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
             views: {
                 'tab-home': {
                     templateUrl: 'templates/creategame.html',
-                    controller: 'TeacherCtrl'
+                    controller: 'GameCreationController as game'
                 }
             }
         })

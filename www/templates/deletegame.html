@@ -1,0 +1,26 @@
+<ion-modal-view>
+    <ion-header-bar align-title="center" class="bar-positive">
+      <div class="buttons">
+        <button class="button button-icon icon ion-close-round" ng-click="modal.remove()"></button>
+      </div>
+      <h1 class="title">{{'delete_game' | translate}}</h1>
+      <div class="buttons">
+        <button ng-disabled="game.invalidWaypointForm" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.saveWayPoint()"></button>
+      </div>
+    </ion-header-bar>
+    <ion-content style="height: 100%; background-color: #64B5F6;">
+        <div class="page_maininfo">
+            <div class="page_content">
+                <div class="content">
+                    <div class="main_info">
+                        <img src="../img/icons/trash.png">
+                        <h2>{{'delete_game_info' | translate}}</h2>
+                        <button class="button icon-left ion-trash-a button-calm" ng-click="deleteItem(item,'{{item.name}}')">
+                          {{'DELETE' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

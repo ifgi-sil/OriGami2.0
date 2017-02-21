@@ -1,27 +1,30 @@
-<ion-modal-view  style="height:75%; " >
+<ion-modal-view  style="height:100%;">
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-close-round" ng-click="game.noTask()"></button>
+        </div>
+        <h1 class="title">GeoReference Task</h1>
+        <div class="buttons">
+            <button ng-disabled="game.geoTask.img === '../../img/icons/upload.png' || game.gameMap.markers.length === 0" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.submitGRTask()"></button>
+        </div>
+    </ion-header-bar>
     <ion-content class="geor_p" style="background-color:#FCC929;" data-tap-disabled="true">
-        <h2>GeoReference Task</h2>
         <p>Place the marker at the position from where the photo was taken</p>
-        <div class="photo_div">
-            <div class="photo_ic">
-                <!--<img class="upl_ph"  ng-src="data:image/jpeg;base64,{{georP.base64}}" ng-hide = "georP == null">-->
-                <img ng-src="{{georefPicPrvw}}" ng-show="geoTask.photo">
+        <div class="list" style="margin-left: 1%; margin-right: 1%;">
+            <div class="item item-thumbnail-left">
                 <div>
-                    <img class="cam_icon" src="./img/icons/camera.svg">
-                    <label for="georefPic">Add Photo</label>
+                    <label for="georefPic">
+                        <img class="photo_ic" width="64" height="64" ng-src="{{game.geoTask.img}}">
+                        <h5>Add Pic</h5>
+                    </label>
+                    <input class="btn inputfile" type="file" id="georefPic" ngf-select="game.imgUpload($file, $event)" accept="image/*">
                 </div>
+                <textarea rows="3" style="width: 100%; resize: none; line-height: 1.2;" ng-model="game.geoTask.txt" placeholder="Add text or choose image"> </textarea>
             </div>
-            <input class="btn inputfile" type="file" id="georefPic" ngf-select="imgUpload($file, $event)" accept="image/*">
-             <!--<input class="btn inputfile" id="photoPC" type="file" ng-model="file" accept="image/*" onload="onLoadG" base-sixty-four-input>-->
         </div>
 
         <div class="map_con">
-            <leaflet defaults="gameMap.defaults" layers="gameMap.layers" center="gameMap.center" paths="gameMap.paths" geojson="gameMap.geojson" markers = "gameMap.markers"  event-broadcast="gameMap.events"></leaflet>
-        </div>
-
-        <div class="navi">
-            <button class="button button-block button-balanced save_but" ng-click="submitGR()">{{'save' | translate}}</button>
+            <leaflet id="gameMap" defaults="game.gameMap.defaults" layers="game.gameMap.layers" center="game.gameMap.center" paths="gameMap.paths" geojson="gameMap.geojson" markers="game.gameMap.markers"  event-broadcast="game.gameMap.events"></leaflet>
         </div>
     </ion-content>
-     <a class="skip_b" ng-click = "noTask();"><p style="color:white;">CANCEL</p></a>
 </ion-modal-view>

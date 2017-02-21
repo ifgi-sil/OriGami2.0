@@ -3,22 +3,32 @@
         <div class="tasktp_con">
             <h2>New Task</h2>
             <div class="task_ts">
-                <a ng-click="addQAtask()">
+                <a ng-click="game.addQAtask()">
                     <div class="task_t quiz_t">
                         <div class="picture"> <img src="./img/icons/Chat-2.png" /></div>
                         <div class="description">
-                            <h2>Question - Answer Game</h2></div>
+                            <h2>Question - Answer Game</h2>
+                        </div>
                     </div>
                 </a>
-                <a ng-click="addGRtask()">
+                <a ng-click="game.addGRtask()">
                     <div class="task_t gref_t">
                         <div class="picture"> <img src="./img/icons/Map.png" /></div>
                         <div class="description">
-                            <h2>GeoReference Game</h2></div>
+                            <h2>GeoReference Game</h2>
+                        </div>
+                    </div>
+                </a>
+                <a ng-click="modal.remove()">
+                    <div class="task_t quiz_t">
+                        <div class="picture"> <img src="./img/icons/NoTask.png" /></div>
+                        <div class="description">
+                            <h2 ng-show="game.numberTask === 0">No Task</h2>
+                            <h2 ng-hide="game.numberTask === 0">No further Task</h2>
+                        </div>
                     </div>
                 </a>
             </div>
         </div>
     </ion-content>
-    <a  class="skip_b" ng-click="modal.remove()"><p>SUBMIT</p></a>
 </ion-modal-view>
