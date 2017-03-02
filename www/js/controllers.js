@@ -2,9 +2,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
 .controller('HomeCtrl', function ($scope) {})
 
-.controller('GamesCtrl', [ '$rootScope', '$scope', '$http', '$location', '$ionicModal', '$window', '$timeout', 
-                            '$ionicPopup', '$ionicHistory', '$translate', 'API', 'Data', 
-                            function ($rootScope, $scope, $http, $location, $ionicModal, $window, $timeout, 
+.controller('GamesCtrl', [ '$rootScope', '$scope', '$http', '$location', '$ionicModal', '$window', '$timeout',
+                            '$ionicPopup', '$ionicHistory', '$translate', 'API', 'Data',
+                            function ($rootScope, $scope, $http, $location, $ionicModal, $window, $timeout,
                                         $ionicPopup, $ionicHistory, $translate, API, Data) {
 
     // Info Popups --------------------------------------
@@ -85,9 +85,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
 }])
 
-.controller('TeacherCtrl', ['$rootScope', '$scope', '$timeout', '$ionicModal', '$window', '$ionicHistory', 
-                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit', 
-                            function ($rootScope, $scope, $timeout, $ionicModal, $window, $ionicHistory, 
+.controller('TeacherCtrl', ['$rootScope', '$scope', '$timeout', '$ionicModal', '$window', '$ionicHistory',
+                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit',
+                            function ($rootScope, $scope, $timeout, $ionicModal, $window, $ionicHistory,
                                     $translate, $ionicSlideBoxDelegate, $cordovaCamera, $q, API, Edit) {
     // List of all available games fetched from the server
     $scope.list = [];
@@ -379,19 +379,19 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             var isQuestion = false;
 
             switch($event.target.id) {
-                case 'photoAns1': 
+                case 'photoAns1':
                     picIndex = 0;
                     break;
-                case 'photoAns2': 
+                case 'photoAns2':
                     picIndex = 1;
                     break;
-                case 'photoAns3': 
+                case 'photoAns3':
                     picIndex = 2;
                     break;
-                case 'photoAns4': 
+                case 'photoAns4':
                     picIndex = 3;
                     break;
-                case 'photoQuestion': 
+                case 'photoQuestion':
                     isQuestion = true;
                     break;
                 case 'georefPic':
@@ -410,7 +410,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 }
                 $scope.$apply();
             }
-            
+
             reader.readAsDataURL(file);
 
             upload.then(function(res) {
@@ -464,7 +464,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.onLoadG = function (e, reader, file, fileList, fileOjects, fileObj) {
         $scope.georP = fileObj;
     };
-    
+
     $scope.submitGR = function (img_file) {
         /*Creation of game content */
         $scope.geoTask.type = "GeoReference";
@@ -628,11 +628,11 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 }])
 
 // Controller which controls new GAME creation
-.controller('NewGameCtrl', ['$rootScope', '$scope', '$state', '$http', '$location', '$cordovaGeolocation', '$ionicModal', 
-                            '$window', '$ionicPopup', '$ionicHistory', '$stateParams', '$cordovaCamera', 
+.controller('NewGameCtrl', ['$rootScope', '$scope', '$state', '$http', '$location', '$cordovaGeolocation', '$ionicModal',
+                            '$window', '$ionicPopup', '$ionicHistory', '$stateParams', '$cordovaCamera',
                             '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 'MapService',
                             function ($rootScope, $scope, $state, $http, $location, $cordovaGeolocation, $ionicModal,
-                                        $window, $ionicPopup, $ionicHistory, $stateParams, $cordovaCamera, 
+                                        $window, $ionicPopup, $ionicHistory, $stateParams, $cordovaCamera,
                                         $translate, leafletData, API, Edit, Data, Task, MapService) {
 
     /* Game Parameters ----- */
@@ -647,11 +647,11 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.data = {
         showDelete: false
       };
-      
+
       $scope.onItemDelete = function(item) {
         $scope.selectedWaypoint.tasks.splice($scope.selectedWaypoint.tasks.indexOf(item), 1);
       };
-      
+
       $scope.items = [
         { id: 0 },
         { id: 1 },
@@ -688,7 +688,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             title: Edit.getGame().name,
             description: Edit.getGame().description,
             time: Edit.getGame().timecompl,
-            difficulty: Edit.getGame().difficulty
+            difficulty: Edit.getGame().difficulty,
+            players: Edit.getGame().players
         };
 
         $scope.navactivities = Edit.getGame().activities;
@@ -699,7 +700,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         Edit.resetActivities();
 
         $scope.rateGame(Edit.getGame().difficulty - 1);
-        
+
         // Center map on first waypoint
         $scope.center = {
             lat: $scope.navactivities[0].points[0].lat,
@@ -767,9 +768,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         },
         showSlideButtons: function () {
             return {
-                showPrevious: false, 
-                showNext: false, 
-                saveButton: true 
+                showPrevious: false,
+                showNext: false,
+                saveButton: true
             }
         },
         submitQA: function (img) {
@@ -1054,7 +1055,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     // Two main buttons - one, which submits the complete game to the server and one, which cancels the entire progress of creation
     $scope.submitGame = function () {
-        if ($scope.newgame.title != null) { // Check if the title is not empty 
+        if ($scope.newgame.title != null) { // Check if the title is not empty
             $scope.border = "black";
 
             $scope.completeGame = {
@@ -1062,7 +1063,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 description: $scope.newgame.description,
                 timecompl: $scope.newgame.time,
                 difficulty: $scope.newgame.difficulty,
-                activities: $scope.navactivities
+                activities: $scope.navactivities,
+                players: $scope.newgame.players
             };
 
             if (Edit.getGame() != null) {
@@ -1120,9 +1122,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 }])
 
 // controller for gameplay
-.controller('PlayCtrl', ['$scope', '$stateParams', '$ionicModal', '$ionicPopup', '$ionicLoading', '$location', '$cordovaSocialSharing', 
+.controller('PlayCtrl', ['$scope', '$stateParams', '$ionicModal', '$ionicPopup', '$ionicLoading', '$location', '$cordovaSocialSharing',
                          '$translate', '$timeout', '$cookies', 'GameData', 'GameState', 'API', 'PathData', 'PlayerStats', 'MapService', 'leafletData',
-                         function ($scope, $stateParams, $ionicModal, $ionicPopup, $ionicLoading, $location,  $cordovaSocialSharing, 
+                         function ($scope, $stateParams, $ionicModal, $ionicPopup, $ionicLoading, $location,  $cordovaSocialSharing,
                                     $translate, $timeout, $cookies, GameData, GameState, API, PathData, PlayerStats, MapService, leafletData) {
     $scope.gameName = $stateParams.gameName;
     $scope.gameLoaded = false;
@@ -1149,7 +1151,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     var initGame = function () {
         GameState.resetAll();
         $translate.use(GameData.getConfig('language'));
-        $scope.TIME_LIMIT = GameData.getConfig('qaTimeLimit'); // time limit to answer question (in seconds) 
+        $scope.TIME_LIMIT = GameData.getConfig('qaTimeLimit'); // time limit to answer question (in seconds)
         $scope.gameLoaded = true;
         $scope.player = {};
         getPlayerName();
@@ -1191,7 +1193,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             handleNextWaypoint();
         }
     };
- 
+
     $scope.showWaypointInfoModal = function() {
         createModal('waypointinfo-modal.html', 'wpinfo');
     };
@@ -1432,7 +1434,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
             $scope.shareButtons = true;
         }, 1200);
         showResults();
-        
+
         API.addPlayerInfo(info); // Add score to player array for this game
         $scope.$broadcast('gameOverEvent');
 
@@ -1450,8 +1452,8 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     var showResults = function () {
         API.getOne($scope.gameName)
             .success(function (data, status, headers, config) {
-                $scope.players = data.slice()[0].players;
-                
+                $scope.players = data.slice()[0].players || [];
+
                 var addLeader = function () {
                     $scope.players.push($scope.player);
                     /* Comparison function in order to get three best players */
@@ -1465,7 +1467,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                     };
                     $scope.players.sort(compare);
                 };
-                
+
                 $scope.bestPlayers = function () {
                     addLeader();
                     var maxResults = 10;
@@ -1560,7 +1562,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         });
         $scope.$emit('geoRefMarkedEvent', $scope.distance);
     }
-    
+
     GameData.loadGame($scope.gameName).then(initGame, gameLoadFailure);
 }])
 
@@ -1568,13 +1570,13 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
  * - Only shows waypoint and emits signal when waypoint is reached or georeference game is played
  * - Is not concerned with GameState or the game progression logic - that is a job for PlayCtrl
  */
-.controller('StudentMapCtrl', ['$scope', '$rootScope', '$cordovaGeolocation', '$stateParams', '$ionicModal', '$ionicLoading', 
+.controller('StudentMapCtrl', ['$scope', '$rootScope', '$cordovaGeolocation', '$stateParams', '$ionicModal', '$ionicLoading',
                                 '$timeout', 'leafletData', '$translate', 'GameData', 'PathData', 'PlayerStats',
-                                function ($scope, $rootScope, $cordovaGeolocation, $stateParams, $ionicModal, $ionicLoading, 
+                                function ($scope, $rootScope, $cordovaGeolocation, $stateParams, $ionicModal, $ionicLoading,
                                             $timeout, leafletData, $translate, GameData, PathData, PlayerStats) {
 
     $scope.waypointLoaded = false;
-    // $scope.allowEdit = false; // flag to toggle map editing when marking in georeferencing game  
+    // $scope.allowEdit = false; // flag to toggle map editing when marking in georeferencing game
     $scope.showMarker = false;
 
     // Initialize map after game is loaded. Needed because config settings are in game data
@@ -1594,9 +1596,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 tileLayer: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                 maxNativeZoom: GameData.getConfig('map.maxNativeZoom'),
                 maxZoom: GameData.getConfig('map.maxZoom'),
-                doubleClickZoom: GameData.getConfig('map.enableZoom'), 
-                touchZoom: GameData.getConfig('map.enableZoom'), 
-                scrollWheelZoom: GameData.getConfig('map.enableZoom'), 
+                doubleClickZoom: GameData.getConfig('map.enableZoom'),
+                touchZoom: GameData.getConfig('map.enableZoom'),
+                scrollWheelZoom: GameData.getConfig('map.enableZoom'),
                 zoomControl : GameData.getConfig('map.enableZoom'),
                 zoomControlPosition: GameData.getConfig('map.zoomControlPosition'),
                 controls: {
@@ -1652,7 +1654,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 lng: 0,
                 zoom: GameData.getConfig('map.defaultZoom')
             },
-            markers: {}, // must be initialized even if empty, else markers and paths won't show up later 
+            markers: {}, // must be initialized even if empty, else markers and paths won't show up later
             paths: {}
         };
 
@@ -1957,7 +1959,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
     $scope.toggleGeoLocation = function (showInfo) {
         if ($scope.getRealTimePos == false) {
             $scope.getRealTimePos = true;
-            
+
             // Geolocation is now ON
             if (showInfo) {
                 $ionicLoading.show({
