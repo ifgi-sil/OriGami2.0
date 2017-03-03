@@ -264,7 +264,7 @@
 							<div class="item item-avatar" ng-class="{right_ans: answer == true,wrong_ans: answer == false}">
 								<img src="../img/icons/question.png">
 								<h3>{{'answer_instruction' | translate}}</h3>
-								<h2>{{task.question.txt}}</h2>
+								<span style="word-wrap: break-word; width: 100%; display: block; white-space: normal;">{{task.question.txt}}</span>
 							</div>
 
 							<div class="item item-image" ng-hide="task.question.img == ''" ng-style="{'background-image':'url({{task.question.img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
