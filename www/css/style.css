@@ -958,7 +958,7 @@
     color: #ffffff;
     display: block;
     text-align: center;
-    font-size: 5vw;
+    /*font-size: 5vw;*/
     font-weight: 700;
 }
 
@@ -978,13 +978,13 @@
 .playerNameInput .button {
     display: table-cell;
     margin: 2vw;
-    font-size: 3vw;
+    /*font-size: 3vw;*/
 }
 
 .playerNameInput input {
-    font-size: 3vw;
+    /*font-size: 3vw;*/
 }
 
 .playerNameInput label {
-    height: 4vw;
+    /*height: 4vw;*/
 }

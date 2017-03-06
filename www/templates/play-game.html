@@ -71,12 +71,10 @@
 				</div>
 				<div class="playerNameInput" ng-show="newPlayer==true">
 					<h1>Please enter your name</h1>
-					<div class="list">
-						<div class="item item-input-inset">
-							<label class="item-input-wrapper">
-								<input type="text" placeholder="name" ng-model="player.name">
-							</label>
-						</div>
+					<div class="card">
+					  <div class="item item-text-wrap">
+					    <input type="text" placeholder="name" ng-model="player.name">
+					  </div>
 					</div>
 					 <div class="playerNameButtonContainer">
 						 <button class="button button-positive" ng-show="player.name" ng-click="setPlayerName(player.name); modal.remove()"> OK </button>
