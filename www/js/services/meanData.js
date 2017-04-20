@@ -4,7 +4,7 @@
     angular
         .module('starter.services')
         .factory('meanData', meanData)
-        .value('Server', 'http://localhost:5000');
+        .value('Server', 'ORIGAMI_API_URL');
 
     meanData.$inject = ['$http', 'authentication','Server'];
 
