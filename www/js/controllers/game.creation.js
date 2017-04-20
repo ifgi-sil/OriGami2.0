@@ -10,6 +10,7 @@
 	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService, API) {
 		var vm = this;
 		vm.newgame = {}; // General description of the game
+		vm.newgame.private = false;
 		vm.newWaypoint = {}; // Waypoint Object
 		vm.abort = abort;
 		vm.invalidForm = true;

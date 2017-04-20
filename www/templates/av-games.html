@@ -17,24 +17,54 @@
             <div class="ui-feedback-message">{{error_msg}}</div>
         </div> -->
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name' | filter:searchTerm:strict">
-            <a ng-click="gameSelect(game.name)">
 
-                <div class="item game-desc">
-                    <h2>{{game.name}}</h2>
-                    <p>{{game.description}}</p>
-                    <div class="techm_diffc">
-                        <i class={{game.diff[0]}} style="font-size:2.5vh;color:#03A9F4;"></i>
-                        <i class={{game.diff[1]}} style="font-size:3vh;color:#03A9F4;"></i>
-                        <i class={{game.diff[2]}} style="font-size:3.5vh;color:#2196F3;"></i>
-                        <i class={{game.diff[3]}} style="font-size:4vh;color:#2196F3;"></i>
-                        <i class={{game.diff[4]}} style="font-size:4.5vh;color:#2196F3;"></i>
+        <div>
+            <button class="button button-balanced" ng-click="privategames = false">Public games</button>
+            <button class="button button-balanced" ng-click="privategames = true">Private games</button>
+        </div>
+
+        <div ng-hide="privategames">
+            <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in games | orderBy:'name' | filter:searchTerm:strict">
+                <a ng-click="gameSelect(game.name)">
+
+                    <div class="item game-desc">
+                        <h2>{{game.name}}</h2>
+                        <p>{{game.description}}</p>
+                        <div class="techm_diffc">
+                            <i class={{game.diff[0]}} style="font-size:2.5vh;color:#03A9F4;"></i>
+                            <i class={{game.diff[1]}} style="font-size:3vh;color:#03A9F4;"></i>
+                            <i class={{game.diff[2]}} style="font-size:3.5vh;color:#2196F3;"></i>
+                            <i class={{game.diff[3]}} style="font-size:4vh;color:#2196F3;"></i>
+                            <i class={{game.diff[4]}} style="font-size:4.5vh;color:#2196F3;"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="item item-body teachm_menu">
-                    <button id="fab" class="button button-balanced icon ion-ios-game-controller-b-outline button-fab button-fab-bottom-right" ng-click="gameSelect(game.name)">
-                </div>
-            </a>
+                    <div class="item item-body teachm_menu">
+                        <button id="fab" class="button button-balanced icon ion-ios-game-controller-b-outline button-fab button-fab-bottom-right" ng-click="gameSelect(game.name)">
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div ng-show="privategames">
+            <div class="list card" style="background-color:#FFEB3B" ng-repeat="game in gamesprivate | orderBy:'name' | filter:searchTerm:strict">
+                <a ng-click="gameSelectPrivate(game.name)">
+
+                    <div class="item game-desc">
+                        <h2>{{game.name}}</h2>
+                        <p>{{game.description}}</p>
+                        <div class="techm_diffc">
+                            <i class={{game.diff[0]}} style="font-size:2.5vh;color:#03A9F4;"></i>
+                            <i class={{game.diff[1]}} style="font-size:3vh;color:#03A9F4;"></i>
+                            <i class={{game.diff[2]}} style="font-size:3.5vh;color:#2196F3;"></i>
+                            <i class={{game.diff[3]}} style="font-size:4vh;color:#2196F3;"></i>
+                            <i class={{game.diff[4]}} style="font-size:4.5vh;color:#2196F3;"></i>
+                        </div>
+                    </div>
+                    <div class="item item-body teachm_menu">
+                        <button id="fab" class="button button-balanced icon ion-ios-game-controller-b-outline button-fab button-fab-bottom-right" ng-click="gameSelectPrivate(game.name)">
+                    </div>
+                </a>
+            </div>
         </div>
     </ion-content>
 </ion-view>

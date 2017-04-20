@@ -1,0 +1,168 @@
+<ion-view view-title="Intro">
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-close-round" ng-click="game.abort()"></button>
+        </div>
+        <h1 class="title">{{'new_game' | translate}}</h1>
+    </ion-header-bar>
+    <div class="bar bar-subheader">
+        <div class="buttons" ng-show="game.showSlideButtons().showPrevious">
+            <button class="button button-icon icon ion-arrow-left-c" ng-click="game.previousSlide()"></button>
+        </div>
+        <h2 class="title">{{ game.slideTitle }}</h2>
+        <div class="buttons">
+            <button ng-disabled="game.invalidForm" class="button button-icon icon ion-arrow-right-c" ng-click="game.nextSlide()" ng-show="game.showSlideButtons().showNext"></button>
+            <button ng-disabled="game.waypoints.length === 0" class="button button-icon ion-checkmark-round" ng-show="game.showSlideButtons().saveButton" ng-click="game.finishGame()"></button>
+        </div>
+    </div>
+    <ion-content class="has-subheader">
+        <ion-slide-box ng-init="game.initSlideBox()" on-slide-changed="game.slideChanged($index)" style="height: 100%;" show-pager="false">
+
+            <!-- Step 1:  General Information -->
+            <ion-slide>
+                <div class="page_maininfo">
+                    <div class="page_content">
+                        <div class="content">
+                            <div class="main_info">
+                                <form name="slide1" novalidate>
+                                    <div class="row">
+                                        <span class="input-label">{{'game_title' | translate}}</span>
+                                        <input name="gameTitle" ng-class = "{empty_field: emptyFields[0]}"  type="text" ng-model="game.newgame.name" ng-change="game.submit(slide1, slide1.$invalid)" required>
+                                    </div>
+                                    <div class="row">
+                                        <span class="input-label">{{'game_description' | translate}}</span>
+                                        <textarea style="resize: vertical;" name="gameDescription" rows="4" ng-class = "{empty_field: emptyFields[1]}" ng-model="game.newgame.description" ng-change="game.submit(slide1, slide1.$invalid)" required> </textarea>
+                                    </div>
+                                    <div class="row">
+                                        <span>{{'time_compl' | translate}}</span>
+                                        <input name="gameTime" type="number" min="1" step="1" ng-class = "{empty_field: emptyFields[2]}" class="input_time" ng-model="game.newgame.timecompl" ng-change="game.submit(slide1, slide1.$invalid)" required>
+                                    </div>
+                                    <div class="row_diff row">
+                                        <div class="diff_rate">
+                                            <div class="diff_title">
+                                                <span> {{'difficulty' | translate}}</span>
+                                            </div>
+                                            <span>
+                        <a ng-click = "game.rateGame(0)">
+                          <i class = {{game.diff[0]}} style="font-size:2em;color:#FFEB3B;"></i>
+                        </a>
+                        <a ng-click = "game.rateGame(1)">
+                          <i class = {{game.diff[1]}} style="font-size:2em;color:#FFEB3B;"></i>
+                        </a>
+                        <a ng-click = "game.rateGame(2)">
+                          <i class = {{game.diff[2]}} style="font-size:2em;color:#FFEB3B;"></i>
+                        </a>
+                        <a ng-click = "game.rateGame(3)">
+                          <i class = {{game.diff[3]}} style="font-size:2em;color:#FFEB3B;"></i>
+                        </a>
+                        <a ng-click = "game.rateGame(4)">
+                          <i class = {{game.diff[4]}} style="font-size:2em;color:#FFEB3B;"></i>
+                        </a>
+                      </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <!-- Step 2: Choosing the right activity -->
+            <ion-slide>
+                <div class="page_maininfo page2">
+                    <div class="page_content">
+                        <div class="content">
+                            <ion-scroll style="height: 100%;">
+                                <div class="act_conts">
+                                    <div class="row responsive-sm">
+                                        <div class="col col-50">
+                                            <div class="act">
+                                                <a ng-click="game.chooseActType(1)">
+                                                    <div class="act_cont" ng-class="{isChoosen: game.act_type === 1}">
+                                                        <div class="dest_route">
+                                                            <div style="margin-bottom:25px;">
+                                                                <p>Find Destination</p>
+                                                            </div>
+                                                            <div><img src="./img/icons/dest.svg"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col col-50">
+                                            <div class="act">
+                                                <a ng-click="game.chooseActType(2)">
+                                                    <div class="act_cont" ng-class="{isChoosen: game.act_type === 2}">
+                                                        <div class="dest_route">
+                                                            <div style="margin-bottom:25px;">
+                                                                <p>Follow Route</p>
+                                                            </div>
+                                                            <div><img src="./img/icons/route.svg"></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ion-scroll>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <!-- Step 3: Adding Activity Points -->
+            <ion-slide>
+                <div class="page_maininfo page3">
+                    <div class="page_content">
+                        <div class="content">
+                            <div class="content_map" data-tap-disabled="true">
+                                <leaflet id="mainMap" defaults="game.mainMap.defaults" layers="game.mainMap.layers" center="game.mainMap.center" markers="game.waypoints" ng-if="game.mainMap"></leaflet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <!-- Step 4: Adding Activity Points -->
+            <ion-slide>
+                <div class="page_maininfo page4">
+                    <div class="page_content">
+                        <div class="content">
+                            <form ng-submit="invitePlayer()">
+                                <input id="newplayer" type="text" ng-model="newplayerinput" placeholder="e-mail">
+                                <button class="button button-block button-calm"type="submit">Add a friend with his/her e-mail adress to the game</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <!-- Slide 5: Choose Task Type -->
+            <ion-slide>
+                <div class="page_maininfo page5">
+                    <div class="page_content">
+                        <div class="content">
+                            <h2 style="color:white;"> Your game {{game.newgame.name}} is created! </h2>
+                            <div class="crtd_icon"><img src="./img/icons/fireworks.svg"> </div>
+                            <div class="final_desc">
+                                <p class = "final_info">Your game contains:</p>
+                                <p class = "final_info">{{game.newgame.activities[0].points.length}} waypoints</p>
+                                <p class = "final_info">{{game.numberTask}} tasks</p>
+                                <p class = "final_p_info">Maximum reward: {{game.maxScore}} points</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page_menu" ng-hide="allFilled[2]">
+                        <div class="navi">
+                            <button class="button" ng-click="game.abort()">
+                                Back to Games
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

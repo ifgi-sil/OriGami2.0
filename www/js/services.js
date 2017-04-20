@@ -141,7 +141,7 @@ angular.module('starter.services', [])
 })
 
 // API for getting data from the remote server (REST interface to Mongodb)
-.factory('API', function ($rootScope, $http, $ionicLoading, $window, Server, Upload) {
+.factory('API', function ($rootScope, $http, $ionicLoading, $window, Server, Upload, authentication) {
     var base = Server;
     /*$rootScope.show = function (text) {
         $rootScope.loading = $ionicLoading.show({
@@ -200,10 +200,20 @@ angular.module('starter.services', [])
                 method: 'GET',
             });
         },
+        addPlayer: function (mail, gamename, user) {
+            return $http.post(base + '/games/addplayer/' + mail + '/' + gamename, user, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }
+            });
+        },
         saveItem: function (form) {
             return $http.post(base + '/games/item', form, {
                 method: 'POST',
             });
+        },
+        updateGame: function (game, player) {
+            return $http.post(base + '/games/update/' + game, player);
         },
         /* putItem: function (id, form, email) {
          return $http.put(base+'/api/v1/bucketList/data/item/' + id, form, {
@@ -670,7 +680,7 @@ angular.module('starter.services', [])
         origami_stats.push(data);
         localStorage.setItem('origami_stats', origami_stats);
         */
-    }
+    };
     playerStats.debug = function(msg) {
         console.log(msg, data);
     };

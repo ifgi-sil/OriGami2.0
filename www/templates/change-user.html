@@ -1,0 +1,43 @@
+<ion-view view-title="Account View" style="background-color:#B22222;">
+    <div style="position:fixed; top:2%; width:100%;">
+        <h2 class="techm_h">Edit your profile</h2>
+        <i class="ion-arrow-left-c back_icon" ui-sref="tab.account"></i>
+    </div>
+    <ion-content style="height:90%;top:10%;">
+
+        <form method="post" ng-submit="vm.onSubmit()">
+            <div class="list list-inset" >
+                <label class="item item-input">
+                    <p>First Name: </p>
+                    <input type="text" id="firstName" class="form-control" ng-model="vm.user.firstName" required />
+                </label>
+                <label class="item item-input">
+                    <p>Last Name: </p>
+                    <input type="text" id="lastName" class="form-control" ng-model="vm.user.lastName" required />
+                </label>
+                <label class="item item-input">
+                    <p>Password: </p>
+                    <input type="password" id="password" class="form-control" ng-model="vm.user.password" />
+                </label>
+                <label class="item item-input">
+                    <p>Repeat Password: </p>
+                    <input type="password" id="password2" class="form-control" ng-model="vm.user.password2"/>
+                </label>
+            </div>
+            <p>Optional:</p>
+            <div class="list list-inset" >
+                <label class="item item-input">
+                    <p>Your birthday: </p>
+                    <input type="text" id="birthday" class="form-control" ng-model="vm.user.birthday"/>
+                </label>
+                <label class="item item-input">
+                    <p>Information: </p>
+                    <input type="text" id="info" class="form-control" ng-model="vm.user.info"/>
+                </label>
+            </div>
+            <button class="button button-block button-calm" ng-click="vm.changeUser()">Save</button>
+            <button class="button button-block button-calm" ng-click="vm.deleteUser()">Delete</button>
+        </form>
+
+    </ion-content>
+</ion-view>

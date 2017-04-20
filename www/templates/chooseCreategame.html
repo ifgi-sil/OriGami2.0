@@ -1,0 +1,42 @@
+<ion-content>
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-arrow-left-c" ui-sref="tab.teachmenu"></button>
+        </div>
+        <h1 class="title">Choose between priavte or public game</h1>
+    </ion-header-bar>
+    <div class="page_maininfo page2">
+        <div class="page_content">
+            <div class="content">
+                <ion-scroll style="height: 100%;">
+                    <div class="act_conts">
+                        <div class="row responsive-sm">
+                            <div class="col col-50">
+                                <div class="act">
+                                    <a ui-sref="tab.creategame">
+                                        <div class="act_cont">
+                                            <div class="dest_route">
+                                                <p>Public Game</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col col-50">
+                                <div class="act">
+                                    <a ng-click="choosePrivate()">
+                                        <div class="act_cont">
+                                            <div class="dest_route">
+                                                <p>Private Game</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ion-scroll>
+            </div>
+        </div>
+    </div>
+</ion-content>

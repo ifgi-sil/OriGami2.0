@@ -1,0 +1,65 @@
+<ion-view view-title="Account View" style="background-color:#B22222;">
+    <div style="position:fixed; top:2%; width:100%;">
+        <h2 class="techm_h">Your profile</h2>
+        <i class="ion-arrow-left-c back_icon" ui-sref="tab.home"></i>
+    </div>
+    <ion-content style="height:90%;top:10%;">
+        <table>
+            <tr>
+                <td>First Name:</td>
+                <td>{{vm.user.firstName}}</td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>{{vm.user.lastName}}</td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td>{{vm.user.userName}}</td>
+            </tr>
+            <tr>
+                <td>e-mail:</td>
+                <td>{{vm.user.email}}</td>
+            </tr>
+            <tr>
+                <td>Birthday:</td>
+                <td>{{vm.user.birthday}}</td>
+            </tr>
+            <tr>
+                <td>Info:</td>
+                <td>{{vm.user.info}}</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+
+        <div>
+        <button ng-click="friendshow = !friendshow">
+            Show friends
+        </button>
+        <button ng-click="gameshow = !gameshow">
+            Show games
+        </button>
+        </div>
+
+        <ion-list ng-show="friendshow" ng-repeat="friend in vm.user.friends">
+            <button ion-item ng-click="friendAccount(friend)">
+                {{ friend }}
+            </button>
+        </ion-list>
+        <ion-list ng-show="gameshow" ng-repeat="game in vm.user.games">
+            <button ion-item ng-click="">
+                {{ game }}
+            </button>
+        </ion-list>
+
+        <button class="button button-block button-calm" ui-sref="tab.changeUser">Edit your userdata</button>
+
+        <form ng-submit="inviteUser()">
+            <input id="newmail" type="text" ng-model="friendInput" placeholder="e-mail">
+            <button class="button button-block button-calm"type="submit">Add user as a friend with his/her e-mail adress</button>
+        </form>
+
+    </ion-content>
+
+</ion-view>

@@ -45,9 +45,202 @@
     position: relative;
 }
 
+.person-type .acclogger {
+    background-color: #1E90FF;
+    height: 34%;
+    position: relative;
+}
+
+.person-type .acclogger .type-picture {
+    height: 100%;
+    position: relative;
+}
+
+.person-type .acclogger .type-picture img {
+    top: 2%;
+    left: 19%;
+    position: absolute;
+}
+
+.person-type .acclogger .type-picture .info {
+    height: 100%;
+    left: 32%;
+    top: 35%;
+    position: absolute;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}
+
+.person-type .acclogger .type-picture .info h2 {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: 5vh;
+}
+
+.person-type .acclogger .type-picture .info p {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+.person-type .acclogger .type-picture .next {
+    left: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
+.person-type .accountview {
+    background-color: #1E90FF;
+    height: 30%;
+    position: relative;
+}
+
+.person-type .accountview .type-picture {
+    height: 100%;
+    position: relative;
+}
+
+.person-type .accountview .type-picture img {
+    top: 2%;
+    left: 19%;
+    position: absolute;
+}
+
+.person-type .accountview .type-picture .info {
+    height: 100%;
+    left: 32%;
+    top: 35%;
+    position: absolute;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}
+
+.person-type .accountview .type-picture .info h2 {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: 5vh;
+}
+
+.person-type .accountview .type-picture .info p {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+.person-type .accountview .type-picture .next {
+    left: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
+.person-type .acclogout {
+    background-color: #B22222;
+    height: 10%;
+    position: relative;
+}
+
+.person-type .acclogout .type-picture {
+    height: 100%;
+    position: relative;
+}
+
+.person-type .acclogout .type-picture img {
+    top: 2%;
+    left: 19%;
+    position: absolute;
+}
+
+.person-type .acclogout .type-picture .info {
+    height: 100%;
+    left: 32%;
+    top: 35%;
+    position: absolute;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}
+
+.person-type .acclogout .type-picture .info h2 {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: 5vh;
+}
+
+.person-type .acclogout .type-picture .info p {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+.person-type .acclogout .type-picture .next {
+    left: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
+.person-type .playerlogged {
+    background-color: #FF8C00;
+    height: 30%;
+    position: relative;
+}
+
+.person-type .playerlogged .type-picture {
+    height: 100%;
+    position: relative;
+}
+
+.person-type .playerlogged .type-picture img {
+    top: 35%;
+    left: 5%;
+    position: absolute;
+}
+
+.person-type .playerlogged .type-picture .info {
+    height: 100%;
+    left: 32%;
+    top: 35%;
+    position: absolute;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+    display: block;
+}
+
+.person-type .playerlogged .type-picture .info h2 {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 900;
+    font-size: 5vh;
+}
+
+.person-type .playerlogged .type-picture .info p {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+.person-type .playerlogged .type-picture .next {
+    left: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
+
 .person-type .player {
-    background-color: #64B5F6;
-    height: 50%;
+    background-color: #FF8C00;
+    height: 34%;
     position: relative;
 }
 
@@ -93,9 +286,58 @@
     position: absolute;
 }
 
+.person-type .teacherlogged {
+    height: 30%;
+    background-color: #2E8B57;
+}
+
+.person-type .teacherlogged .type-picture {
+    height: 100%;
+    position: relative;
+}
+
+.person-type .teacherlogged .type-picture img {
+    top: 25%;
+    right: 5%;
+    position: absolute;
+}
+
+.person-type .teacherlogged .type-picture .info {
+    height: 100%;
+    width: 60%;
+    left: 5%;
+    top: 25%;
+    position: absolute;
+    font-family: sans-serif;
+    font-weight: 500;
+    text-align: center;
+    font-style: normal;
+    display: block;
+}
+
+.person-type .teacherlogged .type-picture .info h2 {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 800;
+    font-size: 5vh;
+}
+
+.person-type .teacherlogged .type-picture .info p {
+    color: white;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 2vh;
+}
+
+.person-type .teacherlogged .type-picture .next {
+    right: 5%;
+    bottom: 5%;
+    position: absolute;
+}
+
 .person-type .teacher {
-    height: 55%;
-    background-color: #53DF83;
+    height: 33%;
+    background-color: #2E8B57;
 }
 
 .person-type .teacher .type-picture {

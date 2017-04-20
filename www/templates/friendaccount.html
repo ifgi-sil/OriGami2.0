@@ -1,0 +1,39 @@
+<ion-view view-title="Account View" style="background-color:#B22222;">
+    <div style="position:fixed; top:2%; width:100%;">
+        <h2 class="techm_h">Your profile</h2>
+        <i class="ion-arrow-left-c back_icon" ui-sref="tab.account"></i>
+    </div>
+    <ion-content style="height:90%;top:10%;">
+
+        <p>First name: {{vm.user.firstName}}</p>
+        <p>Name: {{vm.user.lastName}}</p>
+        <p>Username: {{vm.user.userName}}</p>
+        <p>e-mail: {{vm.user.email}}</p>
+        <p>Birthday: {{vm.user.birthday}}</p>
+        <p>Info: {{vm.user.info}}</p>
+
+        <div>
+            <button ng-click="friendshow = !friendshow">
+                Show friends
+            </button>
+            <button ng-click="gameshow = !gameshow">
+                Show games
+            </button>
+        </div>
+
+        <ion-list ng-show="friendshow" ng-repeat="friend in vm.user.friends">
+            <button ion-item ng-click="friendAccount(friend)">
+                {{ friend }}
+            </button>
+        </ion-list>
+        <ion-list ng-show="gameshow" ng-repeat="game in vm.user.games">
+            <button ion-item ng-click="">
+                {{ game }}
+            </button>
+        </ion-list>
+
+        <button class="button button-block button-calm" ng-click="deleteFriend()">remove friend</button>
+
+    </ion-content>
+
+</ion-view>

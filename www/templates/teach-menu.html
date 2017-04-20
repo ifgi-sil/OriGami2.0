@@ -6,7 +6,7 @@
       </div>
       <h1 class="title">{{'TEACHMENU_HEADER' | translate}}</h1>
       <div class="buttons">
-        <button class="button button-icon icon ion-plus-round" ng-click="startGameCreation()" ui-sref="tab.creategame"></button>
+        <button class="button button-icon icon ion-plus-round" ng-click="startGameCreation()" ui-sref="tab.chooseCreategame"></button>
       </div>
     </ion-header-bar>
     <div class="bar bar-subheader">
@@ -23,34 +23,73 @@
             <div class="ui-feedback-message">{{error_msg}}</div>
         </div> -->
 
-        <div class="list card" ng-repeat="item in list | orderBy:'name' | filter:searchTerm:strict ">
-            <a>
-                <div class="item game-desc">
-                    <h2>{{item.name}}</h2>
-                    <p>{{item.description}}</p>
-                    <div class="techm_diffc">
-                        <i class={{item.diff[0]}} style="font-size:2vh;color:#03A9F4;"></i>
-                        <i class={{item.diff[1]}} style="font-size:2.5vh;color:#03A9F4;"></i>
-                        <i class={{item.diff[2]}} style="font-size:3vh;color:#2196F3;"></i>
-                        <i class={{item.diff[3]}} style="font-size:3.5vh;color:#2196F3;"></i>
-                        <i class={{item.diff[4]}} style="font-size:4vh;color:#2196F3;"></i>
-                    </div>
-                </div>
-                <div class="item item-body teachm_menu">
-                    <button class="button icon-left ion-trash-b button-calm" ng-click="showDeleteGameModal(item)">
-                      {{'DELETE' | translate}}
-                    </button>
-                    <button class="button icon-left ion-edit button-calm" style="margin-left: 10px;" ui-sref="tab.newgame" ng-click="editItem(item)">
-                      {{'EDIT' | translate}}
-                    </button>
-                </div>
-            </a>
+        <div>
+            <button class="button button-calm" ng-click="privategames = false">Public games</button>
+            <button class="button button-calm" ng-click="privategames = true">Private games</button>
         </div>
-        <div class="card" ng-show="noData">
-            <div class="item item-text-wrap">
+        <div ng-hide="privategames">
+            <div class="list card" ng-repeat="item in list | orderBy:'name' | filter:searchTerm:strict ">
+                <a>
+                    <div class="item game-desc">
+                        <h2>{{item.name}}</h2>
+                        <p>{{item.description}}</p>
+                        <div class="techm_diffc">
+                            <i class={{item.diff[0]}} style="font-size:2vh;color:#03A9F4;"></i>
+                            <i class={{item.diff[1]}} style="font-size:2.5vh;color:#03A9F4;"></i>
+                            <i class={{item.diff[2]}} style="font-size:3vh;color:#2196F3;"></i>
+                            <i class={{item.diff[3]}} style="font-size:3.5vh;color:#2196F3;"></i>
+                            <i class={{item.diff[4]}} style="font-size:4vh;color:#2196F3;"></i>
+                        </div>
+                    </div>
+                    <div class="item item-body teachm_menu">
+                        <button class="button icon-left ion-trash-b button-calm" ng-click="showDeleteGameModal(item)">
+                          {{'DELETE' | translate}}
+                        </button>
+                        <button class="button icon-left ion-edit button-calm" style="margin-left: 10px;" ui-sref="tab.newgame" ng-click="editItem(item)">
+                          {{'EDIT' | translate}}
+                        </button>
+                    </div>
+                </a>
+            </div>
+            <div class="card" ng-show="noData">
+                <div class="item item-text-wrap">
+                    <span>
+                        There are no games created at the moment.
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="privategames">
+            <div class="list card" ng-repeat="item in listprivate | orderBy:'name' | filter:searchTerm:strict ">
+                <a>
+                    <div class="item game-desc">
+                        <h2>{{item.name}}</h2>
+                        <p>{{item.description}}</p>
+                        <div class="techm_diffc">
+                            <i class={{item.diff[0]}} style="font-size:2vh;color:#03A9F4;"></i>
+                            <i class={{item.diff[1]}} style="font-size:2.5vh;color:#03A9F4;"></i>
+                            <i class={{item.diff[2]}} style="font-size:3vh;color:#2196F3;"></i>
+                            <i class={{item.diff[3]}} style="font-size:3.5vh;color:#2196F3;"></i>
+                            <i class={{item.diff[4]}} style="font-size:4vh;color:#2196F3;"></i>
+                        </div>
+                    </div>
+                    <div class="item item-body teachm_menu">
+                        <button class="button icon-left ion-trash-b button-calm" ng-click="showDeleteGameModal(item)">
+                            {{'DELETE' | translate}}
+                        </button>
+                        <button class="button icon-left ion-edit button-calm" style="margin-left: 10px;" ui-sref="tab.newgame" ng-click="editItem(item)">
+                            {{'EDIT' | translate}}
+                        </button>
+                    </div>
+                </a>
+            </div>
+            <div class="card" ng-show="noDataPrivate">
+                <div class="item item-text-wrap">
                 <span>
                     There are no games created at the moment.
                 </span>
+                </div>
             </div>
         </div>
     </ion-content>

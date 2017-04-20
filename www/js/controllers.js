@@ -3,9 +3,14 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 .controller('HomeCtrl', function ($scope) {})
 
 .controller('GamesCtrl', [ '$rootScope', '$scope', '$http', '$location', '$ionicModal', '$window', '$timeout',
-                            '$ionicPopup', '$ionicHistory', '$translate', 'API', 'Data',
+                            '$ionicPopup', '$ionicHistory', '$translate', 'API', 'Data', 'meanData',
                             function ($rootScope, $scope, $http, $location, $ionicModal, $window, $timeout,
-                                        $ionicPopup, $ionicHistory, $translate, API, Data) {
+                                        $ionicPopup, $ionicHistory, $translate, API, Data, meanData) {
+
+    meanData.getProfile()
+        .success(function(data) {
+            $scope.currentUser = data.email;
+        })
 
     // Info Popups --------------------------------------
     $scope.showPathInfo = function () {
@@ -30,23 +35,45 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     // Fetch all the games from the server
     $scope.games = [];
-    API.getMetadata().success(function (metadata, status, headers, config) {
-        $scope.error_msg = null;
-        $scope.games = [];
-        for (var i = 0; i < metadata.length; i++) {
-            $scope.games.push(metadata[i]);
-            $scope.games[i].diff = Array.apply(null, Array(metadata[i].difficulty)).map(function () {
-                return "ion-ios-star"
-            });
-        }
-    }).error(function (data, status, headers, config) {
-        $scope.error_msg = $translate.instant('network_error');
-        console.log("Could not fetch game metadata from server");
-    });
+    $scope.gamesprivate = [];
+    API.getMetadata()
+        .success(function (metadata, status, headers, config) {
+            $scope.error_msg = null;
+            $scope.games = [];
+            $scope.gamesprivate = [];
+            for (var i = 0; i < metadata.length; i++) {
+                if(!metadata[i].private == true){
+                    $scope.games.push(metadata[i]);
+                    var h = $scope.games.length - 1;
+                    $scope.games[h].diff = Array.apply(null, Array(metadata[i].difficulty)).map(function () {
+                        return "ion-ios-star"
+                    });
+                }else{
+                    for(var k = 0; k < metadata[i].players.length; k++){
+                        if(metadata[i].players[k] == $scope.currentUser){
+                            $scope.gamesprivate.push(metadata[i]);
+                            var j = $scope.gamesprivate.length - 1;
+                            $scope.gamesprivate[j].diff = Array.apply(null, Array(metadata[i].difficulty)).map(function () {
+                                return "ion-ios-star"
+                            });
+                        }
+                    }
+                }
+            }
+        })
+        .error(function (data, status, headers, config) {
+            $scope.error_msg = $translate.instant('network_error');
+            console.log("Could not fetch game metadata from server");
+        });
 
     //Selected game
     $scope.gameSelect = function (gameName) {
         param = "/tab/playgame/" + gameName;
+        $location.path(param);
+    };
+
+    $scope.gameSelectPrivate = function (gameName) {
+        param = "/tab/playgameprivate/" + gameName;
         $location.path(param);
     };
 
@@ -86,18 +113,36 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 }])
 
 .controller('TeacherCtrl', ['$rootScope', '$scope', '$timeout', '$ionicModal', '$window', '$ionicHistory',
-                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit',
+                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit', 'meanData',
                             function ($rootScope, $scope, $timeout, $ionicModal, $window, $ionicHistory,
-                                    $translate, $ionicSlideBoxDelegate, $cordovaCamera, $q, API, Edit) {
-    // List of all available games fetched from the server
+                                    $translate, $ionicSlideBoxDelegate, $cordovaCamera, $q, API, Edit, meanData) {
+    // List of all available games fetched froteachmenu/newgamem the server
     $scope.list = [];
+
+    meanData.getProfile()
+        .success(function(data) {
+            $scope.currentUser = data.email;
+        })
+        .error(function (e) {
+            $location.path('/tab/home');
+        });
 
     API.getAll().success(function (data, status, headers, config) {
         $scope.list = [];
+        $scope.listprivate = [];
         $scope.error_msg = null;
         for (var i = 0; i < data.length; i++) {
-            if (data[i].name != null) {
+            if (data[i].name != null && !data[i].private == true) {
                 $scope.list.push(data[i]);
+            }
+            else{
+                if(data[i].name!= null && data[i].private == true){
+                    for(var k = 0; k < data[i].players.length; k++){
+                        if(data[i].players[k] == $scope.currentUser){
+                            $scope.listprivate.push(data[i]);
+                        }
+                    }
+                }
             }
         }
 
@@ -110,6 +155,16 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
                 });
             }
             $scope.noData = false;
+        }
+        if ($scope.listprivate.length == 0) {
+            $scope.noDataPrivate = true;
+        } else {
+            for (var i = 0; i < $scope.listprivate.length; i++) {
+                $scope.listprivate[i].diff = Array.apply(null, Array($scope.listprivate[i].difficulty)).map(function () {
+                    return "ion-ios-star"
+                });
+            }
+            $scope.noDataPrivate = false;
         }
     }).error(function (data, status, headers, config) {
         $scope.error_msg = $translate.instant('network_error');

@@ -48,7 +48,11 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
         .state('tab', {
             url: '/tab',
             abstract: true,
-            templateUrl: 'templates/tabs.html'
+            views: {
+                '':{
+                    templateUrl: 'templates/tabs.html'
+                }
+            }
         })
 
         // Each tab has its own nav history stack:
@@ -91,7 +95,8 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
             views: {
                 'tab-home': {
                     templateUrl: 'templates/home.html',
-                    controller: 'HomeCtrl'
+                    controller: 'HomeCtrl',
+                    controllerAs: 'vm'
                 }
             }
         })
@@ -112,6 +117,25 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                 'tab-home': {
                     templateUrl: 'templates/teach-menu.html',
                     controller: 'TeacherCtrl'
+                }
+            }
+        })
+        .state('tab.chooseCreategame', {
+            url: '/choosegame',
+            views: {
+                'tab-home': {
+                    templateUrl: 'templates/chooseCreategame.html',
+                    controller: 'choosecreategameCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.createprivategame', {
+            url: '/createprivategame',
+            views: {
+                'tab-home': {
+                    templateUrl: 'templates/createprivategame.html',
+                    controller: 'createprivategameCtrl as game'
                 }
             }
         })
@@ -153,6 +177,15 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                 'tab-home': {
                     templateUrl: 'templates/play-game.html',
                     controller: 'PlayCtrl'
+                }
+            }
+        })
+        .state('tab.privateplaygame', {
+            url: '/playgameprivate/:gameName',
+            views: {
+                'tab-home': {
+                    templateUrl: 'templates/play-privategame.html',
+                    controller: 'PlayPrivateCtrl'
                 }
             }
         })
@@ -201,6 +234,59 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                 'tab-home': {
                     templateUrl: "templates/tasks/quest.html",
                     controller: 'NewGameCtrl'
+                }
+            }
+        })
+        // ##########################################
+        // Account-management States
+        // ##########################################
+        .state('tab.log', {
+            url:"/login",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/login.html",
+                    controller: 'LoginCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.register', {
+            url:"/register",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/register.html",
+                    controller: 'RegisterCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.account', {
+            url:"/account",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/account.html",
+                    controller: 'AccountCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.changeUser', {
+            url:"/edit-account",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/change-user.html",
+                    controller: 'AccountCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.friend-view', {
+            url: '/friendaccount/:friend',
+            views: {
+                'tab-home': {
+                    templateUrl: 'templates/friendaccount.html',
+                    controller: 'FriendCtrl',
+                    controllerAs: 'vm'
                 }
             }
         });

@@ -1,7 +1,40 @@
 <ion-view view-title="Start Menu">
   <ion-content scroll="false">
-    <div class="person-type" style="background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">            
-      <a ui-sref="tab.avgames" href="#/tab/avgames" class="">
+    <div class="person-type" style="background-color:#80DEEA; height:100%; width:100%; posisiton: absolute;">
+
+      <a ng-hide="loginvar" ui-sref="tab.log">
+        <div  class="acclogger">
+          <div class="type-picture">
+            <img src = "./img/icons/feder2.png" width="250px" height="250px" />
+            <div class="info">
+              <h2>{{'start_header_log' | translate}}</h2>
+              <p>{{'start_info_log' | translate}}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a ng-show="loginvar" ng-click="logout()" href="#">
+        <div  class="acclogout">
+          <div class="type-picture">
+            <div class="info">
+              <h2>Logout from Origami</h2>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a ng-show="loginvar" ui-sref="tab.account" href="#/tab/account" class="">
+        <div class="accountview">
+          <div class="type-picture">
+            <div class="info" ui-sref="tab.account" href="#/tab/account">
+              <h2 class="ng-binding">My Account</h2>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a ng-hide="loginvar" ui-sref="tab.avgames" href="#/tab/avgames" class="">
         <div class="player">
           <div class="type-picture">
             <img src="./img/icons/Student.png">
@@ -13,8 +46,32 @@
         </div>
       </a>
 
-      <a ui-sref="tab.teachmenu" href="#/tab/teachmenu" class="">
+      <a ng-show="loginvar" ui-sref="tab.avgames" href="#/tab/avgames" class="">
+        <div class="playerlogged">
+          <div class="type-picture">
+            <img src="./img/icons/Student.png">
+            <div class="info" ui-sref="tab.avgames" href="#/tab/avgames">
+              <h2 class="ng-binding">Play OriGami</h2>
+              <p class="ng-binding">Start learning geography by searching places on the map,receiving not only great marks, but also a huge amount of positive memories.</p>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a ng-hide="loginvar" ui-sref="tab.teachmenu" href="#/tab/teachmenu" class="">
         <div class="teacher">
+          <div class="type-picture">
+            <img src="./img/icons/Professor.png">
+            <div class="info" ui-sref="tab.teachmenu" href="#/tab/teachmenu">
+              <h2 class="ng-binding">Create OriGami</h2>
+              <p class="ng-binding">Start creating fun tasks for your belowed students!</p>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a ng-show="loginvar" ui-sref="tab.teachmenu" href="#/tab/teachmenu" class="">
+        <div class="teacherlogged">
           <div class="type-picture">
             <img src="./img/icons/Professor.png">
             <div class="info" ui-sref="tab.teachmenu" href="#/tab/teachmenu">
