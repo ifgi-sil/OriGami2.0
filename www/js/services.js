@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.value('Server', 'ORIGAMI_API_URL')
+.value('Server', 'API_URL')
 
 .factory('Edit', function() {
     var editedGame = {};
