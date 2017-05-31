@@ -194,7 +194,6 @@
         </ion-modal-view>
     </script>
 
-
     <!-- QA  Game Modal -->
     <script id="qa-modal.html" type="text/ng-template">
         <ion-modal-view style="padding: 0; margin:0; dispay:block; background-color:#64B5F6; ">
@@ -225,16 +224,11 @@
                     <div class="col col-50">
                         <div class="list card">
 
+                            <a class="item item-icon" ng-class="answers[0]" style="text-align: center;" ng-click="chooseAnswer(task.answers[0], 0);timeLeft = -1">
                             <div class="item item-avatar" style="text-align: center;">
                                 <img src="../img/icons/one.png">
                                 <h2>{{task.answers[0].txt}}</h2>
                             </div>
-
-                            <div class="item item-image" ng-hide="task.answers[0].img == ''" ng-style="{'background-image':'url({{task.answers[0].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
-                            </div>
-
-                            <a class="item item-icon" ng-class="answers[0]" style="text-align: center;" ng-click="chooseAnswer(task.answers[0], 0);timeLeft = -1">
-                                {{'answer_select' | translate}}
                             </a>
 
                         </div>
@@ -242,16 +236,11 @@
                     <div class="col col-50">
                         <div class="list card">
 
+                            <a class="item item-icon" ng-class="answers[1]" style="text-align: center;" ng-click="chooseAnswer(task.answers[1], 1);timeLeft = -1">
                             <div class="item item-avatar" style="text-align: center;">
                                 <img src="../img/icons/two.png">
                                 <h2>{{task.answers[1].txt}}</h2>
                             </div>
-
-                            <div class="item item-image" ng-hide="task.answers[1].img == ''"  ng-style="{'background-image':'url({{task.answers[1].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
-                            </div>
-
-                            <a class="item item-icon" ng-class="answers[1]" style="text-align: center;" ng-click="chooseAnswer(task.answers[1], 1);timeLeft = -1">
-                                {{'answer_select' | translate}}
                             </a>
 
                         </div>
@@ -261,16 +250,11 @@
                     <div class="col col-50">
                         <div class="list card">
 
+                            <a class="item item-icon" ng-class="answers[2]" style="text-align: center;" ng-click="chooseAnswer(task.answers[2], 2);timeLeft = -1">
                             <div class="item item-avatar" style="text-align: center;">
                                 <img src="../img/icons/three.png">
                                 <h2>{{task.answers[2].txt}}</h2>
                             </div>
-
-                            <div class="item item-image" ng-hide="task.answers[2].img == ''" ng-style="{'background-image':'url({{task.answers[2].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
-                            </div>
-
-                            <a class="item item-icon" ng-class="answers[2]" style="text-align: center;" ng-click="chooseAnswer(task.answers[2], 2);timeLeft = -1">
-                                {{'answer_select' | translate}}
                             </a>
 
                         </div>
@@ -278,16 +262,11 @@
                     <div class="col col-50">
                         <div class="list card">
 
+                            <a class="item item-icon" ng-class="answers[3]" style="text-align: center;" ng-click="chooseAnswer(task.answers[3], 3);timeLeft = -1">
                             <div class="item item-avatar" style="text-align: center;">
                                 <img src="../img/icons/four.png">
                                 <h2>{{task.answers[3].txt}}</h2>
                             </div>
-
-                            <div class="item item-image" ng-hide="task.answers[3].img == ''" ng-style="{'background-image':'url({{task.answers[3].img}})'}" style="background-size: contain; background-position: center; background-repeat: no-repeat; flex-grow: 1; height: 150px;">
-                            </div>
-
-                            <a class="item item-icon" ng-class="answers[3]" style="text-align: center;" ng-click="chooseAnswer(task.answers[3], 3);timeLeft = -1">
-                                {{'answer_select' | translate}}
                             </a>
 
                         </div>

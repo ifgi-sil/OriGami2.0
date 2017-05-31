@@ -9,7 +9,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     meanData.getProfile()
         .success(function(data) {
-            $scope.currentUser = data.email;
+            $scope.currentUser = data.userName;
         })
 
     // Info Popups --------------------------------------
@@ -121,7 +121,7 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
     meanData.getProfile()
         .success(function(data) {
-            $scope.currentUser = data.email;
+            $scope.currentUser = data.userName;
         })
         .error(function (e) {
             $location.path('/tab/home');

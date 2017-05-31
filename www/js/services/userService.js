@@ -50,7 +50,10 @@
                     Authorization: 'Bearer ' + authentication.getToken()
                 }});
 
-        }
+        };
+        function getGame(id){
+            return $http.get(base + '/getShowGame/' + id)
+        };
 
         return {
             update : update,
@@ -60,7 +63,8 @@
             inviteUser: inviteUser,
             friendUser: friendUser,
             updateFriend: updateFriend,
-            getEmailUsers:getEmailUsers
+            getEmailUsers:getEmailUsers,
+            getGame:getGame
         };
     }
 })();

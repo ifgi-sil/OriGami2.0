@@ -289,6 +289,16 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                     controllerAs: 'vm'
                 }
             }
+        })
+        .state('tab.showGame', {
+            url: '/showgame/:id',
+            views: {
+                'tab-home':{
+                    templateUrl: 'templates/show-game.html',
+                    controller: 'ShowGameCtrl',
+                    controllerAs: 'vm'
+                }
+            }
         });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/home');

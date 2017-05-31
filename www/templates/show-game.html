@@ -1,0 +1,21 @@
+<ion-view view-title="Account View" style="background-color:#B22222;">
+    <div style="position:fixed; top:2%; width:100%;">
+        <h2 class="techm_h">{{vm.game.name}}</h2>
+        <i class="ion-arrow-left-c back_icon" ui-sref="tab.account"></i>
+    </div>
+    <ion-content style="height:90%;top:10%;">
+        <div class="leaderboard">
+            <div class="row header">
+                <div class="col">Position</div>
+                <div class="col">Name</div>
+                <div class="col">{{'points' | translate}}</div>
+            </div>
+            <div class="row content" ng-repeat="data in vm.game.playerscores | orderBy:'-points'">
+                <div class="col">{{$index + 1}}</div>
+                <div class="col">{{data.name}}</div>
+                <div class="col">{{data.points}}</div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

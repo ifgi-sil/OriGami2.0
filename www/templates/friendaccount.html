@@ -4,33 +4,69 @@
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.account"></i>
     </div>
     <ion-content style="height:90%;top:10%;">
-
-        <p>First name: {{vm.user.firstName}}</p>
-        <p>Name: {{vm.user.lastName}}</p>
-        <p>Username: {{vm.user.userName}}</p>
-        <p>e-mail: {{vm.user.email}}</p>
-        <p>Birthday: {{vm.user.birthday}}</p>
-        <p>Info: {{vm.user.info}}</p>
-
-        <div>
-            <button ng-click="friendshow = !friendshow">
-                Show friends
-            </button>
-            <button ng-click="gameshow = !gameshow">
-                Show games
-            </button>
+        <div id="SidenavFriends" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" ng-click="closeNavFriend()">&times;</a>
+            <table>
+                <tr>
+                    <td>
+                        <ion-list ng-repeat="friend in vm.user.friends">
+                            <a ion-item ng-click="friendAccount(friend)">
+                                {{ friend }}
+                            </a>
+                        </ion-list>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-        <ion-list ng-show="friendshow" ng-repeat="friend in vm.user.friends">
-            <button ion-item ng-click="friendAccount(friend)">
-                {{ friend }}
-            </button>
-        </ion-list>
-        <ion-list ng-show="gameshow" ng-repeat="game in vm.user.games">
-            <button ion-item ng-click="">
-                {{ game }}
-            </button>
-        </ion-list>
+        <span style="font-size:30px;cursor:pointer; float: right" ng-click="openNavFriend()">Friends &#9776;</span>
+
+        <div id="SidenavGames" class="sidenavGame">
+            <a href="javascript:void(0)" class="closebtn" ng-click="closeNavGame()">&times;</a>
+            <table>
+                <tr>
+                    <td>
+                        <ion-list ng-repeat="game in vm.user.games">
+                            <a ion-item ng-click="">
+                                {{ game }}
+                            </a>
+                        </ion-list>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <span style="font-size:30px;cursor:pointer; float: left" ng-click="openNavGame()"> &#9776; Games</span>
+        <br>
+        <br>
+
+
+        <table>
+            <tr>
+                <td>First Name:</td>
+                <td>{{vm.user.firstName}}</td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>{{vm.user.lastName}}</td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td>{{vm.user.userName}}</td>
+            </tr>
+            <tr>
+                <td>e-mail:</td>
+                <td>{{vm.user.email}}</td>
+            </tr>
+            <tr>
+                <td>Birthday:</td>
+                <td>{{vm.user.birthday}}</td>
+            </tr>
+            <tr>
+                <td>Info:</td>
+                <td>{{vm.user.info}}</td>
+            </tr>
+        </table>
 
         <button class="button button-block button-calm" ng-click="deleteFriend()">remove friend</button>
 

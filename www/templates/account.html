@@ -4,6 +4,33 @@
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.home"></i>
     </div>
     <ion-content style="height:90%;top:10%;">
+
+        <div id="SidenavFriend" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" ng-click="closeNavFriend()">&times;</a>
+            <table>
+                <tr>
+                    <td>
+                        <ion-list ng-repeat="friend in vm.user.friends | orderBy:'userName'">
+                            <a ion-item ng-click="friendAccount(friend)">{{ friend }}</a>
+                        </ion-list>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <span style="font-size:30px;cursor:pointer; float: right" ng-click="openNavFriend()">Friends &#9776;</span>
+
+        <div id="SidenavGame" class="sidenavGame">
+            <a href="javascript:void(0)" class="closebtn" ng-click="closeNavGame()">&times;</a>
+            <div ng-repeat="item in listprivate | orderBy:'name'">
+                <a ng-click="showGame(item._id)">{{item.name}}</a>
+            </div>
+        </div>
+
+        <span style="font-size:30px;cursor:pointer; float: left" ng-click="openNavGame()"> &#9776; Games</span>
+        <br>
+        <br>
+
         <table>
             <tr>
                 <td>First Name:</td>
@@ -26,34 +53,13 @@
                 <td>{{vm.user.birthday}}</td>
             </tr>
             <tr>
-                <td>Info:</td>
+                <td>Info:</td>.,
                 <td>{{vm.user.info}}</td>
             </tr>
         </table>
         <br>
-        <br>
 
-        <div>
-        <button ng-click="friendshow = !friendshow">
-            Show friends
-        </button>
-        <button ng-click="gameshow = !gameshow">
-            Show games
-        </button>
-        </div>
-
-        <ion-list ng-show="friendshow" ng-repeat="friend in vm.user.friends">
-            <button ion-item ng-click="friendAccount(friend)">
-                {{ friend }}
-            </button>
-        </ion-list>
-        <ion-list ng-show="gameshow" ng-repeat="game in vm.user.games">
-            <button ion-item ng-click="">
-                {{ game }}
-            </button>
-        </ion-list>
-
-        <button class="button button-block button-calm" ui-sref="tab.changeUser">Edit your userdata</button>
+     <button class="button button-block button-calm" ui-sref="tab.changeUser">Edit your userdata</button>
 
         <form ng-submit="inviteUser()">
             <input id="newmail" type="text" ng-model="friendInput" placeholder="e-mail">

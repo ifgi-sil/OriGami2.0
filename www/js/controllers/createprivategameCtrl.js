@@ -5,9 +5,9 @@
         .module('starter')
         .controller('createprivategameCtrl', createprivategameCtrl);
 
-    createprivategameCtrl.$inject = ['$scope','$ionicPopup', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService', 'API', 'meanData'];
+    createprivategameCtrl.$inject = ['$scope','$ionicPopup', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService', 'API', 'meanData', 'userService'];
 
-    function createprivategameCtrl ($scope, $ionicPopup, $ionicHistory,$ionicSlideBoxDelegate, $ionicModal, MapService, API, meanData) {
+    function createprivategameCtrl ($scope, $ionicPopup, $ionicHistory,$ionicSlideBoxDelegate, $ionicModal, MapService, API, meanData, userService) {
         var vm = this;
         vm.newgame = {}; // General description of the game
         vm.newgame.private = true;
@@ -51,8 +51,9 @@
         meanData.getProfile()
             .success(function(data) {
                 vm.newgame.owner = data.email;
-                vm.newgame.players.push(data.email);
+                vm.newgame.players.push(data.userName);
                 $scope.user = data;
+                $scope.userfriends = data.friends;
             })
             .error(function (e) {
                 $location.path('/tab/home');
@@ -109,30 +110,83 @@
 
         // Invite user as friend
         $scope.invitePlayer = function () {
+            console.log($scope.user)
             var mail = angular.element('#newplayer').val();
             var inPlayerList = false;
+            var inFriendlist = false;
             for(var i = 0; i < vm.newgame.players.length; i++){
                 if(vm.newgame.players[i] == mail){
                     inPlayerList = true;
                 }
             }
+            for(var i = 0; i < $scope.user.friends.length; i++){
+                if($scope.user.friends[i] == mail){
+                    inFriendlist = true;
+                }
+            }
             setTimeout(function () {
                 if(inPlayerList == false){
-                    vm.newgame.players.push(mail);
-                    API.addPlayer(mail, vm.newgame.name, $scope.user)
-                        .then(function(){
-                            $ionicPopup.alert({
-                                title: mail + ' added to the game!'
+                    if(inFriendlist == true) {
+                        vm.newgame.players.push(mail);
+                        API.addPlayer(mail, vm.newgame.name, $scope.user)
+                            .then(function () {
+                                $ionicPopup.alert({
+                                    title: mail + ' added to the game!'
+                                });
                             });
+                    }
+                    else{
+                        $ionicPopup.alert({
+                            title: 'This user is not in your friends list!'
                         });
+                    }
                 }
                 else{
                     $ionicPopup.alert({
                         title: 'This user is already in the game!'
                     });
                 }
-            },90);
-        }
+            },150);
+        };
+
+        $scope.invitePlayerClick = function (mail) {
+            console.log(mail);
+            var inPlayerList = false;
+            var inFriendlist = false;
+            for(var i = 0; i < vm.newgame.players.length; i++){
+                if(vm.newgame.players[i] == mail){
+                    inPlayerList = true;
+                }
+            }
+            for(var i = 0; i < $scope.user.friends.length; i++){
+                if($scope.user.friends[i] == mail){
+                    inFriendlist = true;
+                }
+            }
+            setTimeout(function () {
+                if(inPlayerList == false){
+                    if(inFriendlist == true) {
+                        vm.newgame.players.push(mail);
+                        API.addPlayer(mail, vm.newgame.name, $scope.user)
+                            .then(function () {
+                                $ionicPopup.alert({
+                                    title: mail + ' added to the game!'
+                                });
+                            });
+                    }
+                    else{
+                        $ionicPopup.alert({
+                            title: 'This user is not in your friends list!'
+                        });
+                    }
+                }
+                else{
+                    $ionicPopup.alert({
+                        title: 'This user is already in the game!'
+                    });
+                }
+            },150);
+        };
 
         function showSlideButtons () {
             let currentIndex = $ionicSlideBoxDelegate.currentIndex();
@@ -194,6 +248,8 @@
         }
 
         function finishGame () {
+            $scope.user.games.push(vm.newgame.name);
+            userService.update($scope.user);
             for (var i = 0; i < vm.waypoints.length; i++) {
                 vm.currentAct.points.push(vm.waypoints[i]);
             }
@@ -209,11 +265,7 @@
                 })
                 .error(function (data, status, headers, config) {
                     console.log('error');
-                    // $rootScope.hide();
-                    // $rootScope.notify("Oops something went wrong!! Please try again later");
-                    // $ionicHistory.goBack();
-                    // $scope.newgame = {};
-                    // $scope.vm.numberTask = 0;
+
                 });
         }
 

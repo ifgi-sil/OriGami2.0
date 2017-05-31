@@ -70,5 +70,22 @@
             var param = "/tab/friendaccount/" + friend;
             $location.path(param);
         };
+        $scope.openNavFriend = function() {
+            console.log("friend")
+            document.getElementById("SidenavFriends").style.width = "250px";
+        }
+
+        $scope.closeNavFriend = function() {
+            document.getElementById("SidenavFriends").style.width = "0";
+        }
+
+        $scope.openNavGame = function() {
+            console.log("game")
+            document.getElementById("SidenavGames").style.width = "250px";
+        }
+
+        $scope.closeNavGame = function() {
+            document.getElementById("SidenavGames").style.width = "0";
+        }
     }
 })();

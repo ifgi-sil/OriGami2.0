@@ -5,9 +5,9 @@
         .module('starter')
         .controller('AccountCtrl', AccountCtrl);
 
-    AccountCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup','$location', 'meanData', 'userService']
+    AccountCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup','$location', 'meanData', 'userService', 'API']
 
-    function AccountCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService) {
+    function AccountCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService, API) {
         var vm = this;
         vm.user = {};
 
@@ -15,12 +15,32 @@
             .success(function(data) {
                 vm.user = data;
                 $rootScope.userFriends = vm.user.friends;
+                $scope.currentUser = data.userName
             })
             .error(function (e) {
                 $location.path('/tab/home');
             });
 
         ////////////////////////////
+
+        API.getAll().success(function (data, status, headers, config) {
+            $scope.listprivate = [];
+            $scope.error_msg = null;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].name != null && data[i].private == true) {
+                    for (var k = 0; k < data[i].players.length; k++) {
+                        if (data[i].players[k] == $scope.currentUser) {
+                            $scope.listprivate.push(data[i]);
+                        }
+                    }
+                }
+            }
+        })
+
+        $scope.showGame = function(id){
+            var param = "/tab/showgame/" + id;
+            $location.path(param);
+        }
 
         // Save the new user data
         vm.changeUser = function () {
@@ -74,7 +94,7 @@
                         if(inFriendList == false){
                             userService.inviteUser(mail)
                                 .then(function (data) {
-                                    vm.user.friends.push(data.data.userName)
+                                    vm.user.friends.push(data.data.userName);
                                     userService.update(vm.user)
                                         .then(function(){
                                             $ionicPopup.alert({
@@ -95,5 +115,21 @@
             var param = "/tab/friendaccount/" + friend;
             $location.path(param);
         };
+
+        $scope.openNavFriend = function() {
+            document.getElementById("SidenavFriend").style.width = "250px";
+        }
+
+        $scope.closeNavFriend = function() {
+            document.getElementById("SidenavFriend").style.width = "0";
+        }
+
+        $scope.openNavGame = function() {
+            document.getElementById("SidenavGame").style.width = "250px";
+        }
+
+        $scope.closeNavGame = function() {
+            document.getElementById("SidenavGame").style.width = "0";
+        }
     }
 })();
