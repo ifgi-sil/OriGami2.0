@@ -4,7 +4,7 @@
     angular
         .module('starter.services')
         .factory('userService', userService)
-        .value('Server', 'API_URL');
+        .value('Server', 'ORIGAMI_API_URL');
 
     userService.$inject = ['$http', 'authentication','Server'];
 

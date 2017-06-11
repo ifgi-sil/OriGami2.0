@@ -1,11 +1,11 @@
-<ion-view view-title="Account Login" style="background-color:#B22222;" name="login-view">
+<ion-view view-title="Account Login" style="background-color: #535353;" name="login-view">
     <div style="position:fixed; top:2%; width:100%;">
         <h2 class="techm_h">Login here</h2>
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.home"></i>
     </div>
     <ion-content style="height:90%;top:10%;">
 
-        <div class="login-field">
+        <div style="max-width: 500px; margin-left: auto; margin-right: auto" class="login-field">
             <form ng-submit="vm.onSubmit()">
                 <div class="list list-inset" >
                     <label class="item item-input">
@@ -16,13 +16,10 @@
                         <input id="password" type="password" class="form-control" name="password" value="" placeholder="Password" ng-model="vm.credentials.password">
                     </label>
                 </div>
-                <button type="submit" class="button button-block button-calm">Login</button>
+                <button type="submit" class="button button-block button-positive">Login</button>
             </form>
+            <button class="button button-block button-balanced" ui-sref="tab.register">Register</button>
         </div>
-        <h2 class="techm_h">Got no account?</h2>
-        <button class="button button-block button-calm" ui-sref="tab.register">Register here!</button>
-
-
     </ion-content>
 
 </ion-view>

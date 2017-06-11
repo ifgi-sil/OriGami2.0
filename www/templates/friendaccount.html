@@ -1,18 +1,17 @@
-<ion-view view-title="Account View" style="background-color:#B22222;">
+<ion-view view-title="Account View" style="background-color:#0e4b42;">
     <div style="position:fixed; top:2%; width:100%;">
         <h2 class="techm_h">Your profile</h2>
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.account"></i>
     </div>
     <ion-content style="height:90%;top:10%;">
+
         <div id="SidenavFriends" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" ng-click="closeNavFriend()">&times;</a>
             <table>
                 <tr>
                     <td>
-                        <ion-list ng-repeat="friend in vm.user.friends">
-                            <a ion-item ng-click="friendAccount(friend)">
-                                {{ friend }}
-                            </a>
+                        <ion-list ng-repeat="friend in vm.user.friends | orderBy:'userName'">
+                            <a ion-item ng-click="friendAccount(friend)">{{ friend }}</a>
                         </ion-list>
                     </td>
                 </tr>
@@ -23,50 +22,32 @@
 
         <div id="SidenavGames" class="sidenavGame">
             <a href="javascript:void(0)" class="closebtn" ng-click="closeNavGame()">&times;</a>
-            <table>
-                <tr>
-                    <td>
-                        <ion-list ng-repeat="game in vm.user.games">
-                            <a ion-item ng-click="">
-                                {{ game }}
-                            </a>
-                        </ion-list>
-                    </td>
-                </tr>
-            </table>
+            <div ng-repeat="item in listprivate | orderBy:'name'">
+                <a ng-click="showGame(item._id)">{{item.name}}</a>
+            </div>
         </div>
 
         <span style="font-size:30px;cursor:pointer; float: left" ng-click="openNavGame()"> &#9776; Games</span>
         <br>
         <br>
-
-
-        <table>
-            <tr>
-                <td>First Name:</td>
-                <td>{{vm.user.firstName}}</td>
-            </tr>
-            <tr>
-                <td>Name:</td>
-                <td>{{vm.user.lastName}}</td>
-            </tr>
-            <tr>
-                <td>Username:</td>
-                <td>{{vm.user.userName}}</td>
-            </tr>
-            <tr>
-                <td>e-mail:</td>
-                <td>{{vm.user.email}}</td>
-            </tr>
-            <tr>
-                <td>Birthday:</td>
-                <td>{{vm.user.birthday}}</td>
-            </tr>
-            <tr>
-                <td>Info:</td>
-                <td>{{vm.user.info}}</td>
-            </tr>
-        </table>
+        <div class="row responsive">
+            <div class="col col-50">
+                <p style="padding: 5px; font-size: medium; color: #ffffff">First Name: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Name: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Username: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">e-mail: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Birthday: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Info: </p>
+            </div>
+            <div class="col col-50">
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.firstName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.lastName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.userName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.email}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.birthday}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.info}}</p>
+            </div>
+        </div>
 
         <button class="button button-block button-calm" ng-click="deleteFriend()">remove friend</button>
 

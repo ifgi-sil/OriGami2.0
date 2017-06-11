@@ -1,4 +1,4 @@
-<ion-view view-title="Account View" style="background-color:#B22222;">
+<ion-view view-title="Account View" style="background-color: #0e4b42;">
     <div style="position:fixed; top:2%; width:100%;">
         <h2 class="techm_h">Your profile</h2>
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.home"></i>
@@ -16,6 +16,12 @@
                     </td>
                 </tr>
             </table>
+            <br>
+            Add a new Friend!
+            <form ng-submit="inviteUser()">
+                <input id="newmail" type="text" ng-model="friendInput" placeholder="e-mail">
+                <button class="button button-block button-calm"type="submit">Add</button>
+            </form>
         </div>
 
         <span style="font-size:30px;cursor:pointer; float: right" ng-click="openNavFriend()">Friends &#9776;</span>
@@ -30,41 +36,27 @@
         <span style="font-size:30px;cursor:pointer; float: left" ng-click="openNavGame()"> &#9776; Games</span>
         <br>
         <br>
-
-        <table>
-            <tr>
-                <td>First Name:</td>
-                <td>{{vm.user.firstName}}</td>
-            </tr>
-            <tr>
-                <td>Name:</td>
-                <td>{{vm.user.lastName}}</td>
-            </tr>
-            <tr>
-                <td>Username:</td>
-                <td>{{vm.user.userName}}</td>
-            </tr>
-            <tr>
-                <td>e-mail:</td>
-                <td>{{vm.user.email}}</td>
-            </tr>
-            <tr>
-                <td>Birthday:</td>
-                <td>{{vm.user.birthday}}</td>
-            </tr>
-            <tr>
-                <td>Info:</td>.,
-                <td>{{vm.user.info}}</td>
-            </tr>
-        </table>
+        <div class="row responsive">
+            <div class="col col-50">
+                <p style="padding: 5px; font-size: medium; color: #ffffff">First Name: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Name: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Username: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">e-mail: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Birthday: </p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">Info: </p>
+            </div>
+            <div class="col col-50">
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.firstName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.lastName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.userName}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.email}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.birthday}}</p>
+                <p style="padding: 5px; font-size: medium; color: #ffffff">{{vm.user.info}}</p>
+            </div>
+        </div>
         <br>
 
-     <button class="button button-block button-calm" ui-sref="tab.changeUser">Edit your userdata</button>
-
-        <form ng-submit="inviteUser()">
-            <input id="newmail" type="text" ng-model="friendInput" placeholder="e-mail">
-            <button class="button button-block button-calm"type="submit">Add user as a friend with his/her e-mail adress</button>
-        </form>
+     <button class="button button-round button-positive" ui-sref="tab.changeUser">Edit your userdata</button>
 
     </ion-content>
 

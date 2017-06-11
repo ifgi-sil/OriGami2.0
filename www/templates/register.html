@@ -1,10 +1,10 @@
-<ion-view view-title="Account Login" style="background-color:#B22222;" name="login-view">
+<ion-view view-title="Account Login" style="background-color: #535353;" name="login-view">
     <div style="position:fixed; top:2%; width:100%;">
+        <h2 class="techm_h"><b>Register!</b></h2>
         <i class="ion-arrow-left-c back_icon" ui-sref="tab.home"></i>
     </div>
     <ion-content style="height:90%;top:10%;">
-        <h2 class="techm_h"><b>Register!</b></h2>
-        <div class="register-field">
+        <div style="max-width: 500px; margin-left: auto; margin-right: auto" class="register-field">
             <form ng-submit="vm.onSubmit()">
                 <div class="list list-inset" >
                     <label class="item item-input">
@@ -26,7 +26,7 @@
                         <input id="passwordrep" type="password" class="form-control" name="passwordrep" value="" placeholder="password repeat" ng-model="vm.credentials.password2">
                     </label>
                 </div>
-                <button type="submit" class="button button-block button-calm">Register!</button>
+                <button type="submit" class="button button-block button-balanced">Register!</button>
             </form>
         </div>
 

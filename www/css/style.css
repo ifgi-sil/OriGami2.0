@@ -141,57 +141,9 @@
     position: absolute;
 }
 
-.person-type .acclogout {
-    background-color: #B22222;
-    height: 10%;
-    position: relative;
-}
-
-.person-type .acclogout .type-picture {
-    height: 100%;
-    position: relative;
-}
-
-.person-type .acclogout .type-picture img {
-    top: 2%;
-    left: 19%;
-    position: absolute;
-}
-
-.person-type .acclogout .type-picture .info {
-    height: 100%;
-    left: 32%;
-    top: 35%;
-    position: absolute;
-    font-family: sans-serif;
-    font-weight: 500;
-    text-align: center;
-    display: block;
-}
-
-.person-type .acclogout .type-picture .info h2 {
-    color: white;
-    font-family: sans-serif;
-    font-weight: 900;
-    font-size: 5vh;
-}
-
-.person-type .acclogout .type-picture .info p {
-    color: white;
-    font-family: sans-serif;
-    font-weight: 500;
-    font-size: 2vh;
-}
-
-.person-type .acclogout .type-picture .next {
-    left: 5%;
-    bottom: 5%;
-    position: absolute;
-}
-
 .person-type .playerlogged {
-    background-color: #FF8C00;
-    height: 30%;
+    background-color: #11531b;
+    height: 50%;
     position: relative;
 }
 
@@ -287,8 +239,8 @@
 }
 
 .person-type .teacherlogged {
-    height: 30%;
-    background-color: #2E8B57;
+    height: 50%;
+    background-color: #1e2153;
 }
 
 .person-type .teacherlogged .type-picture {

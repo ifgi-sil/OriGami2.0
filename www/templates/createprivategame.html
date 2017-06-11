@@ -130,25 +130,13 @@
                 <div class="page_maininfo page4">
                     <div class="page_content">
                         <div class="content">
-                            <p>Invite your friends with their username</p>
-                            <form ng-submit="invitePlayer()">
-                                <input id="newplayer" type="text" ng-model="newplayerinput" placeholder="Username">
-                                <button class="button button-block button-calm"type="submit">Add a friend with his/her username to the game</button>
-                            </form>
+                            <p>Invite your friends to the game!</p>
                             <br>
-                            <p>Or by clicking on their name here</p>
-                            <br>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <ion-list ng-repeat="friend in userfriends">
-                                            <button class="button button-primary" id="newplayerClick" ion-item ng-click="invitePlayerClick(friend)">
-                                                {{ friend }}
-                                            </button>
-                                        </ion-list>
-                                    </td>
-                                </tr>
-                            </table>
+                            <ion-list style="margin: 5px" ng-repeat="friend in userfriends">
+                                <button class="button button-calm" id="newplayerClick" ion-item ng-click="invitePlayerClick(friend)">
+                                    {{ friend }}
+                                </button>
+                            </ion-list>
                         </div>
                         </table>
                         </div>

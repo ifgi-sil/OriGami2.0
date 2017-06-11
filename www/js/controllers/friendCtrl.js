@@ -87,5 +87,9 @@
         $scope.closeNavGame = function() {
             document.getElementById("SidenavGames").style.width = "0";
         }
+        $scope.showGame = function(id){
+            var param = "/tab/showgame/" + id;
+            $location.path(param);
+        }
     }
 })();

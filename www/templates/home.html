@@ -14,25 +14,9 @@
         </div>
       </a>
 
-      <a ng-show="loginvar" ng-click="logout()" href="#">
-        <div  class="acclogout">
-          <div class="type-picture">
-            <div class="info">
-              <h2>Logout from Origami</h2>
-            </div>
-          </div>
-        </div>
-      </a>
+      <button ng-show="loginvar" style="float: right; z-index: 1" class="button button-round button-assertive" ng-click="logout()">Logout</button>
 
-      <a ng-show="loginvar" ui-sref="tab.account" href="#/tab/account" class="">
-        <div class="accountview">
-          <div class="type-picture">
-            <div class="info" ui-sref="tab.account" href="#/tab/account">
-              <h2 class="ng-binding">My Account</h2>
-            </div>
-          </div>
-        </div>
-      </a>
+      <button ng-show="loginvar" style="float: left; z-index: 1" class="button button-round button-positive" ui-sref="tab.account" href="#/tab/account" class="">Your Account</button>
 
       <a ng-hide="loginvar" ui-sref="tab.avgames" href="#/tab/avgames" class="">
         <div class="player">
