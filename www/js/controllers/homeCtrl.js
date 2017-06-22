@@ -15,12 +15,21 @@
         meanData.getProfile()
             .success(function(data) {
                 vm.user = data;
+                console.log("----------------------");
+                console.log("data");
+                console.log(data);
+                console.log("----------------------");
+                console.log("vm.user");
+                console.log(vm.user);
                 $rootScope.loginvar = true;
             })
             .error(function (e) {
                 $location.path('/tab/home');
                 $rootScope.loginvar = false;
             });
+        console.log("---------------------");
+        console.log("$rootScope.loginvar");
+        console.log($rootScope.loginvar);
 
         $scope.logout = function () {
             authentication.logout();

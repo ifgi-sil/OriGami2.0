@@ -146,7 +146,7 @@
                         title: 'This user is already in the game!'
                     });
                 }
-            },150);
+            },250);
         };
 
         $scope.invitePlayerClick = function (mail) {
@@ -185,7 +185,7 @@
                         title: 'This user is already in the game!'
                     });
                 }
-            },150);
+            },250);
         };
 
         function showSlideButtons () {
