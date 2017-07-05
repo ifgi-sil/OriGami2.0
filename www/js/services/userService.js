@@ -16,6 +16,9 @@
                     Authorization: 'Bearer ' + authentication.getToken()
                 }})
         };
+        function updateFriendPush (user){
+            return $http.post(base + '/newFriendUpdate', user)
+        }
         function updateFriend(user){
             return $http.post(base + '/friendUpdate', user)
         }
@@ -57,6 +60,7 @@
 
         return {
             update : update,
+            updateFriendPush : updateFriendPush,
             deleteUsers : deleteUsers,
             setFriendlID: setFriendID,
             getFriendID: getFriendID,

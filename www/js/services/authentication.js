@@ -51,8 +51,6 @@
         var register = function(user) {
             return $http.post(base + '/register', user)
                 .success(function(data){
-                    console.log("Register-success");
-                    console.log(data)
                     saveToken(data.token);
             });
         };
@@ -60,8 +58,6 @@
         var login = function(user) {
             return $http.post(base + '/login', user)
                 .success(function(data) {
-                    console.log("loginsuccess")
-                    console.log(data)
                     saveToken(data.token);
             });
         };

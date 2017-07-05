@@ -14,12 +14,6 @@
         meanData.getProfile()
             .success(function(data) {
                 vm.user = data;
-                console.log("----------------------");
-                console.log("data");
-                console.log(data);
-                console.log("----------------------");
-                console.log("vm.user");
-                console.log(vm.user);
                 $rootScope.userFriends = vm.user.friends;
                 $scope.currentUser = data.userName
             })
@@ -30,8 +24,6 @@
         ////////////////////////////
 
         API.getAll().success(function (data, status, headers, config) {
-            console.log("gamedata");
-            console.log(data);
             $scope.listprivate = [];
             $scope.error_msg = null;
             for (var i = 0; i < data.length; i++) {
@@ -39,8 +31,6 @@
                     for (var k = 0; k < data[i].players.length; k++) {
                         if (data[i].players[k] == $scope.currentUser) {
                             $scope.listprivate.push(data[i]);
-                            console.log("Game pushed");
-                            console.log(data[i]);
                         }
                     }
                 }
@@ -105,11 +95,15 @@
                             userService.inviteUser(mail)
                                 .then(function (data) {
                                     vm.user.friends.push(data.data.userName);
+                                    data.data.friends.push(vm.user.userName);
                                     userService.update(vm.user)
                                         .then(function(){
-                                            $ionicPopup.alert({
-                                                title: mail + ' added to your friends list!'
-                                            });
+                                            userService.updateFriendPush(data.data)
+                                                .then(function(){
+                                                    $ionicPopup.alert({
+                                                        title: mail + ' added to your friends list!'
+                                                    });
+                                                })
                                         })
                                 })
                         }
