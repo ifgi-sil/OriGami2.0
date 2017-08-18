@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services', 'starter.directives'])
+angular.module('starter.controllers', ['starter.services', 'starter.directives', 'ngCookies'])
 
 .controller('HomeCtrl', function ($scope) {})
 
@@ -123,9 +123,6 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
         .success(function(data) {
             $scope.currentUser = data.userName;
         })
-        .error(function (e) {
-            $location.path('/tab/home');
-        });
 
     API.getAll().success(function (data, status, headers, config) {
         $scope.list = [];
@@ -1178,9 +1175,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives']
 
 // controller for gameplay
 .controller('PlayCtrl', ['$scope', '$stateParams', '$ionicModal', '$ionicPopup', '$ionicLoading', '$location', '$cordovaSocialSharing',
-                         '$translate', '$timeout', '$cookies', 'GameData', 'GameState', 'API', 'PathData', 'PlayerStats', 'MapService', 'leafletData',
-                         function ($scope, $stateParams, $ionicModal, $ionicPopup, $ionicLoading, $location,  $cordovaSocialSharing,
-                                    $translate, $timeout, $cookies, GameData, GameState, API, PathData, PlayerStats, MapService, leafletData) {
+    '$translate', '$timeout', 'GameData', 'GameState', 'API', 'PathData', 'PlayerStats', 'MapService', 'leafletData', '$cookies',
+    function ($scope, $stateParams, $ionicModal, $ionicPopup, $ionicLoading, $location,  $cordovaSocialSharing,
+              $translate, $timeout, GameData, GameState, API, PathData, PlayerStats, MapService, leafletData, $cookies) {
     $scope.gameName = $stateParams.gameName;
     $scope.gameLoaded = false;
     var congratsMessages = ['Good job!', 'Well done!', 'Great!', 'Cool!', 'Perfect!', 'So Fast! :)'];

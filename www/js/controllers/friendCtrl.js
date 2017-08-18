@@ -31,7 +31,7 @@
                                 .then(function(res) {
                                     if(res) {
                                         var index = vm.user2.friends.indexOf($scope.friend)
-                                        vm.user2.friends.splice(index, 1)
+                                        vm.user2.friends.splice(index, 1);
                                         userService
                                             .update(vm.user2)
                                             .then(function(){

@@ -28,6 +28,6 @@
             $rootScope.loginvar = false;
             $location.path('/tab/home');
 
-        }
+        };
     }
 })();

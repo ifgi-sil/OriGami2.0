@@ -1259,3 +1259,6 @@
     .sidenavGame {padding-top: 15px;}
     .sidenavGame a {font-size: 18px;}
 }
+@media screen and (max-height: 750px) {
+    .smiley {height: 100px}
+}
