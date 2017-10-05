@@ -5,9 +5,9 @@
         .module('starter')
         .controller('FriendCtrl', FriendCtrl);
 
-    FriendCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup', '$location', 'meanData', 'userService', '$stateParams']
+    FriendCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup', '$location', 'meanData', 'userService', '$stateParams', 'API']
 
-    function FriendCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService, $stateParams) {
+    function FriendCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService, $stateParams, API) {
 
         var vm = this;
         vm.user = {};
@@ -18,6 +18,20 @@
         meanData.getProfile2($scope.friend)
             .then(function (data) {
                 vm.user = data.data;
+                console.log(vm.user);
+                API.getAll().success(function (data, status, headers, config) {
+                    $scope.listprivate = [];
+                    $scope.error_msg = null;
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].name != null && data[i].private == true) {
+                            for (var k = 0; k < data[i].players.length; k++) {
+                                if (data[i].players[k] == vm.user.userName) {
+                                    $scope.listprivate.push(data[i]);
+                                }
+                            }
+                        }
+                    }
+                })
                 if(vm.user == null){
                     meanData.getProfile()
                         .success(function(data) {
@@ -66,6 +80,7 @@
                     });
                 })
         }
+
         $scope.friendAccount = function (friend) {
             var param = "/tab/friendaccount/" + friend;
             $location.path(param);

@@ -108,84 +108,30 @@
             }
         }
 
-        // Invite user as friend
-        $scope.invitePlayer = function () {
-            console.log($scope.user)
-            var mail = angular.element('#newplayer').val();
+        //Invite friend as a player
+        $scope.invitePlayer = function (mail) {
             var inPlayerList = false;
-            var inFriendlist = false;
             for(var i = 0; i < vm.newgame.players.length; i++){
                 if(vm.newgame.players[i] == mail){
                     inPlayerList = true;
                 }
             }
-            for(var i = 0; i < $scope.user.friends.length; i++){
-                if($scope.user.friends[i] == mail){
-                    inFriendlist = true;
-                }
-            }
             setTimeout(function () {
                 if(inPlayerList == false){
-                    if(inFriendlist == true) {
-                        vm.newgame.players.push(mail);
-                        API.addPlayer(mail, vm.newgame.name, $scope.user)
-                            .then(function () {
-                                $ionicPopup.alert({
-                                    title: mail + ' added to the game!'
-                                });
+                    vm.newgame.players.push(mail);
+                    API.addPlayer(mail, vm.newgame.name, $scope.user)
+                        .then(function () {
+                            $ionicPopup.alert({
+                                title: mail + ' added to the game!'
                             });
-                    }
-                    else{
-                        $ionicPopup.alert({
-                            title: 'This user is not in your friends list!'
                         });
-                    }
                 }
                 else{
                     $ionicPopup.alert({
                         title: 'This user is already in the game!'
                     });
                 }
-            },250);
-        };
-
-        $scope.invitePlayerClick = function (mail) {
-            console.log(mail);
-            var inPlayerList = false;
-            var inFriendlist = false;
-            for(var i = 0; i < vm.newgame.players.length; i++){
-                if(vm.newgame.players[i] == mail){
-                    inPlayerList = true;
-                }
-            }
-            for(var i = 0; i < $scope.user.friends.length; i++){
-                if($scope.user.friends[i] == mail){
-                    inFriendlist = true;
-                }
-            }
-            setTimeout(function () {
-                if(inPlayerList == false){
-                    if(inFriendlist == true) {
-                        vm.newgame.players.push(mail);
-                        API.addPlayer(mail, vm.newgame.name, $scope.user)
-                            .then(function () {
-                                $ionicPopup.alert({
-                                    title: mail + ' added to the game!'
-                                });
-                            });
-                    }
-                    else{
-                        $ionicPopup.alert({
-                            title: 'This user is not in your friends list!'
-                        });
-                    }
-                }
-                else{
-                    $ionicPopup.alert({
-                        title: 'This user is already in the game!'
-                    });
-                }
-            },250);
+            },300);
         };
 
         function showSlideButtons () {

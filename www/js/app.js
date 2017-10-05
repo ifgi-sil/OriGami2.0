@@ -170,7 +170,15 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                 }
             }
         })
-
+        .state('tab.newgameprivate', {
+            url: '/teachmenu/newgameprivate',
+            views: {
+                'tab-home': {
+                    templateUrl: 'templates/new-gameprivate.html',
+                    controller: 'NewGameCtrl'
+                }
+            }
+        })
         .state('tab.playgame', {
             url: '/playgame/:gameName',
             views: {
@@ -250,6 +258,16 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
                 }
             }
         })
+        .state('tab.re_pw', {
+            url:"/resetpassword",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/forgotPassword.html",
+                    controller: 'ResetPasswordCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
         .state('tab.register', {
             url:"/register",
             views: {
@@ -275,6 +293,16 @@ angular.module('starter', ['ionic', 'naif.base64', 'ngMdIcons', 'pascalprecht.tr
             views: {
                 'tab-home':{
                     templateUrl: "templates/change-user.html",
+                    controller: 'AccountCtrl',
+                    controllerAs: 'vm'
+                }
+            }
+        })
+        .state('tab.changePw', {
+            url:"/changepassword",
+            views: {
+                'tab-home':{
+                    templateUrl: "templates/changePw.html",
                     controller: 'AccountCtrl',
                     controllerAs: 'vm'
                 }

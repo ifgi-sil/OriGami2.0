@@ -1,0 +1,90 @@
+<ion-view view-title="{{currentAction}}">
+    <ion-header-bar align-title="center" class="bar-positive">
+        <div class="buttons">
+            <button class="button button-icon icon ion-close-round" ng-click="goBack()"></button>
+        </div>
+        <h1 class="title">{{currentAction}}</h1>
+        <div class="buttons">
+            <button class="button button-icon icon ion-checkmark-round" ng-click="submitGame()"></button>
+        </div>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <label class="item item-input input-info">
+            <span class="input-label">{{'game_description' | translate}}</span>
+            <input type="text" ng-model="newgame.description" placeholder="{{'short_description' | translate}}" required>
+        </label>
+        <label class="item item-input input-info">
+            <span class="input-label">{{'time_compl' | translate}}</span>
+            <input type="number" min="1" step="1" ng-model="newgame.time" placeholder="{{'time_descr' | translate}}" required>
+        </label>
+        <label class="item item-input input-info">
+            <span class="input-label">Add more players</span>
+            <ion-list style="margin: 5px" ng-repeat="friend in userfriends">
+                <button class="button button-calm" ion-item ng-click="invitePlayer(friend)">
+                    {{ friend }}
+                </button>
+            </ion-list>
+        </label>
+        <div class="item item-input input-info">
+            <span class="input-label">{{'difficulty' | translate}}</span>
+            <span class="rating" id="stars">
+               <a ng-click = "rateGame(0)">
+                  <i class = {{diff[0]}} style="font-size:2em;color:#FFEB3B;"></i>
+                </a>
+              <a ng-click = "rateGame(1)">
+                  <i class = {{diff[1]}} style="font-size:2em;color:#FFEB3B;"></i>
+                </a>
+              <a ng-click = "rateGame(2)">
+                  <i class = {{diff[2]}} style="font-size:2em;color:#FFEB3B;"></i>
+                </a>
+              <a ng-click = "rateGame(3)">
+                  <i class = {{diff[3]}} style="font-size:2em;color:#FFEB3B;"></i>
+                </a>
+              <a ng-click = "rateGame(4)">
+                  <i class = {{diff[4]}} style="font-size:2em;color:#FFEB3B;"></i>
+               </a>
+            </span>
+        </div>
+        <div class="content_map" style="height: 300px;" data-tap-disabled="true">
+            <leaflet id="editMap" defaults="editMap.defaults" layers="editMap.layers" lf-center="center" markers="waypoints"></leaflet>
+        </div>
+        <div class="row responsive-sm" ng-hide="selectedWaypoint === undefined">
+            <div class="col col-50">
+                <div class="card">
+                    <div class="item item-divider">
+                        Waypoint {{selectedWaypoint.icon.number}}
+                    </div>
+                    <div class="item item-text-wrap" style="padding-left: 0px; padding-right: 0px;">
+                        <label class="item item-input input-info" ng-class="border">
+                            <span class="input-label">{{'name' | translate}}</span>
+                            <input type="text" ng-model="selectedWaypoint.name" placeholder="{{'game_title' | translate}}" required>
+                        </label>
+                        <label class="item item-input input-info">
+                            <span class="input-label">{{'instructions' | translate}}</span>
+                            <textarea style="resize: none;" name="instructions" rows="4" ng-model="selectedWaypoint.description" required> </textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="card">
+                    <div class="item item-divider padding">
+                        <button class="button icon ion-ios-minus-outline" ng-click="data.showDelete = !data.showDelete; data.showReorder = false">
+                            Tasks
+                        </button>
+                    </div>
+                    <ion-list show-delete="data.showDelete">
+                        <ion-item ng-repeat="task in selectedWaypoint.tasks">
+                            <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(task)">
+                            </ion-delete-button>
+                            {{task.question.txt}}{{task.txt}} | {{task.type}}
+                            <button class="button button-small button-positive" ng-click="editTask(task)">
+                                <i class="icon ion-edit"></i>
+                            </button>
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

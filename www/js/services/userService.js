@@ -16,6 +16,12 @@
                     Authorization: 'Bearer ' + authentication.getToken()
                 }})
         };
+        function updatePw(password) {
+            return $http.post(base + '/passwordUpdate', password, {
+                headers: {
+                    Authorization: 'Bearer ' + authentication.getToken()
+                }})
+        };
         function updateFriendPush (user){
             return $http.post(base + '/newFriendUpdate', user)
         }
@@ -57,6 +63,9 @@
         function getGame(id){
             return $http.get(base + '/getShowGame/' + id)
         };
+        function forgotPassword(email){
+            return $http.post(base + '/forgotPassword/' + email)
+        }
 
         return {
             update : update,
@@ -68,7 +77,9 @@
             friendUser: friendUser,
             updateFriend: updateFriend,
             getEmailUsers:getEmailUsers,
-            getGame:getGame
+            getGame:getGame,
+            forgotPassword:forgotPassword,
+            updatePw:updatePw
         };
     }
 })();

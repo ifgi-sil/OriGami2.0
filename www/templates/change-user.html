@@ -15,14 +15,6 @@
                     <p>Last Name: </p>
                     <input type="text" id="lastName" class="form-control" ng-model="vm.user.lastName" required />
                 </label>
-                <label class="item item-input">
-                    <p>Password: </p>
-                    <input type="password" id="password" class="form-control" ng-model="vm.user.password" />
-                </label>
-                <label class="item item-input">
-                    <p>Repeat Password: </p>
-                    <input type="password" id="password2" class="form-control" ng-model="vm.user.password2"/>
-                </label>
             </div>
             <p>Optional:</p>
             <div class="list list-inset" >
@@ -38,6 +30,5 @@
             <button class="button button-block button-balanced" ng-click="vm.changeUser()">Save</button>
             <button class="button button-block button-assertive" ng-click="vm.deleteUser()">Delete</button>
         </form>
-
     </ion-content>
 </ion-view>

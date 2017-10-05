@@ -26,6 +26,7 @@
         $scope.logout = function () {
             authentication.logout();
             $rootScope.loginvar = false;
+            location.reload();
             $location.path('/tab/home');
 
         };

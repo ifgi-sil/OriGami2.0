@@ -5,9 +5,9 @@
         .module('starter')
         .controller('LoginCtrl', LoginCtrl);
 
-    LoginCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup', '$ionicHistory', '$state', '$location', 'authentication']
+    LoginCtrl.$inject = ['$rootScope', '$ionicPopup', '$location', 'authentication']
 
-    function LoginCtrl ($rootScope, $scope, $ionicPopup, $ionicHistory, $state, $location, authentication) {
+    function LoginCtrl ($rootScope, $ionicPopup, $location, authentication) {
         var vm = this;
 
         vm.credentials = {

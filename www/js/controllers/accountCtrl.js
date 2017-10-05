@@ -5,9 +5,9 @@
         .module('starter')
         .controller('AccountCtrl', AccountCtrl);
 
-    AccountCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup','$location', 'meanData', 'userService', 'API']
+    AccountCtrl.$inject = ['$rootScope', '$scope', '$ionicPopup','$location', 'meanData', 'userService', 'API', 'authentication']
 
-    function AccountCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService, API) {
+    function AccountCtrl ($rootScope, $scope, $ionicPopup, $location, meanData, userService, API, authentication) {
         var vm = this;
         vm.user = {};
 
@@ -66,10 +66,32 @@
                     });
             }
         }
+        // Save the changed password
+        vm.changePw = function () {
+            if (vm.user.password !== vm.user.password2) {
+                $ionicPopup.alert({
+                    title: 'Passwords does not match!',
+                });
+            } else {
+                userService.updatePw(vm.user.password)
+                    .error(function(err){
+                        console.log(err);
+                    })
+                    .then(function () {
+                        location.reload();
+                        $location.path('/tab/account');
+                    })
+                    .catch(function (e) {
+                        console.log(e);
+                    });
+            }
+        }
         // Delete the user
         vm.deleteUser = function() {
             userService.deleteUsers(vm.user)
                 .then(function(){
+                    authentication.logout();
+                    $rootScope.loginvar = false;
                     location.reload();
                     $location.path('/tab/home');
                 })

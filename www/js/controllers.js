@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services', 'starter.directives', 'ngCookies'])
+angular.module('starter.controllers', ['starter.services', 'starter.directives'])
 
 .controller('HomeCtrl', function ($scope) {})
 
@@ -113,9 +113,9 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
 }])
 
 .controller('TeacherCtrl', ['$rootScope', '$scope', '$timeout', '$ionicModal', '$window', '$ionicHistory',
-                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit', 'meanData',
+                            '$translate', '$ionicSlideBoxDelegate', '$cordovaCamera', '$q', 'API', 'Edit', 'meanData', '$location',
                             function ($rootScope, $scope, $timeout, $ionicModal, $window, $ionicHistory,
-                                    $translate, $ionicSlideBoxDelegate, $cordovaCamera, $q, API, Edit, meanData) {
+                                    $translate, $ionicSlideBoxDelegate, $cordovaCamera, $q, API, Edit, meanData, $location) {
     // List of all available games fetched froteachmenu/newgamem the server
     $scope.list = [];
 
@@ -626,20 +626,40 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
     }
 
     $scope.editItem = function (item) {
-        $scope.navactivities = [];
+        if(item.private != true){
+            $scope.navactivities = [];
 
-        API.getOne(item.name)
-            .success(function (data, status, headers, config) {
-                $scope.deleteGame = data.slice()[0];
-            }).error(function (data, status, headers, config) {
+            API.getOne(item.name)
+                .success(function (data, status, headers, config) {
+                    $scope.deleteGame = data.slice()[0];
+                }).error(function (data, status, headers, config) {
                 $rootScope.notify(
                     $translate.instant('oops_wrong'));
             });
 
-        $scope.editedGame = $scope.list[$scope.list.indexOf(item)];
-        $scope.navactivities = $scope.editedGame.activities;
+            $scope.editedGame = $scope.list[$scope.list.indexOf(item)];
+            $scope.navactivities = $scope.editedGame.activities;
 
-        Edit.pushGame($scope.editedGame);
+            Edit.pushGame($scope.editedGame);
+            $location.path('/tab/teachmenu/newgame');
+        }
+        else{
+            $scope.navactivities = [];
+
+            API.getOne(item.name)
+                .success(function (data, status, headers, config) {
+                    $scope.deleteGame = data.slice()[0];
+                }).error(function (data, status, headers, config) {
+                $rootScope.notify(
+                    $translate.instant('oops_wrong'));
+            });
+
+            $scope.editedGame = $scope.listprivate[$scope.listprivate.indexOf(item)];
+            $scope.navactivities = $scope.editedGame.activities;
+
+            Edit.pushGame($scope.editedGame);
+            $location.path('/tab/teachmenu/newgameprivate');
+        }
     };
 
 
@@ -682,10 +702,18 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
 // Controller which controls new GAME creation
 .controller('NewGameCtrl', ['$rootScope', '$scope', '$state', '$http', '$location', '$cordovaGeolocation', '$ionicModal',
                             '$window', '$ionicPopup', '$ionicHistory', '$stateParams', '$cordovaCamera',
-                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 'MapService',
+                            '$translate', 'leafletData', 'API', 'Edit', 'Data', 'Task', 'MapService', 'meanData',
                             function ($rootScope, $scope, $state, $http, $location, $cordovaGeolocation, $ionicModal,
                                         $window, $ionicPopup, $ionicHistory, $stateParams, $cordovaCamera,
-                                        $translate, leafletData, API, Edit, Data, Task, MapService) {
+                                        $translate, leafletData, API, Edit, Data, Task, MapService, meanData) {
+
+    meanData.getProfile()
+        .success(function(data) {
+            $scope.userfriends = data.friends;
+        })
+        .error(function (e) {
+            $location.path('/tab/home');
+        });
 
     /* Game Parameters ----- */
     $scope.currentAction = "New Game";
@@ -735,14 +763,30 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
 
     // Check, whether we are CREATING or EDITING new game
     if (Edit.getGame() != null) {
+        $scope.currentGame = Edit.getGame();
         $scope.currentAction = "Edit Game";
-        $scope.newgame = {
-            title: Edit.getGame().name,
-            description: Edit.getGame().description,
-            time: Edit.getGame().timecompl,
-            difficulty: Edit.getGame().difficulty,
-            players: Edit.getGame().players
-        };
+        if($scope.currentGame.private != true){
+            $scope.newgame = {
+                title: Edit.getGame().name,
+                description: Edit.getGame().description,
+                time: Edit.getGame().timecompl,
+                difficulty: Edit.getGame().difficulty,
+                players: Edit.getGame().players,
+                private: Edit.getGame().private
+            };
+        }
+        else{
+            $scope.newgame = {
+                title: Edit.getGame().name,
+                description: Edit.getGame().description,
+                time: Edit.getGame().timecompl,
+                difficulty: Edit.getGame().difficulty,
+                players: Edit.getGame().players,
+                private: Edit.getGame().private,
+                playerscores: Edit.getGame().playerscores,
+                owner: Edit.getGame().owner
+            };
+        }
 
         $scope.navactivities = Edit.getGame().activities;
         for (var i = 0; i < $scope.navactivities[0].points.length; i++) {
@@ -767,6 +811,39 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
         console.log(Data.getAct().length);
         $scope.navactivities = Data.getAct();
     }
+
+    //Invite friend as a player
+    $scope.invitePlayer = function (mail) {
+        console.log($scope.userfriends);
+        console.log(mail)
+        var inPlayerList = false;
+        /*for(var i = 0; i < $scope.newgame.players.length; i++){
+            console.log(i)
+            if($scope.newgame.players[i] == mail){
+                console.log($scope.newgame.players[i])
+                console.log(mail)
+                console.log("its true")
+                inPlayerList = true;
+            }
+        }
+        setTimeout(function () {
+            if(inPlayerList == false){
+                $scope.newgame.players.push(mail);
+                API.addPlayer(mail, $scope.newgame.title, $scope.user)
+                    .then(function () {
+                        $ionicPopup.alert({
+                            title: mail + ' added to the game!'
+                        });
+                    });
+            }
+            else{
+                $ionicPopup.alert({
+                    title: 'This user is already in the game!'
+                });
+            }
+        },300);
+        */
+    };
 
     $scope.selectedWaypoint;
     $scope.$on('leafletDirectiveMarker.editMap.click', function (e, args) {
@@ -1110,14 +1187,30 @@ angular.module('starter.controllers', ['starter.services', 'starter.directives',
         if ($scope.newgame.title != null) { // Check if the title is not empty
             $scope.border = "black";
 
-            $scope.completeGame = {
-                name: $scope.newgame.title,
-                description: $scope.newgame.description,
-                timecompl: $scope.newgame.time,
-                difficulty: $scope.newgame.difficulty,
-                activities: $scope.navactivities,
-                players: $scope.newgame.players
-            };
+            if($scope.newgame.private != true){
+                $scope.completeGame = {
+                    name: $scope.newgame.title,
+                    description: $scope.newgame.description,
+                    timecompl: $scope.newgame.time,
+                    difficulty: $scope.newgame.difficulty,
+                    activities: $scope.navactivities,
+                    players: $scope.newgame.players,
+                    private: $scope.newgame.private
+                };
+            }
+            else{
+                $scope.completeGame = {
+                    name: $scope.newgame.title,
+                    description: $scope.newgame.description,
+                    timecompl: $scope.newgame.time,
+                    difficulty: $scope.newgame.difficulty,
+                    activities: $scope.navactivities,
+                    players: $scope.newgame.players,
+                    private: $scope.newgame.private,
+                    playerscores: $scope.newgame.playerscores,
+                    owner: $scope.newgame.owner
+                };
+            }
 
             if (Edit.getGame() != null) {
                 API.deleteItem(Edit.getGame().name, $rootScope.getToken())
