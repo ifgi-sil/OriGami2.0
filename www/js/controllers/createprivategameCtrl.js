@@ -173,7 +173,7 @@
         }
 
         function abort () {
-            $ionicHistory.goBack();
+            $location.path('/tab/teachmenu');
         }
 
         //Choose Activity
