@@ -5,9 +5,9 @@
 		.module('starter')
 		.controller('GameCreationController', GameCreationController);
 
-	GameCreationController.$inject = ['$scope', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService', 'API'];
+	GameCreationController.$inject = ['$scope', '$ionicHistory', '$ionicSlideBoxDelegate', '$ionicModal', 'MapService', 'API', '$location'];
 
-	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService, API) {
+	function GameCreationController ($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicModal, MapService, API, $location) {
 		var vm = this;
 		vm.newgame = {}; // General description of the game
 		vm.newgame.private = false;
@@ -134,7 +134,7 @@
 		}
 
 		function abort () {
-			$ionicHistory.goBack();
+            $location.path('/tab/teachmenu');
 		}
 
 		//Choose Activity
